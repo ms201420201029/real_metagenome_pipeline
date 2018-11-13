@@ -151,7 +151,7 @@ if __name__ == '__main__':
                     html_dict[group][key] = {}
 
                 # elif not check_if_sample_enough([html_result_path+'/'+group+'/'+os.path.dirname(tabs[2])]):
-                elif not check_if_sample_enough(['html_material/images/'+group+'/'+os.path.dirname(tabs[2])]):
+                elif not check_if_sample_enough(['result/html/html_material/images/'+group+'/'+os.path.dirname(tabs[2])]):
                     print(tabs[2], 'sample_not_enough')
                     html_dict[group][key]['sample_not_enough'] = True
 
@@ -181,7 +181,7 @@ if __name__ == '__main__':
                     html_dict[group][key]['path_table_sample'] = tabs[1]
                     html_dict[group][key]['path_table_sample_real'] = '../result/'+tabs[1]
                     fields = [field.strip() for field in tabs[4].strip().split(',')]
-                    table_sample = pd.read_csv('html_material/images/'+group+'/'+tabs[2], index_col=0, header=0, sep='\t')[fields].loc[html_dict[group]['samples']]
+                    table_sample = pd.read_csv('result/html/html_material/images/'+group+'/'+tabs[2], index_col=0, header=0, sep='\t')[fields].loc[html_dict[group]['samples']]
 
                     html_dict[group][key]['table_sample'] = []
                     for sample in table_sample.index:
@@ -196,7 +196,7 @@ if __name__ == '__main__':
                     html_dict[group][key]['path_table_real'] = '../result/'+tabs[1]
                     fields = [field.strip() for field in tabs[4].strip().split(',')]
                     # print('images/'+group+'/'+tabs[2])
-                    table = pd.read_csv('html_material/images/'+group+'/'+tabs[2], index_col=None, header=0, sep='\t')[fields]
+                    table = pd.read_csv('result/html/html_material/images/'+group+'/'+tabs[2], index_col=None, header=0, sep='\t')[fields]
 
                     html_dict[group][key]['table'] = []
                     for i in list(table.index)[:3 if table.shape[0] > 2 else table.shape[0]]:
@@ -212,7 +212,7 @@ if __name__ == '__main__':
                     html_dict[group][key]['path_otu'] = tabs[1]
                     html_dict[group][key]['path_otu_real'] = '../result/'+tabs[1]
 
-                    otu = pd.read_csv('html_material/images/'+group+'/'+tabs[2], index_col=None, header=0, sep='\t')
+                    otu = pd.read_csv('result/html/html_material/images/'+group+'/'+tabs[2], index_col=None, header=0, sep='\t')
                     otu = otu[[otu.keys()[0]]+html_dict[group]['samples']]
 
                     html_dict[group][key]['otu'] = []
