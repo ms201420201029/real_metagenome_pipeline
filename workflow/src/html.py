@@ -6,6 +6,8 @@ __version__ = "1.0.0-dev"
 import os, re
 from configparser import ConfigParser
 from workflow.util.useful import mkdir, gettime,const
+import glob
+
 
 bin_html_default_dir = "%s/html" % const.bin_default_dir
 tool_default_dir = const.tool_default_dir
