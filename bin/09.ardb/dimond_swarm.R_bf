@@ -1,0 +1,39 @@
+library("beeswarm")
+diamondCI <- function(x, w, y1, y2, y3, y4, y5, col,...){
+	hw <- w/2
+	a <- c(x-hw,x,x+hw,x);
+	b <- c(y3,y4,y3,y2);
+	polygon(a,b,col=col,...)
+	segments(x-hw, y3, x+hw, y3, ...)  # horizontal bar
+#	segments(x-hw, y3, x, y4, ...) # left upper diag
+#	segments(x, y4, x+hw, y3, ...) # right upper diag
+#	segments(x-hw, y3, x, y2, ...) # left lower diag
+#	segments(x, y2, x+hw, y3, ...) # right lwoer diag
+	arrows(x, y4, x, y5, angle = 90, ...)
+	arrows(x, y2, x, y1, angle = 90, ...)
+}
+profile = read.table("ardb.profile",head=TRUE)
+sum_vector = apply(profile, 2, mean)
+sample_name = names(sum_vector)
+letter_vector = rep("P", length(sample_name))
+letter_vector[grep("HD[0-9]+", sample_name)] = "H"
+mat = as.matrix(cbind(sum_vector,letter_vector))
+factors = attributes(as.factor(mat[,2]))$levels
+col_vectors = c("red","blue","darkseagreen1", "pink2","wheat1", "darkgray", "green", "darkmagenta", "seagreen3", "palevioletred4","aquamarine4","plum1","slateblue2", "olivedrab", "cyan", "cornflowerblue", "coral1")
+#colfunc <- colorRampPalette(col_vectors)
+#cols = colfunc(length(factors))
+box <- boxplot(as.numeric(mat[,1]) ~ as.character(mat[,2]))
+pdf("dimond_swarm.pdf", width = 8, height = 6)
+beeswarm(as.numeric(mat[,1]) ~ as.character(mat[,2]),labels="",spacing=1.5,xlim=c(0.5,2*length(factors)+0.5),ylim=range(as.numeric(mat[,1]))*c(1,1.1),at=(1:length(factors))*2-1,pch=21,bg=c("bisque","lightblue"),ylab="Relative abundance (%)",xlab="")
+mtext(text = c("Health","Ankylosing\nsporidylitis"),side=1,at=c(1.5,3.5),padj=1)
+#mtext("H                                                                AS",1, line = 1)
+patients = (as.numeric(mat[,1]))[which(as.character(mat[,2]) == "P")]
+healths = (as.numeric(mat[,1]))[which(as.character(mat[,2]) == "H")]
+pvalue = wilcox.test(patients, healths)$p.value
+legend("topright", legend = paste("wilcoxon test:\np.value =", signif(pvalue, digit = 3)), bty = "n")
+stat = box$stats
+for ( i in 1:ncol(stat)){
+diamondCI(i * 2, 0.8, stat[1, i], stat[2, i], stat[3, i], stat[4, i], stat[5, i], col = c("bisque","lightblue")[i], lwd = 1.5)
+}
+dev.off()
+

@@ -1,0 +1,54 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- #
+__author__ = "huangy"
+__copyright__ = "Copyright 2016, The metagenome Project"
+__version__ = "1.0.0-dev"
+
+import os, re
+from configparser import ConfigParser
+from workflow.util.useful import mkdir,parse_group,rmdir_my,gettime,const
+
+def assembly_pre(config, name):
+    bin_assembly_default_dir = "%s/03.assembly/" % const.bin_default_dir
+    tool_default_dir = const.tool_default_dir
+    print gettime("start 03.assembly_pre")
+    commands = []
+    work_dir = '%s/%s' % (os.path.dirname(config), name)
+    mkdir('%s/%s/test' %(os.path.dirname(config), name))
+    config_gene = ConfigParser()
+    config_gene.read(config)
+    ins_list = config_gene.get("param","ins_list")
+
+    commands.append("## assembly")
+    commands.append("cp %s/../01.clean_reads/clean_reads.list %s/"%(work_dir,work_dir))
+    commands.append("perl /data_center_03/USER/zhongwd/rd/12_soap_denovo/soapdenovo_shell_maker.pl \
+    -l clean_reads.list -i %s -minkmer 51 -maxkmer 63 -b 4 -d %s/"\
+                    %(ins_list,work_dir))
+    commands.append("nohup /data_center_03/USER/zhongwd/bin/qsge --queue big.q:all.q:all.q:all.q --memery 100G:5G:10G:3G --jobs 2 --lines 4 --prefix AS shell/assembly.sh &")
+    print gettime("end assembly_pre")
+    return commands
+
+def assembly(config, name):
+    bin_assembly_default_dir = "%s/03.assembly"%const.bin_default_dir
+    tool_default_dir = const.tool_default_dir
+    print gettime("start 03.assembly")
+    commands = []
+    work_dir = '%s/%s' % (os.path.dirname(config), name)
+    commands.append("## best contigs")
+    #commands.append("ls assembly/*/*/*scafSeq | sed 's/.scafSeq//g' | while read a ; \
+    #do perl /data_center_06/Project/LiuLin-ascites-stool/03.assembly/bin/scaftigs.pl $a.scafSeq 500 $a.scaftigs.fna $a.scaftigs.stat;done")
+    commands.append('ls assembly/*/*/*scafSeq |while read a; do perl /data_center_06/Project/LiuLin-ascites-stool/03.assembly/bin/scaftigs.pl $a 500 ${a%%.*}.scaftigs.fna ${a%%.*}.scaftigs.stat; done')
+    commands.append("list assembly/*/* >%s/list.txt"%work_dir)
+    commands.append("python %s/best_scaftigs_selecter.py -i %s/list.txt -o %s/best_scaftigs"%(bin_assembly_default_dir,work_dir,work_dir))
+    commands.append("rm %s/list.txt"%work_dir)
+    commands.append("list best_scaftigs/*stat | perl /data_center_07/Project/RY2015K16A01-1/03.assembly/bin/stat.pl >  scaftigs.best.stat.tsv")
+    commands.append("## histogram")
+    mkdir("%s/histogram/"%work_dir)
+    commands.append("ls best_scaftigs/*.scaftigs.fna | sed 's#best_scaftigs/\(.*\).fna#\\1#g' | while read a; do lengthfasta best_scaftigs/$a.fna >histogram/$a.length; done")
+    commands.append("ls histogram/*.scaftigs.length |while read a; do Rscript %s/scaftigs_length.R $a ${a%%.*}.histogram.pdf; done" % bin_assembly_default_dir)
+    commands.append("ls histogram/*.pdf |while read a; do convert -density 300 $a ${a%%.*}.png; done")
+    commands.append("## upload")
+    commands.append("ls best_scaftigs/*fna |while read a ; do gzip -c $a >${a%%.*}.fna.gz; done")
+    commands.append("md5sum best_scaftigs/*.gz > best_scaftigs/scaftigs.md5")
+    print gettime("end 03.assembly")
+    return commands

@@ -1,0 +1,62 @@
+<h2>3.2 物种注释与差异物种分析</h2>
+<h3 id="物种注释统计">3.2.1 物种注释统计</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">首先，通过SOAPaligner(version 2.21)将Clean Reads与NCBI数据库中已知的细菌、真菌、病毒和古细菌序列构建的参考数据库进行序列比对[1]，比对参数为-m 4 -r 2 -m 100 -x 1000[2]，然后利用比对上的reads进行界(Kingdom)、门(Phylum)、纲(Class)、目(Order)、科(Family)、属(Genus)、种(Species)的分类和丰度统计，从而构建相应分类学水平上的taxonomy profile。</p>
+<p class="paragraph">其中单个样品各个物种丰度之和为1，即为各物种在样品中的相对丰度。</p>
+<p><B><a href="{{ path_table_sample_real }}">结果目录：{{ path_table_sample }}</a></B></p>
+<p><B>分析结果：</B></p>
+<p class="paragraph">Clean reads与NCBI各数据库的比对结果统计如下表所示：</p>
+<p class="name_table">表 3-3 clean reads比对结果统计</p>
+<div class="center_table">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="success">
+            <th>Sample Name</th>
+            <th>Clean Reads(#)</th>
+            <th>Total Alignment Reads(#)</th>
+            <th>Total Alignment Radio(%)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sn, cr, tar, taro in table_sample %}
+        <tr>
+            <td>{{ sn }}</td>
+            <td>{{ cr }}</td>
+            <td>{{ tar }}</td>
+            <td>{{ taro }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p class="tremark">注：每列详细说明如下</p>
+<p class="tremark">1. Sample Name：样品名称；</p>
+<p class="tremark">2. Clean Reads：测序序列经过测序数据过滤后的数量统计(Clean data)；</p>
+<p class="tremark">3. Total Alignment Reads：比对上NCBI真菌、病毒、细菌及HMP数据库的所有reads条数。</p>
+<p class="tremark">4. Total Alignment Ratio：比对上NCBI真菌、病毒、细菌及HMP数据库的所有reads条数与clean reads条数的比率。</p>
+<p class="paragraph">每个样品中各个物种在不同分类学水平上的丰度统计，如下表所示：</p>
+<p><B><a href="{{ path_otu_real }}">结果目录：{{ path_otu }}</a></B></p>
+<p class="name_table">表 3-4 门水平丰度统计</p>
+<div class="center_table">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="success">
+            <th>Taxon Name</th>
+            {% for s in samples %}
+            <th>{{ s }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for bacterial in otu %}
+        <tr>
+            {% for i in bacterial %}
+            <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p class="tremark">注：上表和下表中第一列是物种名称，剩余各列是物种在各个样品中的丰度值。由于样品和物种较多，此处仅展示部分样品中的部分物种丰度，完整结果见附件中的对应文件。</p>
+

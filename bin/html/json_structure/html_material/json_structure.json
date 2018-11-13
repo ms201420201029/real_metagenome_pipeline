@@ -1,0 +1,1212 @@
+{
+    "bce": {
+        "samples": [
+            "1-1-C",
+            "3-1-C",
+            "4-1-C"
+        ],
+        "project": {
+            "project_name": "ABC",
+            "project_number": "RY2015J2703",
+            "sample_source": "soil compost",
+            "sample_type": "soil",
+            "note_information": "XXX",
+            "project_contacts": "huangy",
+            "phone": "123344555",
+            "email": "222@qq.com",
+            "enterprise_name": "The university of xi bei",
+            "enterprise_address": "shanxisheng",
+            "salesman": "wanghang",
+            "sale_phone": "2333345",
+            "sale_email": "433@qq.com"
+        },
+        "3.1.1.rawreads_statistic.html": {
+            "path_table": "00.raw_reads/raw_reads.stat.xls",
+            "path_table_real": "../result/result/00.raw_reads/raw_reads.stat.xls",
+            "table": [
+                [
+                    "1-1-C",
+                    150,
+                    524,
+                    "250,000",
+                    "75,000,000",
+                    "1-1-C",
+                    150,
+                    524
+                ],
+                [
+                    "12F-1-C",
+                    150,
+                    529,
+                    "250,000",
+                    "75,000,000",
+                    "12F-1-C",
+                    150,
+                    529
+                ],
+                [
+                    "12M-1-C",
+                    150,
+                    495,
+                    "250,000",
+                    "75,000,000",
+                    "12M-1-C",
+                    150,
+                    495
+                ]
+            ],
+            "path": "00.raw_reads/01.fastqc/",
+            "path_real": "../result/result/00.raw_reads/01.fastqc/",
+            "fig_3_1_1": "images/bce/3.1.1.rawreads_statistic/per_base_sequence_content.png",
+            "fig_3_1_2": "images/bce/3.1.1.rawreads_statistic/per_base_quality.png"
+        },
+        "3.1.2.qc_data_statistic.html": {
+            "path_table": "01.clean_reads/clean_reads.status.xls",
+            "path_table_real": "../result/result/01.clean_reads/clean_reads.status.xls",
+            "table": [
+                [
+                    "0.16%",
+                    "0.97%",
+                    "0.19%",
+                    "246,709",
+                    "74,455,591",
+                    "98.68%",
+                    "rawdata"
+                ],
+                [
+                    "0.15%",
+                    "1.16%",
+                    "8.77%",
+                    "224,790",
+                    "67,845,953",
+                    "89.92%",
+                    "rawdata"
+                ],
+                [
+                    "0.22%",
+                    "0.75%",
+                    "0.24%",
+                    "246,981",
+                    "74,537,903",
+                    "98.79%",
+                    "rawdata"
+                ]
+            ]
+        },
+        "3.2.1.align_statictic.html": {
+            "path_table": "02.taxonomy/alignment.status.xls",
+            "path_table_real": "../result/result/02.taxonomy/alignment.status.xls",
+            "table": [
+                [
+                    "1-1-C",
+                    246709.0,
+                    157191.0,
+                    63.72
+                ],
+                [
+                    "12F-1-C",
+                    224790.0,
+                    159810.0,
+                    71.09
+                ],
+                [
+                    "12M-1-C",
+                    246981.0,
+                    84387.0,
+                    34.17
+                ]
+            ],
+            "path_otu": "02.taxonomy/profile/phylum.profile",
+            "path_otu_real": "../result/result/02.taxonomy/profile/phylum.profile",
+            "otu": [
+                [
+                    0.00276197558526,
+                    0.006623289652600001,
+                    0.00401300410953
+                ],
+                [
+                    1.65459263787e-05,
+                    6.77902656191e-05,
+                    5.64518422733e-05
+                ],
+                [
+                    0.638136612242,
+                    0.429387251126,
+                    0.660697596147
+                ]
+            ]
+        },
+        "3.2.2.taxon_pieplot.html": {
+            "path": "02.taxonomy/00.pieplot/",
+            "path_real": "../result/result/02.taxonomy/00.pieplot/",
+            "fig_3_2_1": "images/bce/3.2.2.taxon_pieplot/genus.pie.svg",
+            "fig_3_2_2": "images/bce/3.2.2.taxon_pieplot/species.pie.svg"
+        },
+        "3.2.3.axon_barplot.html": {
+            "path": "02.taxonomy/group/bce/01.barplot/",
+            "path_real": "../result/result/02.taxonomy/group/bce/01.barplot/",
+            "fig_3_3_1": "images/bce/3.2.3.taxon_barplot/species_barplot.png"
+        },
+        "3.2.4.taxon_venn_flower.html": {
+            "path": "02.taxonomy/02.venn_flower/",
+            "path_real": "../result/result/02.taxonomy/02.venn_flower/",
+            "fig_3_4": "images/bce/3.2.4.taxon_venn_flower/flower.png"
+        },
+        "3.2.5.taxon_accum_share.html": {
+            "path": "02.taxonomy/03.accum_share/",
+            "path_real": "../result/result/02.taxonomy/03.accum_share/",
+            "fig_3_5_1": "images/bce/3.2.5.taxon_accum_share/genus.profile.accum_share.png",
+            "fig_3_5_2": "images/bce/3.2.5.taxon_accum_share/species.profile.accum_share.png"
+        },
+        "3.2.6.taxon_top_boxplot.html": {
+            "path": "02.taxonomy/group/bce/03.top_boxplot/",
+            "path_real": "../result/result/02.taxonomy/group/bce/03.top_boxplot/",
+            "figs": [
+                "3.2.6.taxon_top_boxplot/top.png",
+                "3.2.6.taxon_top_boxplot/topA.png",
+                "3.2.6.taxon_top_boxplot/topB.png",
+                "3.2.6.taxon_top_boxplot/topC.png",
+                "3.2.6.taxon_top_boxplot/topD.png",
+                "3.2.6.taxon_top_boxplot/topE.png"
+            ]
+        },
+        "3.2.7.taxon_ternaryplot.html": {
+            "path": "02.taxonomy/group/bce/04.ternaryplot/",
+            "path_real": "../result/result/02.taxonomy/group/bce/04.ternaryplot/",
+            "fig_3_7_1": "images/bce/3.2.7.taxon_ternaryplot/genus.ternaryplot.png",
+            "fig_3_7_2": "images/bce/3.2.7.taxon_ternaryplot/species.ternaryplot.png"
+        },
+        "3.2.8.taxon_treeplot.html": {
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_8": "images/bce/3.2.8.taxon_treeplot/"
+        },
+        "3.2.9.taxon_top_barplot.html": {
+            "path": "02.taxonomy/group/bce/05.top_barplot/",
+            "path_real": "../result/result/02.taxonomy/group/bce/05.top_barplot/",
+            "fig_3_9_1": "images/bce/3.2.9.taxon_top_barplot/genus_sample_cluster.png",
+            "fig_3_9_2": "images/bce/3.2.9.taxon_top_barplot/species_sample_cluster.png"
+        },
+        "3.2.10.taxon_pca.html": {
+            "path": "02.taxonomy/group/bce/06.pca/",
+            "path_real": "../result/result/02.taxonomy/group/bce/06.pca/",
+            "fig_3_10_1": "images/bce/3.2.10.taxon_pca/genus_pca.png",
+            "fig_3_10_2": "images/bce/3.2.10.taxon_pca/species_pca.png"
+        },
+        "3.2.11.taxon_pcoa.html": {
+            "path": "02.taxonomy/group/bce/07.pcoa/",
+            "path_real": "../result/result/02.taxonomy/group/bce/07.pcoa/",
+            "fig_3_11_1": "images/bce/3.2.11.taxon_pcoa/genus_braypcoa.png",
+            "fig_3_11_2": "images/bce/3.2.11.taxon_pcoa/species_braypcoa.png"
+        },
+        "3.2.12.taxon_nmds.html": {
+            "path": "02.taxonomy/group/bce/08.nmds/",
+            "path_real": "../result/result/02.taxonomy/group/bce/08.nmds/",
+            "fig_3_12_1": "images/bce/3.2.12.taxon_nmds/genus_nmds.png",
+            "fig_3_12_2": "images/bce/3.2.12.taxon_nmds/species_nmds.png"
+        },
+        "3.2.13.taxon_anosim.html": {
+            "path_table": "02.taxonomy/group/bce/09.anosim/anosim.txt",
+            "path_table_real": "../result/result/02.taxonomy/group/bce/09.anosim/anosim.txt",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "02.taxonomy/group/bce/09.anosim/",
+            "path_real": "../result/result/02.taxonomy/group/bce/09.anosim/",
+            "fig_3_13": "images/bce/3.2.13.taxon_anosim/anosim.png"
+        },
+        "3.2.14.taxon_adonis.html": {
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_14_1": "images/bce/3.2.14.taxon_adonis/genus_bray_adonis.png",
+            "fig_3_14_2": "images/bce/3.2.14.taxon_adonis/species_bray_adonis.png"
+        },
+        "3.2.15.taxon_mrpp.html": {
+            "path_table": "02.taxon/group_analysis/bce/11.mrpp/mrpp.txt",
+            "path_table_real": "../result/result/02.taxon/group_analysis/bce/11.mrpp/mrpp.txt",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ]
+        },
+        "3.2.16.taxon_wilcox.html": {
+            "path_table": "02.taxon/group_analysis/bce/12.diff/species_diff.marker.filter.tsv",
+            "path_table_real": "../result/result/02.taxon/group_analysis/bce/12.diff/species_diff.marker.filter.tsv",
+            "table": [
+                [
+                    "s__Acidaminococcus_intestini",
+                    0.0213674117553731,
+                    0.48115885913120704,
+                    "A"
+                ],
+                [
+                    "s__Acidaminococcus_sp_D21",
+                    0.0055339631912525895,
+                    0.48115885913120704,
+                    "E"
+                ],
+                [
+                    "s__Acidithiobacillus_ferrivorans",
+                    0.0237601026964481,
+                    0.48115885913120704,
+                    "B"
+                ]
+            ],
+            "path": "02.taxon/group_analysis/bce/12.diff/",
+            "path_real": "../result/result/02.taxon/group_analysis/bce/12.diff/",
+            "fig_3_15_1": "images/bce/3.2.16.taxon_wilcox/genus_genus_diff.png",
+            "fig_3_15_2": "images/bce/3.2.16.taxon_wilcox/species_genus_diff.png"
+        },
+        "3.2.17.taxon_lefse.html": {
+            "path": "02.taxon/group_analysis/bce/13.lefse/",
+            "path_real": "../result/result/02.taxon/group_analysis/bce/13.lefse/",
+            "fig_3_16_1": "images/bce/3.2.17.taxon_lefse/genus_LDA.png",
+            "fig_3_16_2": "images/bce/3.2.17.taxon_lefse/species_LDA.png"
+        },
+        "3.3.1.assembly.html": {
+            "path_table": "03.assembly/scaftigs.best.status.xls",
+            "path_table_real": "../result/result/03.assembly/scaftigs.best.status.xls",
+            "table": [
+                [
+                    "1-1-C",
+                    "314",
+                    "802",
+                    545,
+                    "277,186",
+                    "14,301",
+                    "882"
+                ],
+                [
+                    "12F-1-C",
+                    "734",
+                    "721",
+                    541,
+                    "543,906",
+                    "5,419",
+                    "741"
+                ],
+                [
+                    "12M-1-C",
+                    "427",
+                    "695",
+                    546,
+                    "306,095",
+                    "2,691",
+                    "716"
+                ]
+            ],
+            "path": "03.assembly/",
+            "path_real": "../result/result/03.assembly/",
+            "fig_3_17": "images/bce/3.3.1.assembly/histogram.png"
+        },
+        "3.3.2.gene_predict.html": {
+            "path_table": "04.gene_predict/orf.status.xls",
+            "path_table_real": "../result/result/04.gene_predict/orf.status.xls",
+            "table": [
+                [
+                    "1-1-C",
+                    "9,776",
+                    "20.6%",
+                    "5,133,060",
+                    "5,424",
+                    525.1
+                ],
+                [
+                    "12F-1-C",
+                    "6,998",
+                    "21.0%",
+                    "3,941,307",
+                    "3,654",
+                    563.2
+                ],
+                [
+                    "12M-1-C",
+                    "2,501",
+                    "22.1%",
+                    "1,298,496",
+                    "2,562",
+                    519.2
+                ]
+            ],
+            "path": "04.gene_predict/",
+            "path_real": "../result/result/04.gene_predict/",
+            "fig_3_18": "images/bce/3.3.2.gene_predict/gene.histogram.png"
+        },
+        "3.3.3.gene_catalog.html": {
+            "path_table": "05.gene_catalog/gene_catalog.status.xls",
+            "path_table_real": "../result/result/05.gene_catalog/gene_catalog.status.xls",
+            "table": [
+                [
+                    27,
+                    "80,152",
+                    "22.9%",
+                    "46,951,722",
+                    "7,875",
+                    585.8
+                ]
+            ],
+            "path": "05.gene_catalog/",
+            "path_real": "../result/result/05.gene_catalog/",
+            "fig_3_19": "images/bce/3.3.3.gene_catalog/gene_catalog.length.histogram.png"
+        },
+        "3.3.4.gene_profile.html": {
+            "path_otu": "06.gene_profile/gene.profile",
+            "path_otu_real": "../result/result/06.gene_profile/gene.profile",
+            "otu": [
+                [
+                    0.000177190626514691,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.00078324126169258,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.000448700282503382,
+                    0.0,
+                    0.0
+                ]
+            ]
+        },
+        "3.3.5.cag.html": {
+            "path_table": "XXXXXX",
+            "path_table_real": "../result/result/XXXXXX",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_20": "images/bce/3.3.5.cag/1.CAG.png"
+        },
+        "3.3.6.gene_anosim.html": {
+            "path_table": "06.gene_profile/group/bce/02.anosim/bray_anosim.txt",
+            "path_table_real": "../result/result/06.gene_profile/group/bce/02.anosim/bray_anosim.txt",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "06.gene_profile/group/bce/02.anosim/",
+            "path_real": "../result/result/06.gene_profile/group/bce/02.anosim/",
+            "fig_3_21": "images/bce/3.3.6.gene_anosim/bray_anosim.png"
+        },
+        "3.3.7.gene_alpha_diversity.html": {
+            "path_table": "06.gene_profile/01.alpha_diversity/gene.alpha.tsv",
+            "path_table_real": "../result/result/06.gene_profile/01.alpha_diversity/gene.alpha.tsv",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ]
+        },
+        "3.3.8.gene_wilcox.html": {
+            "path_table": "06.gene_profile/group/bce/03.diff_gene/diff.marker.filter.tsv",
+            "path_table_real": "../result/result/06.gene_profile/group/bce/03.diff_gene/diff.marker.filter.tsv",
+            "table": [
+                [
+                    "1-1-C_GI_0000225",
+                    0.0446077135727553,
+                    0.734733475001218,
+                    "C"
+                ],
+                [
+                    "1-1-C_GI_0000238",
+                    0.0317859739029847,
+                    0.6606353794326629,
+                    "C"
+                ],
+                [
+                    "1-1-C_GI_0000321",
+                    0.0446077135727553,
+                    0.734733475001218,
+                    "C"
+                ]
+            ],
+            "path": "06.gene_profile/group/bce/03.diff_gene/",
+            "path_real": "../result/result/06.gene_profile/group/bce/03.diff_gene/",
+            "fig_3_22": "images/bce/3.3.8.gene_wilcox/qvalue.png"
+        },
+        "3.3.9.mgs.html": {
+            "path_table": "XXXXXX",
+            "path_table_real": "../result/result/XXXXXX",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_23": "images/bce/3.3.9.mgs/mgs.png",
+            "fig_3_24": "images/bce/3.3.9.mgs/heatmap.png"
+        },
+        "3.4.1.kegg.html": {
+            "path_table": "07.kegg/gene_catalog.kegg.xls",
+            "path_table_real": "../result/result/07.kegg/gene_catalog.kegg.xls",
+            "table": [
+                [
+                    "28-1-C_GI_0000108",
+                    "bbi:BBIF_1762",
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                [
+                    "28-1-C_GI_0000155",
+                    "bad:BAD_0256",
+                    "fas",
+                    "fatty acid synthase, bacteria type [EC:2.3.1.-] (A)",
+                    "K11533"
+                ],
+                [
+                    "38-1-C_GI_0000024",
+                    "bdo:EL88_22745",
+                    NaN,
+                    NaN,
+                    NaN
+                ]
+            ],
+            "path": "07.kegg/",
+            "path_real": "../result/result/07.kegg/",
+            "fig_3_25": "images/bce/3.4.1.kegg/701_KEGG_class.png"
+        },
+        "3.4.2.ko_profile.html": {
+            "path_otu": "07.kegg/ko.profile",
+            "path_otu_real": "../result/result/07.kegg/ko.profile",
+            "otu": [
+                [
+                    0.000293571727017,
+                    0.0,
+                    0.0
+                ],
+                [
+                    8.6190010635e-05,
+                    0.0,
+                    0.0
+                ],
+                [
+                    8.66342890403e-05,
+                    4.96095754818e-05,
+                    0.00011460519343
+                ]
+            ]
+        },
+        "3.4.3.ko_heatmap.html": {
+            "path": "07.kegg/group/bce/09.ko_wilcox/heatmap/",
+            "path_real": "../result/result/07.kegg/group/bce/09.ko_wilcox/heatmap/",
+            "fig_3_26": "images/bce/3.4.3.ko_heatmap/heatmap.png"
+        },
+        "3.4.4.ko_pca.html": {
+            "path": "07.kegg/group/bce/03.ko_pca/",
+            "path_real": "../result/result/07.kegg/group/bce/03.ko_pca/",
+            "fig_3_27": "images/bce/3.4.4.ko_pca/pca.png"
+        },
+        "3.4.5.ko_anosim.html": {
+            "path": "07.kegg/group/bce/06.ko_anosim/",
+            "path_real": "../result/result/07.kegg/group/bce/06.ko_anosim/",
+            "fig_3_28": "images/bce/3.4.5.ko_anosim/anosim.png"
+        },
+        "3.4.6.ko_wilcox.html": {
+            "path_table": "07.kegg/group/bce/09.ko_wilcox/diff.marker.filter.tsv",
+            "path_table_real": "../result/result/07.kegg/group/bce/09.ko_wilcox/diff.marker.filter.tsv",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "07.kegg/group/bce/09.ko_wilcox/",
+            "path_real": "../result/result/07.kegg/group/bce/09.ko_wilcox/",
+            "fig_3_29": "images/bce/3.4.6.ko_wilcox/diff.png",
+            "fig_3_30": "images/bce/3.4.6.ko_wilcox/heatmap.png",
+            "fig_3_31": "images/bce/3.4.6.ko_wilcox/pathway.png"
+        },
+        "3.4.7.ko_lefse.html": {
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_32": "images/bce/3.4.7.ko_lefse/lefse.png",
+            "fig_3_33": "images/bce/3.4.7.ko_lefse/heatmap.png",
+            "fig_3_34": "images/bce/3.4.8.ko_lefse/roc.png",
+            "fig_3_35": "images/bce/3.4.8.ko_lefse/pathway.png"
+        },
+        "3.4.9.ko_functional.html": {
+            "path_otu": "07.kegg/group/bce/12.functional/kegg_level1_profile.txt",
+            "path_otu_real": "../result/result/07.kegg/group/bce/12.functional/kegg_level1_profile.txt",
+            "otu": [
+                [
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "07.kegg/group/bce/12.functional/",
+            "path_real": "../result/result/07.kegg/group/bce/12.functional/",
+            "fig_3_36": "images/bce/3.4.9.ko_functional/level1_barplot.png",
+            "fig_3_37": "images/bce/3.4.9.ko_functional/level2_barplot.png",
+            "fig_3_38": "images/bce/3.4.9.ko_functional/level1_barplot_withgroup.png",
+            "fig_3_39": "images/bce/3.4.9.ko_functional/level2_barplot_withgroup.png"
+        },
+        "3.4.10.ko_functional_clust.html": {
+            "path": "07.kegg/group/bce/13.functional_clust/",
+            "path_real": "../result/result/07.kegg/group/bce/13.functional_clust/",
+            "fig_3_40": "images/bce/3.4.10.ko_functional_clust/sample_cluster.png"
+        },
+        "3.4.11.eggNOG.html": {
+            "path_table": "08.eggnog/eggnog.anno.xls",
+            "path_table_real": "../result/result/08.eggnog/eggnog.anno.xls",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "08.eggnog/",
+            "path_real": "../result/result/08.eggnog/",
+            "fig_3_41": "images/bce/3.4.11.eggNOG/NOG.pdf"
+        }
+    },
+    "all": {
+        "samples": [
+            "1-1-C",
+            "3-1-C",
+            "4-1-C"
+        ],
+        "project": {
+            "project_name": "ABC",
+            "project_number": "RY2015J2703",
+            "sample_source": "soil compost",
+            "sample_type": "soil",
+            "note_information": "XXX",
+            "project_contacts": "huangy",
+            "phone": "123344555",
+            "email": "222@qq.com",
+            "enterprise_name": "The university of xi bei",
+            "enterprise_address": "shanxisheng",
+            "salesman": "wanghang",
+            "sale_phone": "2333345",
+            "sale_email": "433@qq.com"
+        },
+        "3.1.1.rawreads_statistic.html": {
+            "path_table": "00.raw_reads/raw_reads.stat.xls",
+            "path_table_real": "../result/result/00.raw_reads/raw_reads.stat.xls",
+            "table": [
+                [
+                    "1-1-C",
+                    150,
+                    524,
+                    "250,000",
+                    "75,000,000",
+                    "1-1-C",
+                    150,
+                    524
+                ],
+                [
+                    "12F-1-C",
+                    150,
+                    529,
+                    "250,000",
+                    "75,000,000",
+                    "12F-1-C",
+                    150,
+                    529
+                ],
+                [
+                    "12M-1-C",
+                    150,
+                    495,
+                    "250,000",
+                    "75,000,000",
+                    "12M-1-C",
+                    150,
+                    495
+                ]
+            ],
+            "path": "00.raw_reads/01.fastqc/",
+            "path_real": "../result/result/00.raw_reads/01.fastqc/",
+            "fig_3_1_1": "images/all/3.1.1.rawreads_statistic/per_base_sequence_content.png",
+            "fig_3_1_2": "images/all/3.1.1.rawreads_statistic/per_base_quality.png"
+        },
+        "3.1.2.qc_data_statistic.html": {
+            "path_table": "01.clean_reads/clean_reads.status.xls",
+            "path_table_real": "../result/result/01.clean_reads/clean_reads.status.xls",
+            "table": [
+                [
+                    "0.16%",
+                    "0.97%",
+                    "0.19%",
+                    "246,709",
+                    "74,455,591",
+                    "98.68%",
+                    "rawdata"
+                ],
+                [
+                    "0.15%",
+                    "1.16%",
+                    "8.77%",
+                    "224,790",
+                    "67,845,953",
+                    "89.92%",
+                    "rawdata"
+                ],
+                [
+                    "0.22%",
+                    "0.75%",
+                    "0.24%",
+                    "246,981",
+                    "74,537,903",
+                    "98.79%",
+                    "rawdata"
+                ]
+            ]
+        },
+        "3.2.1.align_statictic.html": {
+            "path_table": "02.taxonomy/alignment.status.xls",
+            "path_table_real": "../result/result/02.taxonomy/alignment.status.xls",
+            "table": [
+                [
+                    "1-1-C",
+                    246709.0,
+                    157191.0,
+                    63.72
+                ],
+                [
+                    "12F-1-C",
+                    224790.0,
+                    159810.0,
+                    71.09
+                ],
+                [
+                    "12M-1-C",
+                    246981.0,
+                    84387.0,
+                    34.17
+                ]
+            ],
+            "path_otu": "02.taxonomy/profile/phylum.profile",
+            "path_otu_real": "../result/result/02.taxonomy/profile/phylum.profile",
+            "otu": [
+                [
+                    0.00276197558526,
+                    0.006623289652600001,
+                    0.00401300410953
+                ],
+                [
+                    1.65459263787e-05,
+                    6.77902656191e-05,
+                    5.64518422733e-05
+                ],
+                [
+                    0.638136612242,
+                    0.429387251126,
+                    0.660697596147
+                ]
+            ]
+        },
+        "3.2.2.taxon_pieplot.html": {
+            "path": "02.taxonomy/00.pieplot/",
+            "path_real": "../result/result/02.taxonomy/00.pieplot/",
+            "fig_3_2_1": "images/all/3.2.2.taxon_pieplot/genus.pie.svg",
+            "fig_3_2_2": "images/all/3.2.2.taxon_pieplot/species.pie.svg"
+        },
+        "3.2.3.axon_barplot.html": {
+            "path": "02.taxonomy/group/all/01.barplot/",
+            "path_real": "../result/result/02.taxonomy/group/all/01.barplot/",
+            "fig_3_3_1": "images/all/3.2.3.taxon_barplot/species_barplot.png"
+        },
+        "3.2.4.taxon_venn_flower.html": {
+            "path": "02.taxonomy/02.venn_flower/",
+            "path_real": "../result/result/02.taxonomy/02.venn_flower/",
+            "fig_3_4": "images/all/3.2.4.taxon_venn_flower/flower.png"
+        },
+        "3.2.5.taxon_accum_share.html": {
+            "path": "02.taxonomy/03.accum_share/",
+            "path_real": "../result/result/02.taxonomy/03.accum_share/",
+            "fig_3_5_1": "images/all/3.2.5.taxon_accum_share/genus.profile.accum_share.png",
+            "fig_3_5_2": "images/all/3.2.5.taxon_accum_share/species.profile.accum_share.png"
+        },
+        "3.2.6.taxon_top_boxplot.html": {
+            "path": "02.taxonomy/group/all/03.top_boxplot/",
+            "path_real": "../result/result/02.taxonomy/group/all/03.top_boxplot/",
+            "figs": [
+                "3.2.6.taxon_top_boxplot/top.png",
+                "3.2.6.taxon_top_boxplot/topA.png",
+                "3.2.6.taxon_top_boxplot/topB.png",
+                "3.2.6.taxon_top_boxplot/topC.png",
+                "3.2.6.taxon_top_boxplot/topD.png",
+                "3.2.6.taxon_top_boxplot/topE.png"
+            ]
+        },
+        "3.2.7.taxon_ternaryplot.html": {
+            "path": "02.taxonomy/group/all/04.ternaryplot/",
+            "path_real": "../result/result/02.taxonomy/group/all/04.ternaryplot/",
+            "fig_3_7_1": "images/all/3.2.7.taxon_ternaryplot/genus.ternaryplot.png",
+            "fig_3_7_2": "images/all/3.2.7.taxon_ternaryplot/species.ternaryplot.png"
+        },
+        "3.2.8.taxon_treeplot.html": {
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_8": "images/all/3.2.8.taxon_treeplot/"
+        },
+        "3.2.9.taxon_top_barplot.html": {
+            "path": "02.taxonomy/group/all/05.top_barplot/",
+            "path_real": "../result/result/02.taxonomy/group/all/05.top_barplot/",
+            "fig_3_9_1": "images/all/3.2.9.taxon_top_barplot/genus_sample_cluster.png",
+            "fig_3_9_2": "images/all/3.2.9.taxon_top_barplot/species_sample_cluster.png"
+        },
+        "3.2.10.taxon_pca.html": {
+            "path": "02.taxonomy/group/all/06.pca/",
+            "path_real": "../result/result/02.taxonomy/group/all/06.pca/",
+            "fig_3_10_1": "images/all/3.2.10.taxon_pca/genus_pca.png",
+            "fig_3_10_2": "images/all/3.2.10.taxon_pca/species_pca.png"
+        },
+        "3.2.11.taxon_pcoa.html": {
+            "path": "02.taxonomy/group/all/07.pcoa/",
+            "path_real": "../result/result/02.taxonomy/group/all/07.pcoa/",
+            "fig_3_11_1": "images/all/3.2.11.taxon_pcoa/genus_braypcoa.png",
+            "fig_3_11_2": "images/all/3.2.11.taxon_pcoa/species_braypcoa.png"
+        },
+        "3.2.12.taxon_nmds.html": {
+            "path": "02.taxonomy/group/all/08.nmds/",
+            "path_real": "../result/result/02.taxonomy/group/all/08.nmds/",
+            "fig_3_12_1": "images/all/3.2.12.taxon_nmds/genus_nmds.png",
+            "fig_3_12_2": "images/all/3.2.12.taxon_nmds/species_nmds.png"
+        },
+        "3.2.13.taxon_anosim.html": {
+            "path_table": "02.taxonomy/group/all/09.anosim/anosim.txt",
+            "path_table_real": "../result/result/02.taxonomy/group/all/09.anosim/anosim.txt",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "02.taxonomy/group/all/09.anosim/",
+            "path_real": "../result/result/02.taxonomy/group/all/09.anosim/",
+            "fig_3_13": "images/all/3.2.13.taxon_anosim/anosim.png"
+        },
+        "3.2.14.taxon_adonis.html": {
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_14_1": "images/all/3.2.14.taxon_adonis/genus_bray_adonis.png",
+            "fig_3_14_2": "images/all/3.2.14.taxon_adonis/species_bray_adonis.png"
+        },
+        "3.2.15.taxon_mrpp.html": {
+            "path_table": "02.taxon/group_analysis/all/11.mrpp/mrpp.txt",
+            "path_table_real": "../result/result/02.taxon/group_analysis/all/11.mrpp/mrpp.txt",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ]
+        },
+        "3.2.16.taxon_wilcox.html": {
+            "path_table": "02.taxon/group_analysis/all/12.diff/species_diff.marker.filter.tsv",
+            "path_table_real": "../result/result/02.taxon/group_analysis/all/12.diff/species_diff.marker.filter.tsv",
+            "table": [
+                [
+                    "s__Acidaminococcus_intestini",
+                    0.0213674117553731,
+                    0.48115885913120704,
+                    "A"
+                ],
+                [
+                    "s__Acidaminococcus_sp_D21",
+                    0.0055339631912525895,
+                    0.48115885913120704,
+                    "E"
+                ],
+                [
+                    "s__Acidithiobacillus_ferrivorans",
+                    0.0237601026964481,
+                    0.48115885913120704,
+                    "B"
+                ]
+            ],
+            "path": "02.taxon/group_analysis/all/12.diff/",
+            "path_real": "../result/result/02.taxon/group_analysis/all/12.diff/",
+            "fig_3_15_1": "images/all/3.2.16.taxon_wilcox/genus_genus_diff.png",
+            "fig_3_15_2": "images/all/3.2.16.taxon_wilcox/species_genus_diff.png"
+        },
+        "3.2.17.taxon_lefse.html": {
+            "path": "02.taxon/group_analysis/all/13.lefse/",
+            "path_real": "../result/result/02.taxon/group_analysis/all/13.lefse/",
+            "fig_3_16_1": "images/all/3.2.17.taxon_lefse/genus_LDA.png",
+            "fig_3_16_2": "images/all/3.2.17.taxon_lefse/species_LDA.png"
+        },
+        "3.3.1.assembly.html": {
+            "path_table": "03.assembly/scaftigs.best.status.xls",
+            "path_table_real": "../result/result/03.assembly/scaftigs.best.status.xls",
+            "table": [
+                [
+                    "1-1-C",
+                    "314",
+                    "802",
+                    545,
+                    "277,186",
+                    "14,301",
+                    "882"
+                ],
+                [
+                    "12F-1-C",
+                    "734",
+                    "721",
+                    541,
+                    "543,906",
+                    "5,419",
+                    "741"
+                ],
+                [
+                    "12M-1-C",
+                    "427",
+                    "695",
+                    546,
+                    "306,095",
+                    "2,691",
+                    "716"
+                ]
+            ],
+            "path": "03.assembly/",
+            "path_real": "../result/result/03.assembly/",
+            "fig_3_17": "images/all/3.3.1.assembly/histogram.png"
+        },
+        "3.3.2.gene_predict.html": {
+            "path_table": "04.gene_predict/orf.status.xls",
+            "path_table_real": "../result/result/04.gene_predict/orf.status.xls",
+            "table": [
+                [
+                    "1-1-C",
+                    "9,776",
+                    "20.6%",
+                    "5,133,060",
+                    "5,424",
+                    525.1
+                ],
+                [
+                    "12F-1-C",
+                    "6,998",
+                    "21.0%",
+                    "3,941,307",
+                    "3,654",
+                    563.2
+                ],
+                [
+                    "12M-1-C",
+                    "2,501",
+                    "22.1%",
+                    "1,298,496",
+                    "2,562",
+                    519.2
+                ]
+            ],
+            "path": "04.gene_predict/",
+            "path_real": "../result/result/04.gene_predict/",
+            "fig_3_18": "images/all/3.3.2.gene_predict/gene.histogram.png"
+        },
+        "3.3.3.gene_catalog.html": {
+            "path_table": "05.gene_catalog/gene_catalog.status.xls",
+            "path_table_real": "../result/result/05.gene_catalog/gene_catalog.status.xls",
+            "table": [
+                [
+                    27,
+                    "80,152",
+                    "22.9%",
+                    "46,951,722",
+                    "7,875",
+                    585.8
+                ]
+            ],
+            "path": "05.gene_catalog/",
+            "path_real": "../result/result/05.gene_catalog/",
+            "fig_3_19": "images/all/3.3.3.gene_catalog/gene_catalog.length.histogram.png"
+        },
+        "3.3.4.gene_profile.html": {
+            "path_otu": "06.gene_profile/gene.profile",
+            "path_otu_real": "../result/result/06.gene_profile/gene.profile",
+            "otu": [
+                [
+                    0.000177190626514691,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.00078324126169258,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.000448700282503382,
+                    0.0,
+                    0.0
+                ]
+            ]
+        },
+        "3.3.5.cag.html": {
+            "path_table": "XXXXXX",
+            "path_table_real": "../result/result/XXXXXX",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_20": "images/all/3.3.5.cag/1.CAG.png"
+        },
+        "3.3.6.gene_anosim.html": {
+            "path_table": "06.gene_profile/group/all/02.anosim/bray_anosim.txt",
+            "path_table_real": "../result/result/06.gene_profile/group/all/02.anosim/bray_anosim.txt",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "06.gene_profile/group/all/02.anosim/",
+            "path_real": "../result/result/06.gene_profile/group/all/02.anosim/",
+            "fig_3_21": "images/all/3.3.6.gene_anosim/bray_anosim.png"
+        },
+        "3.3.7.gene_alpha_diversity.html": {
+            "path_table": "06.gene_profile/01.alpha_diversity/gene.alpha.tsv",
+            "path_table_real": "../result/result/06.gene_profile/01.alpha_diversity/gene.alpha.tsv",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ]
+        },
+        "3.3.8.gene_wilcox.html": {
+            "path_table": "06.gene_profile/group/all/03.diff_gene/diff.marker.filter.tsv",
+            "path_table_real": "../result/result/06.gene_profile/group/all/03.diff_gene/diff.marker.filter.tsv",
+            "table": [
+                [
+                    "1-1-C_GI_0000084",
+                    0.0204408245172747,
+                    0.720483463573772,
+                    "B"
+                ],
+                [
+                    "1-1-C_GI_0000238",
+                    0.0428022537790114,
+                    0.8495822704027851,
+                    "C"
+                ],
+                [
+                    "1-1-C_GI_0000336",
+                    0.0276090765522663,
+                    0.8495822704027851,
+                    "A"
+                ]
+            ],
+            "path": "06.gene_profile/group/all/03.diff_gene/",
+            "path_real": "../result/result/06.gene_profile/group/all/03.diff_gene/",
+            "fig_3_22": "images/all/3.3.8.gene_wilcox/qvalue.png"
+        },
+        "3.3.9.mgs.html": {
+            "path_table": "XXXXXX",
+            "path_table_real": "../result/result/XXXXXX",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_23": "images/all/3.3.9.mgs/mgs.png",
+            "fig_3_24": "images/all/3.3.9.mgs/heatmap.png"
+        },
+        "3.4.1.kegg.html": {
+            "path_table": "07.kegg/gene_catalog.kegg.xls",
+            "path_table_real": "../result/result/07.kegg/gene_catalog.kegg.xls",
+            "table": [
+                [
+                    "28-1-C_GI_0000108",
+                    "bbi:BBIF_1762",
+                    NaN,
+                    NaN,
+                    NaN
+                ],
+                [
+                    "28-1-C_GI_0000155",
+                    "bad:BAD_0256",
+                    "fas",
+                    "fatty acid synthase, bacteria type [EC:2.3.1.-] (A)",
+                    "K11533"
+                ],
+                [
+                    "38-1-C_GI_0000024",
+                    "bdo:EL88_22745",
+                    NaN,
+                    NaN,
+                    NaN
+                ]
+            ],
+            "path": "07.kegg/",
+            "path_real": "../result/result/07.kegg/",
+            "fig_3_25": "images/all/3.4.1.kegg/701_KEGG_class.png"
+        },
+        "3.4.2.ko_profile.html": {
+            "path_otu": "07.kegg/ko.profile",
+            "path_otu_real": "../result/result/07.kegg/ko.profile",
+            "otu": [
+                [
+                    0.000293571727017,
+                    0.0,
+                    0.0
+                ],
+                [
+                    8.6190010635e-05,
+                    0.0,
+                    0.0
+                ],
+                [
+                    8.66342890403e-05,
+                    4.96095754818e-05,
+                    0.00011460519343
+                ]
+            ]
+        },
+        "3.4.3.ko_heatmap.html": {
+            "path": "07.kegg/group/all/09.ko_wilcox/heatmap/",
+            "path_real": "../result/result/07.kegg/group/all/09.ko_wilcox/heatmap/",
+            "fig_3_26": "images/all/3.4.3.ko_heatmap/heatmap.png"
+        },
+        "3.4.4.ko_pca.html": {
+            "path": "07.kegg/group/all/03.ko_pca/",
+            "path_real": "../result/result/07.kegg/group/all/03.ko_pca/",
+            "fig_3_27": "images/all/3.4.4.ko_pca/pca.png"
+        },
+        "3.4.5.ko_anosim.html": {
+            "path": "07.kegg/group/all/06.ko_anosim/",
+            "path_real": "../result/result/07.kegg/group/all/06.ko_anosim/",
+            "fig_3_28": "images/all/3.4.5.ko_anosim/anosim.png"
+        },
+        "3.4.6.ko_wilcox.html": {
+            "path_table": "07.kegg/group/all/09.ko_wilcox/diff.marker.filter.tsv",
+            "path_table_real": "../result/result/07.kegg/group/all/09.ko_wilcox/diff.marker.filter.tsv",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "07.kegg/group/all/09.ko_wilcox/",
+            "path_real": "../result/result/07.kegg/group/all/09.ko_wilcox/",
+            "fig_3_29": "images/all/3.4.6.ko_wilcox/diff.png",
+            "fig_3_30": "images/all/3.4.6.ko_wilcox/heatmap.png",
+            "fig_3_31": "images/all/3.4.6.ko_wilcox/pathway.png"
+        },
+        "3.4.7.ko_lefse.html": {
+            "path": "XXXXXX",
+            "path_real": "../result/result/XXXXXX",
+            "fig_3_32": "images/all/3.4.7.ko_lefse/lefse.png",
+            "fig_3_33": "images/all/3.4.7.ko_lefse/heatmap.png",
+            "fig_3_34": "images/all/3.4.8.ko_lefse/roc.png",
+            "fig_3_35": "images/all/3.4.8.ko_lefse/pathway.png"
+        },
+        "3.4.9.ko_functional.html": {
+            "path_otu": "07.kegg/group/all/12.functional/kegg_level1_profile.txt",
+            "path_otu_real": "../result/result/07.kegg/group/all/12.functional/kegg_level1_profile.txt",
+            "otu": [
+                [
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "07.kegg/group/all/12.functional/",
+            "path_real": "../result/result/07.kegg/group/all/12.functional/",
+            "fig_3_36": "images/all/3.4.9.ko_functional/level1_barplot.png",
+            "fig_3_37": "images/all/3.4.9.ko_functional/level2_barplot.png",
+            "fig_3_38": "images/all/3.4.9.ko_functional/level1_barplot_withgroup.png",
+            "fig_3_39": "images/all/3.4.9.ko_functional/level2_barplot_withgroup.png"
+        },
+        "3.4.10.ko_functional_clust.html": {
+            "path": "07.kegg/group/all/13.functional_clust/",
+            "path_real": "../result/result/07.kegg/group/all/13.functional_clust/",
+            "fig_3_40": "images/all/3.4.10.ko_functional_clust/sample_cluster.png"
+        },
+        "3.4.11.eggNOG.html": {
+            "path_table": "08.eggnog/eggnog.anno.xls",
+            "path_table_real": "../result/result/08.eggnog/eggnog.anno.xls",
+            "table": [
+                [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "path": "08.eggnog/",
+            "path_real": "../result/result/08.eggnog/",
+            "fig_3_41": "images/all/3.4.11.eggNOG/NOG.pdf"
+        }
+    }
+}

@@ -1,0 +1,47 @@
+<h3 id="CAG分析">3.3.5 CAG 分析(总样品数≥20)(高级分析)</h3>
+{% if sample_not_enough == True %}
+    <p>样本数不足，无法完成此项分析！</p>
+{% else %}
+    <p><B>分析方法：</B></p>
+    <p class="paragraph">对在所有样品中存在的基因，根据丰度一致性，利用canopy算法进行聚类。一般认为聚为一类的基因簇是某一物种的全部或部分基因，我们筛选基因数大于700的基因簇用于后续研究[9]。CAG可以根据其所包含基因的序列信息，通过比对NCBI微生物基因组参考序列可以将CAG注释到属水平甚至种水平。其中有一部分属于未知菌株，无法注释上物种，表格中会注明。</p>
+    <p class="paragraph"></p>
+    <p><B><a href="{{ path_table_real }}">结果目录：{{ path_table }}</a></B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">下表为部分CAG物种注释表：</p>
+    <p class="paragraph"></p>
+    <p class="name_table">表 3-17 部分CAG物种注释结果统计</p>
+    <div class="center_table">
+        <table class="table table-bordered">
+            <thead>
+            <tr class="success">
+                <th>CAG ID</th>
+                <th>Number Of Genes(#)</th>
+                <th>Taxonomy</th>
+                <th>Level</th>
+                <th>Number Of Genes On DataBase(#)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ci, nog, t, l, nogod in table %}
+            <tr>
+                <td>{{ ci }}</td>
+                <td>{{ nog }}</td>
+                <td>{{ t }}</td>
+                <td>{{ l }}</td>
+                <td>{{ nogod }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="tremark">注：每列详细说明如下</p>
+    <p class="tremark">1. CAG ID：CAG的编号。</p>
+    <p class="tremark">2. Number of genes：CAG包含的基因数目。</p>
+    <p class="tremark">3. Taxonomy：注释上的物种名或属名。</p>
+    <p class="tremark">4. Level：注释上的物种的层级，例如科(family)，属(genus)，种(species)等。</p>
+    <p class="tremark">5. Number of genes on DataBase：CAG中注释上该物种的基因数目。</p>
+    <p class="center"><img class="size2" src="{{ fig_3_20 }}"/></p>
+    <p class="name_fig">图 3-25 某个CAG中基因丰度热图</p>
+    <p class="premark">该热图横坐标为不同样品，纵坐标为CAG中的不同基因该CAG中的基因丰度一致性很好，所以会出现自上而下的条带状，这说明CAG中的基因确实来源于同一菌株</p>
+{% endif %}
+

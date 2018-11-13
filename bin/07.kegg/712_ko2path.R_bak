@@ -1,0 +1,10 @@
+source("/data_center_01/pipeline/real_metagenome/real_metagenome_v1.0.0/tool/labels2colors.R")
+outdir = "{{ outdir }}"
+data = read.table("{{ kocuntfile }}",header = T,row.names = 1,sep="\t",quote="",check.names = F)
+pdf(file = paste0(outdir,"/ko2path.pdf"),height = 6,width = 6)
+mar_tmp <- par("mar")
+mar_tmp[1] <- mar_tmp[1]*max(nchar(rownames(data)))/25
+par(mar=mar_tmp)
+temp = barplot(t(data),las=1,beside = T,xaxt="n",col = cols_brewer[1:ncol(data)],legend=colnames(data),ylab="The number of KO")
+text(x=colMeans(temp),y=-max(data[,1])/100,rownames(data),srt=60,xpd=T,adj =1,cex=0.5)
+dev.off()

@@ -1,0 +1,43 @@
+<h3 id="物种MRPP分析">3.2.15 物种MRPP分析(组内样品数≥5)</h3>
+{% if sample_not_enough == True %}
+    <p>样本数不足，无法完成此项分析！</p>
+{% else %}
+    <p><B>分析方法：</B></p>
+    <p class="paragraph">MRPP分析与Anosim类似，排序方法不同，结果可以得到A值，ObserveDelta值，ExpectDelta值和Significance值。</p>
+    <p><B><a href="{{ path_table_real }}">结果目录：{{ path_table }}</a></B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">下表为MRPP分析结果统计表：</p>
+    <p class="name_table">表 3-11 MRPP分析结果统计</p>
+    <div class="center_table">
+        <table class="table table-bordered">
+            <thead>
+            <tr class="success">
+                <th>Group</th>
+                <th>A</th>
+                <th>ObserveDelta</th>
+                <th>ExpectDelta</th>
+                <th>Significance</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for g, a, od, ed, s in table %}
+            <tr>
+                <td>{{ g }}</td>
+                <td>{{ a }}</td>
+                <td>{{ od }}</td>
+                <td>{{ ed }}</td>
+                <td>{{ s }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="tremark">注：每列详细说明如下：</p>
+    <p class="tremark">1. Group：分组名称；</p>
+    <p class="tremark">2. A：A统计量；</p>
+    <p class="tremark">3. ObserveDelta：Bray-Curtis距离指数对应的ObserveDelta值；</p>
+    <p class="tremark">4. ExpectDelta：Bray-Curtis距离指数对应的ExpectDelta值；</p>
+    <p class="tremark">5. Significance：Bray-Curtis距离指数对应的显著性p值。</p>
+    <p class="tremark">A值大于0说明组间差异大于组内差异，A值小于0说明组内差异大于组间差异；ObserveDelta值越小说明组内差异越小；ExpectDelta值越小说明组间差异越小；Significance小于0.05说明差异显著。</p>
+{% endif %}
+

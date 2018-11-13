@@ -1,0 +1,199 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
+# Description: 
+# Copyright (C) 20170706 Ruiyi Corporation
+# Email: lixr@realbio.cn
+
+import os, re, yaml
+from configparser import ConfigParser
+from workflow.util.useful import const, mkdir, parse_group
+
+bin_dir = '%s/02.taxon' % const.bin_default_dir
+tool_dir = const.tool_default_dir
+
+def taxon_pre(config,outpath,name):
+    commands = []
+    work_dir = '%s/%s' % (os.path.dirname(config),name)
+
+    # updata config.yaml
+    with open(const.config_yaml,'r') as inf:
+        data = yaml.load(inf)
+    data['work_dir'] = '%s/..' % work_dir
+    data['clean_reads_list'] = '02.tax/clean_read.list'
+    with open('%s/config.yaml' % work_dir, 'w') as outf:
+        yaml.dump(data, outf, default_flow_style=False)
+
+    # update cluster.yaml
+    with open(const.cluster_yaml,'r') as inf:
+        data = yaml.load(inf)
+    data['__default__']['qsublog'] = '%s/log/' % work_dir
+    data['align']['qsublog'] = '%s/log/align/' % work_dir
+    data['abund']['qsublog'] = '%s/log/abund/' % work_dir
+    data['abund_profile']['qsublog'] = '%s/log/' % work_dir
+    with open('%s/cluster.yaml' % work_dir,'w') as outf:
+        yaml.dump(data, outf, default_flow_style=False)
+
+    # prepare file
+    os.system('cp %s %s/Snakefile' % (const.snakemake, work_dir))
+    mkdir('%s/log/align/' % work_dir,'%s/log/abund/' % work_dir)
+
+    commands.append('cp ../01.clean_reads/clean_reads.list .')
+    commands.append('## calculate abundance')
+    commands.append('source activate gutbio')
+    commands.append('snakemake --cluster-config cluster.yaml --cluster \'qsub -o {cluster.qsublog} -e {cluster.qsublog} -l vf={cluster.vf} -q {cluster.queue}\' -j 40 --nolock --config clean_reads_list=\'02.taxon/clean_reads.list\'')
+    commands.append('source deactivate')
+    return commands
+
+def taxon(config,outpath,name):
+    commands = []
+    work_dir = '%s/%s' % (os.path.dirname(config),name)
+
+    # get group summary
+    config_gene = ConfigParser()
+    config_gene.read(config)
+    group = list(filter(None,re.split('\s+|\t|,\s*|,\t+',config_gene.get('param','group'))))
+    sample_names = config_gene.get('param','sample_name')
+    raw_dir_name = config_gene.get('param','raw_dir_name')
+    alpha_group = config_gene.get('param','alpha_group')
+    with open(config_gene.get('param','batch_list')) as fqin:
+        for line in fqin:
+            tabs = line.strip().split()
+            if len(tabs)>1:
+                batch_num = tabs[0]
+    mkdir('%s/group' % work_dir)
+
+    commands.append('## form species profile')
+    commands.append('python %s/02_taxonomy.py -d . -c ../%s/qc_%s.stat.tsv' % (bin_dir, raw_dir_name, batch_num))
+    mkdir('%s/profile' % work_dir)
+    #for i,stage in enumerate(['species','genus','class','family','order','phylum','all']):
+    #    i += 2
+    #    commands.append('ls alignment/*/*%s.abundance | perl %s/201_profile - >profile/%s.profile' % (stage, bin_dir, stage))
+    #    commands.append('python %s/201_profile_convert.py -i profile/%s.profile -o profile/otu_table_L%d.txt' % (bin_dir, stage, i))
+    #commands.append('ls alignment/*/*species.abundance2 | perl %s/201_profile - >profile/species.profile2' % bin_dir)
+
+    commands.append('## reads use rate')
+    #commands.append('ls alignment/*/*.MATCH.logs >match_logs.list')
+    #commands.append('python %s/201_use_rate.py -i match_logs.list -o use_rate.stat.tsv -clean ../%s/qc_%s.stat.tsv' % (bin_dir, raw_dir_name, batch_num))
+    #commands.append('rm match_logs.list')
+
+    commands.append('## 00.piechart Need finish')
+    mkdir('%s/00.piechart' % work_dir)
+    commands.append('ls alignment/*/*species.abundance | while read a; do b=${a##*/}; perl %s/00.piechart/pie.pl < $a >00.piechart/${b%%.*}.pie.svg; done' % bin_dir)
+    commands.append('ls alignment/*/*genus.abundance |  while read a; do b=${a##*/}; perl %s/00.piechart/pie.pl < $a >00.piechart/${b%%.*}.pie.svg; done' % bin_dir)
+
+    sample_num_in_groups,min_sample_num_in_groups,sample_num_total,group_num=parse_group(sample_names)
+    commands.append('## 02.venn_flower')
+    vennf_dir = '02.venn_flower'
+    mkdir('%s/02.venn_flower' % work_dir)
+    if sample_num_total>=6 and sample_num_total<30:
+        commands.append('perl %s/02.taxon/7_flower.pl profile/species.profile %s %s/species/' % (bin_dir, sample_names, vennf_dir))
+        commands.append('perl %s/02.taxon/7_flower.pl profile/genus.profile %s %s/genus/' % (bin_dir, sample_names, vennf_dir))
+    elif sample_num_total>=2 and sample_num_total<6:
+        commands.append('python %s/02.taxon/7_venn_flower.py -i profile/species.profile -o %s -l species -g %s ' % (bin_dir, vennf_dir, sample_names))
+        commands.append('python %s/02.taxon/7_venn_flower.py -i profile/genus.profile -o %s -l genus -g %s ' % (bin_dir, vennf_dir, sample_names))
+    else:
+        commands.append('## sample too much')
+
+    commands.append('## 03.accumulate')
+    accum_dir = '03.accum_share'
+    mkdir('%s/03.accum_share' % work_dir)
+    commands.append('ln %s/profile/species.profile %s/species.profile' % (work_dir, accum_dir))
+    commands.append('ln %s/profile/genus.profile %s/genus.profile' % (work_dir, accum_dir))
+    commands.append('perl %s/03.accum/Accumulated_Shared_Curve.pl -p %s/genus.profile -c genus -t 100' % (bin_dir, accum_dir))
+    commands.append('perl %s/03.accum/Accumulated_Shared_Curve.pl -p %s/species.profile -c species -t 100' % (bin_dir, accum_dir))
+
+    commands.append('## 04.rarecurve')
+    rare_dir = '04.rarecurve'
+    mkdir('%s/04.rarecurve' % work_dir)
+    commands.append('ls alignment |while read a; do echo "python %s/204_rarefaction.py -i alignment/$a/$a.MATCH -o alignment/$a/ -m 1820252 -b 200 -n $a"; done >%s/04.rarecurve/rarefaction.sh' % (bin_dir, work_dir))
+    commands.append('sh %s/04.rarecurve/rarefaction.sh' % work_dir)
+    commands.append('rm %s/04.rarecurve/rarefaction.sh' % work_dir)
+    commands.append('paste alignment/*/rarefaction.txt >%s/all.rarefaction.tsv' % work_dir)
+    commands.append('Rscript %s/204_chao1.R %s/all.rarefaction.tsv %s %s/chao1.pdf %s/chao1.png' % (bin_dir, alpha_group, work_dir, rare_dir, rare_dir))
+    commands.append('#list alignment/*/*MATCH > 04.rarecurve/match.list; sed \'s/.*alignment\/\(.*\)\/.*MATCH/\\1/g\' 04.rarecurve/match.list | paste - 04.rarecurve/match.list >04.rarecurve/match.list.tmp; mv -f 04.rarecurve/match.list.tmp 04.rarecurve/match.list')
+    commands.append('#nohup perl /data_center_03/USER/zhongwd/rd/05_rarecurve/RareCurve/RareCurve.pl -s clean_reads_list -m 04.rarecurve/match.list -d 04.rarecurve &')
+
+# TODO: 07.treeplot
+    commands.append('## 07.treeplot')
+    tree_dir = '07.treeplot'
+    mkdir('%s/07.treeplot' % work_dir)
+    commands.append('cut -f1 ../01.clean_reads/clean_reads.list | while read a; do mkdir -p %s/$a; python %s/07.treeplot/treeplot.tax.py -i alignment/$a/$a.species.abundance -o %s/$a/; done' % (tree_dir, bin_dir, tree_dir))
+    commands.append('cut -f1 ../01.clean_reads/clean_reads.list | while read a; do cd %s/$a; perl %s/07.treeplot/treeplot.newwick.pl test.info test.tax >test.tre; python %s/07.treeplot/treeplot.plot.py test.tre test.info tree.pdf; cd -; done' % (tree_dir, bin_dir, bin_dir))
+
+    for subgroup in group:
+        grp_sh = []
+        mkdir('%s/group/%s' % (work_dir, subgroup))
+        os.system('cp %s/../material/%s_group.list %s/group/%s/group.list' % (work_dir, subgroup, work_dir, subgroup))
+        sample_num_in_groups,min_sample_num_in_groups,sample_num_total,group_num=parse_group('%s/group/%s/group.list' % (work_dir, subgroup))
+
+        grp_sh.append('## 01.barplot Need finish')
+        work_dir_203 = 'group/%s/01.barplot' % subgroup
+        mkdir('%s/%s' % (work_dir,work_dir_203))
+        grp_sh.append('%s/g01_barplot.py -t profile/ -o 01.barplot -g group.list' % bin_dir)
+        grp_sh.append('%s/g01_barplot.py -t profile/ -o 01.barplot -g group.list --level 7' % bin_dir)
+
+        grp_sh.append('## 02.venn_flower')
+        work_dir_204 = 'group/%s/02.venn_flower' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_204))
+        if group_num>=6 and group_num<30:
+            grp_sh.append('perl %s/g02_flower.pl profile/species.profile group.list 02.venn_flower' % bin_dir)
+            grp_sh.append('perl %s/g02_flower.pl profile/genus.profile group.list 02.venn_flower' % bin_dir)
+        elif group_num>=2 and group_num<6:
+            grp_sh.append('python %s/g02_venn_flower.py -i profile/genus.profile -o 02.venn_flower -l genus -g group.list --with_group ' % bin_dir)
+            grp_sh.append('python %s/g02_venn_flower.py -i profile/species.profile -o 02.venn_flower -l species -g group.list --with_group ' % bin_dir)
+        else:
+            grp_sh.append('## sample too much')
+
+        grp_sh.append('## 05.top_boxplot')
+        work_dir_207 = 'group/%s/05.top_boxplot' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_207))
+        grp_sh.append('python %s/g03_top_boxplot.py -i profile/all.profile -g group.list -o 05.top_boxplot' % bin_dir)
+
+        grp_sh.append('## 06.ternaryplot')
+        work_dir_208 = 'group/%s/06.ternaryplot' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_208))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a##*/}; Rscript %s/g04_ternary.R $a group.list 06.ternaryplot/${b%%%%.*}.ternary.pdf ${b%%%%.*}; done' % bin_dir)
+
+        grp_sh.append('## 08.top_barplot')
+        work_dir_210 = 'group/%s/08.top_barplot' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_210))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a##*/}; python %s/g05_sample_clustering.py -i $a -g group.list -o 08.top_barplot/${b%%%%.*}/ -t ${b%%%%.*}; done' % bin_dir)
+
+        grp_sh.append('## 09.pca')
+        work_dir_211 ='group/%s/09.pca' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_211))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a#*/}; Rscript %s/g06_pca.R $a group.list 09.pca/${b%%%%.*}.pca.pdf; done' % bin_dir)
+
+        grp_sh.append('##  10.pcoa')
+        work_dir_212 = 'group/%s/10.pcoa' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_212))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a##*/}; python %s/g07_pcoa.py -i $a -g group.list -o 10.pcoa/${b%%.*} --with_boxplot; done' % bin_dir)
+
+        grp_sh.append('## 11.nmds')
+        work_dir_213 = 'group/%s/11.nmds' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_213))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a##*/}; python %s/g08_nmds.py -i $a -g group.list -o 11.nmds/${b%%.*}; done' % bin_dir)
+
+        grp_sh.append('## 12.anosim')
+        work_dir_214 = 'group/%s/12.anosim' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_214))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a#*/}; python %s/t03_anosim.py -i $a -g group.list -o 12.anosim/${b%%.*}; done' % tool_dir)
+
+        grp_sh.append('## 13.mrpp')
+        work_dir_215 = 'group/%s/13.mrpp' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_215))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a##*/}; python %s/g10_mrpp.py -i $a -g group.list -o 13.mrpp/${b%%%%.*}; done')
+
+        grp_sh.append('## 14.diff')
+        work_dir_216 = 'group/%s/14.diff' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_216))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a##*/}; python %s/t01_diff.py -i $a -g group.list -o 14.diff/${b%%%%.*}; Rscript %s/t02_diff_two_log.R 14.diff/${b%%%%.*}/diff.marker.filter.profile.tsv group.list 14.diff/${b%%%%.*}/diff.marker.filter.tsv 14.diff/${b%%%%.*}/diff.pdf; done' % (tool_dir, tool_dir))
+
+        grp_sh.append('## 16.lefse')
+        work_dir_217 = 'group/%s/16.lefse/' % subgroup
+        mkdir('%s/%s' % (work_dir, work_dir_217))
+        grp_sh.append('ls profile/*.profile |while read a; do b=${a##*/}; python %s/g12_LEfSe.py -i $a -l /data_center_03/USER/huangy/soft/LEfSe_lzb -g group.list -o 16.lefse/${b%%%%.*} --LDA 2; done' % bin_dir)
+        with open('%s/group/%s/work.sh' % (work_dir, subgroup), 'w') as outf:
+            outf.write('\n'.join(grp_sh))
+    return commands

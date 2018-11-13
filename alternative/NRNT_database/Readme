@@ -1,0 +1,4 @@
+updata:20180812
+upload:
+/home/liangzb/.aspera/connect/bin/ascp -i /home/liangzb/.aspera/connect/etc/asperaweb_id_dsa.openssh -T -k1 -l10M anonftp@ftp-private.ncbi.nlm.nih.gov:/blast/db/FASTA/nt.gz /data_center_02/Database/NCBI_NTNR_180812
+/home/liangzb/.aspera/connect/bin/ascp -i /home/liangzb/.aspera/connect/etc/asperaweb_id_dsa.openssh -T -k1 -l10M anonftp@ftp-private.ncbi.nlm.nih.gov:/blast/db/FASTA/nr.gz  /data_center_02/Database/NCBI_NTNR_180812

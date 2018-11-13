@@ -1,0 +1,114 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- #
+__author__ = "huangy"
+__copyright__ = "Copyright 2016, The metagenome Project"
+__version__ = "1.0.0-dev"
+
+import os, re
+from  ConfigParser import ConfigParser
+from workflow.util.useful import mkdir,parse_group,rmdir_my,gettime,share_mothod,const
+
+bin_gene_profile_default_dir = "%s/06.gene_profile/" % const.bin_default_dir
+bin_cag_default_dir = "%s/CAG.V1.0" % const.bin_default_dir
+bin_mgs_default_dir = "%s/MGS.V2.0" % const.bin_default_dir
+tool_default_dir = const.tool_default_dir
+command_default = const.command_default
+
+def gene_profile_pre(config, name):
+    print gettime("start 06.gene_profile_pre")
+    commands = []
+    work_dir = '%s/%s' % (os.path.dirname(config), name)
+    mkdir(work_dir)
+    commands.append("cp %s/../01.clean_reads/clean_reads.list %s/clean_reads.list"\
+                    %(work_dir,work_dir))
+    commands.append("## build index")
+    mkdir("%s/database/"%work_dir)
+    commands.append("ln -s %s/../05.gene_catalog/gene_catalog.fna %s/database/"%(work_dir,work_dir))
+    commands.append("2bwt-builder %s/database/gene_catalog.fna"%work_dir)
+    commands.append("## calculate gene abundance")
+    commands.append("perl %s/geneabundance.pl %s/clean_reads.list database/gene_catalog.fna %s/../05.gene_catalog/gene_catalog.length %s/"\
+                    %(bin_gene_profile_default_dir,work_dir,work_dir,work_dir))
+
+    commands.append("/data_center_03/USER/zhongwd/bin/qsge --queue all.q --memery 10G --jobs 50 --prefix MA --lines 1 shell/match.sh")
+    commands.append("nohup /data_center_03/USER/zhongwd/bin/qsge --queue all.q --memery 10G --jobs 10 --prefix AB --lines 2 shell/abun.sh &")
+    print gettime("end 06.gene_profile_pre")
+    return commands
+def gene_profile(config, name):
+    print gettime("start 06.gene_profile")
+    commands = []
+    work_dir = '%s/%s' % (os.path.dirname(config), name)
+    commands.append("## calculate gene abundance")
+    commands.append("ls %s/alignment/*/*abundance |perl %s/profile.pl - > %s/gene.profile"\
+                    %(work_dir,tool_default_dir,work_dir))
+    commands.append("## 01.alpha diversity")
+    mkdir("%s/01.alpha_diversity/"%work_dir)
+    commands.append(command_default + "perl %s/shannon.pl %s/gene.profile %s/01.alpha_diversity/gene.alpha.div.tsv"\
+                    %(tool_default_dir,work_dir,work_dir))
+
+    config_gene = ConfigParser()
+    config_gene.read(config)
+    group = re.split("\s+|\t+|,\s*|,\t+",config_gene.get("param","group"))
+    mkdir("%s/group" % work_dir)
+    for subgroup_name in group:
+        subgroup = '%s/material/%s_group.list' % (os.path.dirname(config), subgroup_name)
+        sample_num_in_groups,min_sample_num_in_groups,sample_num_total,group_num=parse_group(subgroup)
+        work_dir_601 = "%s/group/%s/01.alpha_diversity"%(work_dir,subgroup_name)
+        mkdir(work_dir_601)
+        commands.append("## ----------------------------------%s----------------------"%(subgroup_name))
+        commands.append("##01.alpha diversity")
+        commands.append(command_default + "Rscript %s/gene.alpha.div.R %s/01.alpha_diversity/gene.alpha.div.tsv %s %s/gene.alpha.div.pdf"\
+                        %(bin_gene_profile_default_dir,work_dir,subgroup,work_dir_601))
+        commands.append("convert -density 300 %s/gene.alpha.div.pdf %s/gene.alpha.div.png"\
+                        %(work_dir_601,work_dir_601))
+        work_dir_602 = "%s/group/%s/02.anosim"%(work_dir,subgroup_name)
+        mkdir(work_dir_602)
+        commands.append("##02.anosim")
+        commands.append(command_default + "python %s/t04_anosim.py -i %s/gene.profile -g %s -o %s"\
+                            %(tool_default_dir,work_dir,subgroup,work_dir_602))
+        # commands.extend(share_mothod(tool_default_dir,work_dir,"gene.profile",subgroup,subgroup_name,\
+        #                              numlist=["02","03","04","05","06","07","08","09"]))
+
+        # commands.append("##03.LefSe")
+        # work_dir_603 = "%s/group/%s/03.LEfSe/" % (work_dir,subgroup_name)
+        # mkdir(work_dir_603)
+        # commands.append(command_default + "python %s/603_LEfSe.py -i %s/gene.profile -l /data_center_03/USER/huangy/soft/LEfSe_lzb -g %s -o %s --LDA 2"\
+        #                 %(bin_gene_profile_default_dir,work_dir,subgroup,work_dir_603))
+        #becose  Error: protect(): protection stack overflow
+
+        commands.append("##03.diff")
+        work_dir_603 = "%s/group/%s/03.diff" % (work_dir,subgroup_name)
+        mkdir(work_dir_603)
+        commands.append(command_default + "python %s/t08_diff.py -i %s/gene.profile -g %s -o %s/"\
+                        %(tool_default_dir,work_dir,subgroup,work_dir_603))
+        commands.append("##04.diff_boxplot")
+        commands.append(command_default + "python %s/t09_diff_boxplot.py -i %s/diff.marker.filter.profile.tsv -p %s/diff.marker.filter.tsv -g %s -o %s/diff_boxplot/"\
+                        %(tool_default_dir,work_dir_603,work_dir_603,subgroup,work_dir_603))
+        commands.append("## diff_qvalue")
+        commands.append("Rscript %s/qvalue.R %s/diff.marker.tsv %s/qvalue.pdf"\
+                        %(bin_gene_profile_default_dir,work_dir_603,work_dir_603))
+        commands.append("convert -density 300 %s/qvalue.pdf %s/qvalue.png"\
+                        %(work_dir_603,work_dir_603))
+
+        if sample_num_in_groups>5 and sample_num_total>20 and group_num==2:
+            work_dir_604 = "%s/group/%s/04.mgs"%(work_dir,subgroup_name)
+            mkdir(work_dir_604)
+            #os.system("cp %s/MGS.V2.0/MGS.cfg %s/MGS.cfg"%(const.bin_default_dir,work_dir_604))
+
+            commands.append("python %s/full_MGS.py -p %s/gene.profile -d %s -g %s --threshold 0"%\
+                            (bin_mgs_default_dir,work_dir,work_dir_604,subgroup))
+            mkdir("%s/taxonomy/"%work_dir_604)
+            commands.append("python %s/mgs_taxonomy.py -i %s/pathway/ -g %s/../05.gene_catalog/gene_catalog.fna -o %s/taxonomy/ --group %s"\
+                            %(bin_mgs_default_dir,work_dir_604,work_dir,work_dir_604,subgroup))
+            #TODO mgs
+        if sample_num_in_groups>5 and sample_num_total>20:
+            work_dir_605 = "%s/group/%s/05.cag" % (work_dir,subgroup_name)
+            mkdir(work_dir_605)
+            #os.system("cp %s/CAG.V1.0/CAG.cfg %s/CAG.cfg"%(const.bin_default_dir,work_dir_605))
+            commands.append("python %s/full_CAG.py -p %s/gene.profile -d %s -g %s "%\
+                            (bin_cag_default_dir,work_dir,work_dir_605,subgroup))
+            mkdir("%s/taxonomy"%work_dir_605)
+            commands.append("python %s/cag_taxonomy.py -i %s/outfile/cag -g %s/../05.gene_catalog/gene_catalog.fna -o %s/taxonomy/"\
+                            %(bin_cag_default_dir,work_dir_605,work_dir,work_dir_605))
+            #TODO cag
+    print gettime("end 06.gene_profile")
+    return commands

@@ -1,0 +1,251 @@
+p.paragraph {
+    text-align: left;
+    text-indent: 2em;
+    line-height: 1.5
+}
+
+.center {
+    text-align: center;
+}
+
+.center img {
+    cursor: pointer;
+}
+
+.item img {
+    cursor: pointer;
+}
+
+.center_table {
+	width: 80%;
+    margin: auto;
+}
+
+p.name_fig {
+    text-align: center;
+    line-height: 1.5;
+    font-size: 0.9em;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+p.name_table {
+	font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
+    text-align: center;
+    line-height: 1.5;
+    font-size: 1.5em;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+p.premark {
+    text-align: left;
+    line-height: 1.5;
+    font-size: 1.2em;
+    margin-left: 4em;
+    margin-right: 4em;
+}
+
+p.tremark {
+    text-align: left;
+    line-height: 1.5;
+    margin-left: 2em;
+    font-size: 1.2em;
+}
+
+
+
+img.size1 {
+    margin: 5px auto;
+    width: 495px;
+    padding: 0;
+}
+
+img.size2 {
+    margin: 5px auto;
+    width: 1000px;
+    padding: 0;
+}
+
+img.size3 {
+    height: 500px;
+    width: 500px;
+}
+
+img.size4 {
+    height: 500px;
+    width: 1000px;
+}
+
+img.size5 {
+    margin: 5px auto;
+    width: 800px;
+    padding: 0;
+}
+
+.page {
+    page-break-inside: avoid !important;
+}
+
+table, tr, td, th, tbody, thead, tfoot {
+    page-break-inside: avoid !important;
+}
+
+.error {
+    text-indent: 2em;
+    line-height: 1.5;
+    font-size: 2em;
+    color: red;
+}
+
+
+
+/* go 去顶部和底部*/
+.go {
+    width: 47px;
+    height: 106px;
+    background-color: #FFF;
+    position: fixed;
+    _position: absolute;
+    _top: expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||200)-(parseInt(this.currentStyle.marginBottom,10)||0)));
+    right: 12px;
+    bottom: 25%;
+    border-radius: 5px;
+    box-shadow: 0 0 2px #6E6E6E;
+    *border: solid 1px #ddd;
+}
+
+.go a {
+    background: url(../images2/retop.png) no-repeat;
+    display: block;
+    text-indent: 999em;
+    width: 37px;
+    margin: 5px;
+    border: 0;
+    overflow: hidden;
+    float: left
+}
+
+.go .top {
+    background-position: 4px 7px;
+    height: 22px
+}
+
+.go .top:hover {
+    background-position: -34px 7px;
+}
+
+.go .feedback {
+    background-position: 4px -18px;
+    height: 32px
+}
+
+.go .feedback:hover {
+    background-position: -34px -18px
+}
+
+.go .bottom {
+    background-position: 4px -56px;
+    height: 22px
+}
+
+.go .bottom:hover {
+    background-position: -34px -56px
+}
+
+
+
+.selected img {
+    opacity:0.5;
+    border: 1px solid orange;
+}
+.img-switch-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -85px 0 0 -18px;
+    width: 40px;
+    height: 72px;
+    background: url(../images2/slider_btn_icon.png) no-repeat 0 0;
+    background-position: 0px -88px;
+}
+.img-switch-btn2{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -85px 0 0 -18px;
+    width: 40px;
+    height: 72px;
+    background: url(../images2/slider_btn_icon.png) no-repeat 0 0;
+}
+.img-responsive-small{
+    display: block;
+    max-width: 8%;
+    height: auto;                        
+}
+.pull-left-self {
+    float: left !important;
+    margin-top: 10px;
+}
+
+/*coutoms_info*/
+.big_h1 {
+    font-size: 48px;
+
+}
+
+
+
+/*blank*/
+.blank {
+    height: 60px;
+}
+.blank-100 {
+	height:100px;
+}
+.blank-200 {
+	height: 200px;
+	}
+.blank-300 {
+	height: 300px;
+	}
+.blank-400 {
+	height: 400px;
+	}
+.blank-500 {
+	height: 500px;
+	}
+.blank-600 {
+    height: 600px;
+}
+.blank-700 {
+    height: 700px;
+}
+.blank-800 {
+    height: 800px;
+}
+.blank-1000 {
+	height: 1000px;
+}
+
+.table {
+    font-family: Calibri, Arial, Helvetica, sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.table td {
+    text-align: center;
+}
+.table th {
+    text-align: center;
+}
+
+/*table head color*/
+.th-inner{
+	background-color: #2068A6;
+}
+.bs-checkbox div{
+	background-color: #FFFFFF;
+}

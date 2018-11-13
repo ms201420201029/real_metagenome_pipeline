@@ -1,0 +1,355 @@
+#!/usr/bin/env perl
+use warnings;
+use strict;
+use Getopt::Long;
+use File::Basename 'dirname';
+use Cwd 'abs_path';
+#use Encode;
+
+## import parameters
+my ($Config_file, $Num_jobs, $Lines, $Queue, $Memery, $Prefix, $Help);
+#### default parameters
+my $Interval = 30;
+my $Max_job  = 200;
+   $Lines    = 1;
+   $Num_jobs = 30;
+   $Prefix   = "work";
+   $Memery   = "1G";
+   $Queue    = "all.q";
+#### get parameters
+GetOptions(
+	"config|c=s"  => \$Config_file,
+	"jobs|j=i"    => \$Num_jobs,
+	"lines|l=i"   => \$Lines,
+	"queue|q=s"   => \$Queue,
+	"memery|m=s"  => \$Memery,
+	"prefix|p=s"  => \$Prefix,
+	"help|h!"     => \$Help,
+);
+#### help
+&help unless scalar @ARGV == 1 and not defined $Help;
+#### global variables
+my $work_shell_file = shift;
+   $work_shell_file = abs_path($work_shell_file);
+#chdir dirname($work_shell_file);
+my $work_dir               = $work_shell_file . ".$$.qsub";
+#my $work_shell_file_log    = $work_shell_file . ".$$.log";
+my $work_shell_file_mem    = $work_shell_file . ".$$.mem";
+#my $work_shell_file_reqsub = $work_shell_file . ".$$.reqsub";
+my $work_shell_file_error  = $work_shell_file . ".$$.err.sh";
+my $work_shell_file_cfg    = $work_shell_file . ".$$.cfg" unless defined $Config_file;
+-e $work_dir or system("mkdir $work_dir");
+
+my @Wait;		## store the main file: $Shell[$i] = main_file_i
+my %Jobs;		## store the array file: $Job_array{$main_file[i]}[j] = main_file_i::sub_file_j
+my %Run;
+my %cfg;
+=pod
+# signal
+$SIG{INT} = sub {
+	foreach my $main_job_file (sort keys %Run){
+		foreach my $i (0 .. $#{$Jobs{$main_job_file}}){
+			my $sub_job_id = $Jobs{$main_job_file}[$i]{'jobid'};
+			system("qdel $sub_job_id");
+		}
+	}
+	exit 1;
+};
+=cut
+
+## main
+if (defined $Config_file){
+	`cp $Config_file $work_shell_file_cfg`;
+} else{
+	&make_cfg($work_shell_file_cfg, $Num_jobs, $Lines, $Queue, $Memery, $Prefix);
+}
+&split_file($work_shell_file, $Lines, $work_dir, $Prefix, \%Jobs);
+until (scalar @Wait == 0 and scalar keys %Run == 0){
+	sleep $Interval;
+	&count_get_mem(\%Run, \%Jobs);
+	&refresh_mem(\%Jobs);
+	&get_cfg(\%cfg, $work_shell_file_cfg);
+	next if $cfg{'State'} eq "Hold";
+	&kill_jobs(\%Run, \%Jobs) and last if $cfg{'State'} eq "Kill";
+	&run(\%Run, \@Wait, \%Jobs, \%cfg);
+	sleep 5;
+	&count_get_mem(\%Run, \%Jobs);
+	&refresh_mem(\%Jobs);
+#	&refresh_log(\%Jobs);
+}
+&check_log(\%Jobs, $work_shell_file_error);
+&refresh_mem(\%Jobs);
+
+## Sub Routine
+sub make_cfg {
+	my ($work_shell_file_cfg, $Num_jobs, $Lines, $Queue, $Memery, $Prefix) = @_;
+	open CFG, ">$work_shell_file_cfg" or die $!;
+	print CFG <<_CFG_;
+State\tRun
+Num_job\t$Num_jobs
+Lines\t$Lines
+Queue\t$Queue
+Memery\t$Memery
+Perfix\t$Prefix
+Rules
+_CFG_
+	foreach my $i (1 .. $Lines){
+		print CFG $i . "\t" . ($i-1) . "\n";
+	}
+	close CFG;
+}
+
+sub get_cfg {
+	my $cfg_p = shift;
+	my $work_shell_file_cfg = shift;
+	open CFG, "$work_shell_file_cfg" or die $!;
+	while (<CFG>) {
+		last if m/Rules/;
+		chomp;
+		@_ = split /\t/;
+		$cfg_p->{$_[0]} = $_[1];
+	}
+	while (<CFG>) {
+		chomp;
+		@_ = split /\t/;
+		$cfg_p->{'Rules'}[$_[0]] = [map {s/-/../g; eval} split /,/, $_[1]]; 
+	}
+	close CFG;
+}
+
+sub kill_jobs {
+	my $Run_p  = shift;
+	my $Jobs_p = shift;
+	foreach my $main_job_file (sort keys %{$Run_p}){
+		foreach my $i (0 .. $#{$Jobs_p->{$main_job_file}}){
+			my $sub_job_id = $Jobs_p->{$main_job_file}[$i]{'jobid'};
+			system("qdel $sub_job_id");
+		}
+	}
+	return 1;
+}
+
+sub run {
+	my $Run_p  = shift;
+	my $Wait_p = shift;
+	my $Jobs_p = shift;
+	my $cfg_p  = shift;
+	foreach (1 .. $cfg_p->{'Num_job'} - scalar keys %{$Run_p}){
+		my $main_job_file = shift @{$Wait_p};
+		last unless defined $main_job_file;
+		my @Resource  = &set_parameter(\%cfg);
+		my $qsub_cmd  = "qsub -cwd -S /bin/bash -terse -v PID=$$";
+		my @hold_jid = ("");
+		foreach my $i (0 .. $#{$Jobs{$main_job_file}}){
+			my $hold = "-hold_jid " . join ',', map {$hold_jid[$_]} @{$cfg_p->{'Rules'}[$i+1]};
+			   $hold = "" if $hold eq "-hold_jid ";
+			$hold_jid[$i+1] = `$qsub_cmd $Resource[$i] $hold -o $main_job_file.out.log -e $main_job_file.err.log $Jobs_p->{$main_job_file}[$i]{'file'}`;
+			chomp $hold_jid[$i+1];
+			$Jobs_p->{$main_job_file}[$i]{'jobid'}     = $hold_jid[$i+1];
+			$Jobs_p->{$main_job_file}[$i]{'condition'} = 'Wait';
+		}
+		$Run_p->{$main_job_file} = 1;
+	}
+}
+
+sub set_parameter{
+	my $cfg_p    = shift;
+	my $lines    = $cfg_p->{'Lines'};
+	my $resource = $cfg_p->{'Memery'};
+	my $queue    = $cfg_p->{'Queue'};
+	my @resource = split /:/, $resource;
+	my @queue    = split /:/, $queue;
+	my @parameter;
+	foreach my $i(0 .. $lines - 1){
+		my $j = $i % scalar @resource;
+		my $k = $i % scalar @queue;
+		$parameter[$i] = "-l vf=$resource[$j] -q $queue[$k]";
+	}
+	return @parameter;
+}
+
+sub count_get_mem {
+	my $Run_p  = shift;
+	my $Jobs_p = shift;
+	my %condition;
+	my %queue;
+	my @qstat  = readpipe("qstat");
+	shift @qstat;
+	shift @qstat;
+	foreach my $qstat_info (@qstat){
+		   $qstat_info =~ s/^\s*//g;
+		my @qstat_info =  split /\s+/, $qstat_info;
+		my $job_id     =  $qstat_info[0];
+		my $condition  =  $qstat_info[4];
+		my $queue      =  $qstat_info[7];
+		$condition{$job_id} = $condition;
+		$queue{$job_id}     = $queue if $queue =~ m/compute/;
+	}
+	foreach my $main_job_file (sort keys %{$Run_p}){
+		my $finish = 1;
+		foreach my $i (0 .. $#{$Jobs_p->{$main_job_file}}){
+			my $sub_job_id = $Jobs_p->{$main_job_file}[$i]{'jobid'};
+			if (not defined $condition{$sub_job_id}){
+				$Jobs_p->{$main_job_file}[$i]{'condition'} = 'Finish';
+			}elsif ($condition{$sub_job_id} eq "t" or $condition{$sub_job_id} eq "r"){
+				$Jobs_p->{$main_job_file}[$i]{'condition'} = 'Run';
+				my $qstat_info = readpipe("qstat -j $sub_job_id");
+				(my $memery) = $qstat_info =~ m/usage.*?(cpu.*?)\n/;
+				$Jobs_p->{$main_job_file}[$i]{'node'}      = $queue{$Jobs_p->{$main_job_file}[$i]{'jobid'}};
+				$Jobs_p->{$main_job_file}[$i]{'memery'}    = $memery;
+				$finish = 0;
+			}else {
+				$finish = 0;
+			}
+		}
+		delete $Run_p->{$main_job_file} if $finish == 1;
+	}
+}
+sub check_log {
+	my $Jobs_p = shift;
+	my $work_shell_file_error = shift;
+	open ERR, ">$work_shell_file_error" or die $!;
+	foreach my $main_job_file (sort keys %{$Jobs_p}){
+		my $error = 0;
+		my $error_file;
+		if (-e "$main_job_file.check.log"){
+			open JOB, "$main_job_file" or die $!;
+			open LOG, "$main_job_file.check.log" or die $!;	
+			while ( my $line     = <JOB>){
+				my $No_line  = $.;
+				my $log      = <LOG>;
+				   $log      = "" unless defined $log;
+				my $sub_file = $Jobs_p->{$main_job_file}[$No_line-1]{'file'};
+				   $error    = 1 unless $log =~ m/$sub_file Finish/;
+				if ($error == 1) {
+					$error_file .= "$line";
+					$Jobs_p->{$main_job_file}[$No_line-1]{'condition'} = 'Error';
+				}else {
+					$error_file .= "#$line";
+				}
+			}
+			close JOB;
+			close LOG;
+		}else {
+			$error = 1;
+			open JOB, "$main_job_file" or die $!;
+			while (<JOB>){
+				$error_file .= $_;
+				$Jobs_p->{$main_job_file}[$.-1]{'condition'} = 'Error';
+			}
+			close JOB;
+		}
+		print ERR $error_file if $error;
+	}
+	close ERR;
+}
+=pod
+sub refresh_log {
+	my $Jobs_p = shift;
+	my %tag;
+	$tag{'Wait'}   = encode("utf-8", "\x{25A1}");
+	$tag{'Run'}    = encode("utf-8", "\x{25ba}");
+	$tag{'Finish'} = encode("utf-8", "\x{25A0}");
+	$tag{'Error'}  = encode("utf-8", "\x{203C}");
+	open  LOG, ">$work_shell_file_log" or die $!;
+	print LOG  "Wait\:   $tag{'Wait'}\nRun\:    $tag{'Run'}\nFinish\: $tag{'Finish'}\nError\:  $tag{'Error'}\n";
+	print LOG  "File:\t$work_shell_file\nPath:\t$work_dir\n";
+	foreach my $main_job_file (sort keys %{$Jobs_p}){
+		print LOG "\t$main_job_file\t";
+		foreach my $i (0 .. $#{$Jobs_p->{$main_job_file}}){
+			print LOG " $tag{$Jobs_p->{$main_job_file}[$i]{'condition'}}";
+		}
+		print LOG "\n";
+	}
+	close LOG;
+}
+=cut
+sub refresh_mem {
+	my $Jobs_p = shift;
+	open  MEM, ">$work_shell_file_mem" or die $!;
+	print MEM  "File:\t$work_shell_file\nPath:\t$work_dir\t\n";
+	foreach my $main_job_file (sort keys %{$Jobs_p}){
+		print MEM "\t$main_job_file\n";
+		foreach my $i (0 .. $#{$Jobs_p->{$main_job_file}}){
+			my $sub_job_id   = "";
+			   $sub_job_id   = $Jobs_p->{$main_job_file}[$i]{'jobid'} if defined $Jobs_p->{$main_job_file}[$i]{'jobid'};
+			my $sub_job_file = $Jobs_p->{$main_job_file}[$i]{'file'};
+			my $sub_job_cond = $Jobs_p->{$main_job_file}[$i]{'condition'};
+			my $sub_job_node = "";
+			   $sub_job_node = $Jobs_p->{$main_job_file}[$i]{'node'} if defined $Jobs_p->{$main_job_file}[$i]{'node'};
+			my $sub_job_mem  = "";
+			   $sub_job_mem  = $Jobs_p->{$main_job_file}[$i]{'memery'} if defined $Jobs_p->{$main_job_file}[$i]{'memery'};
+			print MEM "$sub_job_id\t$sub_job_file\t$sub_job_cond\t$sub_job_node\t$sub_job_mem\n";
+		}
+	}
+	close MEM;
+}
+sub help{
+	print STDERR <<"__USAGE__" and exit 1;
+
+description:
+usage: perl $0 [options]
+options:
+	--config  -c <string>  the configure file, default is no configure file and based on other configure parameters.
+	--jobs    -j <integer> set maximum number of jobs to throw out, default [30].
+	--lines   -l <integer> set number of lines to form a job, default [1].      	
+	--queue   -q <string>  set queue to use. If set queue for each step, split by colon, default [all.q].
+	--memery  -m <string>  set memery to use. If set memery for each step, split by colon, default [1G].
+	--prefix  -p <string>  set prefix tag for jobs, default [work].
+	--help    -h <options> print this help infomation.
+e.g.:
+	nohup perl $0 --config work.cfg work.sh
+	or
+	nohup perl $0 --jobs 10 --lines 2 --queue all.q:big.q --memery 1G:5G --prefix work work.sh &
+
+__USAGE__
+}
+sub split_file {
+	my $work_shell_file    = shift;
+	my $Lines              = shift;
+	my $work_dir           = shift;
+	my $Prefix             = shift;
+	my $Jobs_p             = shift;
+	my $Line_mark          = 0;
+	my ($Line_num)         = readpipe("wc -l $work_shell_file") =~ m/^\s*([0-9]*)/;
+	my $Job_mark_digit     = &digit($Line_num / $Lines);
+	my $Job_mark           = sprintf("%0${Job_mark_digit}d", 1);
+	my $Sub_job_mark_digit = &digit($Lines);
+	my $Sub_job_mark       = sprintf("%0${Sub_job_mark_digit}d", 1);
+	open IN, "$work_shell_file" or die $!;
+	while(<IN>){
+		chomp;
+		s/;\s*$//;	##delete the last character ";", because two ";;" characters will cause error in qsub
+		s/;\s*;/;/g;
+		if ($Line_mark % $Lines == 0) {
+		open  OUT,">$work_dir/$Prefix\_$Job_mark.sh" or die $!;
+			print OUT "$_\n";
+			mkdir "$work_dir/$Prefix\_$Job_mark.sh.split";
+			push @Wait, "$work_dir/$Prefix\_$Job_mark.sh";
+		}else {
+			print OUT "$_\n";
+		}
+		open  SPT,">$work_dir/$Prefix\_$Job_mark.sh.split/$Prefix\_$Job_mark\_$Sub_job_mark.sh" or die $!;
+		print SPT "$_ && (echo -e $work_dir/$Prefix\_$Job_mark.sh.split/$Prefix\_$Job_mark\_$Sub_job_mark.sh Finish at \\\\c && date) >> $work_dir/$Prefix\_$Job_mark.sh.check.log\n";
+		close SPT;
+		$Jobs_p->{"$work_dir/$Prefix\_$Job_mark.sh"}[$Sub_job_mark-1]{'file'} = "$work_dir/$Prefix\_$Job_mark.sh.split/$Prefix\_$Job_mark\_$Sub_job_mark.sh";
+		$Jobs_p->{"$work_dir/$Prefix\_$Job_mark.sh"}[$Sub_job_mark-1]{'condition'} = "Wait";
+		$Sub_job_mark ++;
+		if ($Line_mark % $Lines == $Lines - 1) {
+			close OUT;
+			$Sub_job_mark = sprintf("%0${Sub_job_mark_digit}d", 1);
+			$Job_mark ++;
+		}
+		$Line_mark++;
+	}
+	close IN;
+	close OUT;
+}
+sub digit {
+	use POSIX;
+	my $max   = shift;
+	   $max   = ceil($max) + 1;
+	my $digit = log($max) / log(10);
+	   $digit = ceil($digit);
+}
+

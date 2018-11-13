@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+print "usage:\nblatshell db_list sq_list prefix\n" and exit unless scalar @ARGV == 3;
+open DB,"$ARGV[0]" or die $!;
+while (<DB>){
+	chomp;
+	push @db,$_;
+}
+close DB;
+open SQ,"$ARGV[1]" or die $!;
+while (<SQ>){
+	chomp;
+	push @sq,$_;
+}
+close SQ;
+-e "shell_blat" or `mkdir shell_blat`;
+-e "blat" or `mkdir blat`;
+$dir = `readlink -f blat`;
+$prefix = $ARGV[2];
+chomp $dir;
+open OUT,">shell_blat/${prefix}_blat.sh";
+foreach $sq(@sq){
+	foreach $db(@db){
+		@_ = split /\//, $sq;
+		$sqn = pop @_;
+		@_ = split /\//, $db;
+		$dbn = pop @_;
+		print OUT "blat $db $sq -noHead $dir/$sqn-$dbn\n";
+	}
+}
+close OUT;

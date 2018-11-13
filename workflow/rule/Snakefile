@@ -1,0 +1,137 @@
+__author__ = 'huangy 20160918'
+
+import os, sys, glob
+from snakemake.utils import makedirs
+
+configfile: "config.yaml"
+pipeDir = config['bin_dir']
+rulesDir = os.path.join(os.path.expanduser(config['bin_dir']),"alignBacterial","rules")
+include: os.path.join(rulesDir,"checkAlignErr.rules")
+include: os.path.join(rulesDir,"soapAlign.rules")
+include: os.path.join(rulesDir,"abundance.rules")
+NCBI_Bacteria = config["NCBI_Bacteria"]
+NCBI_Archaea = config["NCBI_Archaea"]
+NCBI_Fungi = config["NCBI_Fungi"]
+NCBI_Virus = config["NCBI_Virus"]
+clean_reads_list = config["clean_reads_list"]
+clean_reads_dir = config["clean_reads_dir"]
+outDir = config["outdir"]
+referencesGenome = config["references"].split(",")
+
+def get_references_name():
+    reflist = []
+    for temp in referencesGenome:
+        if temp == "Bacteria":
+            with open(NCBI_Bacteria,"r") as fq2:
+                for line in fq2:
+                    tabs = line.strip().split("\t")
+                    refname = os.path.splitext(os.path.basename(tabs[1]))[0]
+                    reflist.append(refname)
+        elif temp == "Archaea":
+            with open(NCBI_Archaea,"r") as fq3:
+                for line in fq3:
+                    tabs = line.strip().split("\t")
+                    refname = os.path.splitext(os.path.basename(tabs[1]))[0]
+                    reflist.append(refname)
+        elif temp == "Fungi":
+            with open(NCBI_Fungi,"r") as fq4:
+                for line in fq4:
+                    tabs = line.strip().split("\t")
+                    refname = os.path.splitext(os.path.basename(tabs[1]))[0]
+                    reflist.append(refname)
+        elif temp == "Virus":
+            with open(NCBI_Virus,"r") as fq5:
+                for line in fq5:
+                    tabs = line.strip().split("\t")
+                    refname = os.path.splitext(os.path.basename(tabs[1]))[0]
+                    reflist.append(refname)
+        else:
+            sys.stderr.write("references Genome err")
+    return reflist
+reflist = get_references_name()
+def get_sample(clean_reads_list,reflist):
+    samples_align=[]
+    with open(clean_reads_list,"r") as fq:
+        for line in fq:
+            tabs1 = line.strip().split("\t")
+            samples_align.append("%s/%s/%s.rm.logs"%(outDir,tabs1[0],tabs1[0]))
+    return samples_align
+
+def get_sample2(clean_reads_list):
+    with open(clean_reads_list,"r") as fq:
+            for line in fq:
+                tabs1 = line.strip().split("\t")
+                yield tabs1[0]
+
+def getinput(reflist,name):
+    input=[]
+    for tempRef in reflist:
+        if name=="PE":
+            input.append("%s/{sample}/{sample}__%s.pm"%(outDir,tempRef))
+        if name=="SE":
+            input.append("%s/{sample}/{sample}__%s.sm"%(outDir,tempRef))
+    return input
+
+
+def getinputall(reflist):
+    input=[]
+    for tempRef in reflist:
+        input.append("%s/{sample}/{sample}__%s.sm"%(outDir,tempRef))
+        input.append("%s/{sample}/{sample}__%s.pm"%(outDir,tempRef))
+        input.append("%s/{sample}/{sample}__%s.MATCH.log"%(outDir,tempRef))
+    return input
+
+samples_align =get_sample(clean_reads_list,reflist)
+rule all:
+    input: samples_align
+
+rule align:
+    input:
+        "%s/{sample}.1.fq.gz"%clean_reads_dir,
+        "%s/{sample}.2.fq.gz"%clean_reads_dir,
+        "/data_center_06/Database/Database_ls_20160826/{ref}.fasta"
+    output:
+        "%s/{sample}/{sample}__{ref}.pm"%outDir
+    shell: "/data_center_01/soft/soap/Soap2.22/soap2.22 -a {input[0]} -b {input[1]} -D {input[2]}.index -M 5 -o {output[0]} -2 /dev/null  -r 2 -p 1 -m 100 -x 1000 -S -t"
+
+rule check:
+    input:
+        pe = getinput(reflist,"PE")
+    output:
+        "%s/{sample}/{sample}.match.list"%outDir
+    run: 
+        with open(output[0],'w') as fqout:
+            for ttemp in input.pe:
+                    fqout.write("PE\t%s\n"%ttemp)
+
+rule abund:
+    input: "%s/{sample}/{sample}.match.list"%outDir
+    output: "%s/{sample}/{sample}.MATCH"%outDir
+    shell: "%s %s -i {input[0]} -o {output[0]} -t PE" % (config["python_version"], config["alignmet_parse"])
+
+rule abund_profile:
+    input: "%s/{sample}/{sample}.MATCH"%outDir
+    output: 
+        "%s/{sample}/{sample}.root.abundance"%outDir,
+        "%s/{sample}/{sample}.MATCH.logs"%outDir
+    shell: "%s %s -i {input[0]} -o {output[0]} -log {output[1]} " % (config["python_version"], config["species_abundance_profiler"])
+
+rule remove: 
+    input:
+        rmmatch = "%s/{sample}/{sample}.match.list"%outDir, 
+        o1="%s/{sample}/{sample}.MATCH"%outDir,
+        o2="%s/{sample}/{sample}.root.abundance"%outDir
+    output: "%s/{sample}/{sample}.rm.logs"%outDir,
+    run: 
+        with open(input.rmmatch,"r") as fq:
+            for ttemp in fq:
+                    tabs= ttemp.strip().split("\t")
+                    t = os.path.exists(tabs[1])
+                    if not t:
+                            raise TypeError("no have %s file!"%tabs[1])
+        with open(input.rmmatch,"r") as fq:
+            for ttemp in fq:
+                    tabs= ttemp.strip().split("\t")
+                    shell("rm %s "%tabs[1])
+            shell("touch %s"%output)
+

@@ -1,0 +1,38 @@
+<h3 id="基因多样性分析">3.3.7 基因多样性分析</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">基因在实验组与对照组中可能出现基因个数及丰富度有差异的现象。香农维纳指数与辛普森指数被用来表征微生物基因多样性。香农维纳指数：①种类数目，即丰富度；②种类中个体分配上的平均性(equitability)。种类数目多，可增加多样性；同样，种类之间个体分配的均匀性增加也会使多样性提高。如果每一个体都属于不同的种，多样性指数就最大；如果每一个体都属于同一种，则其多样性指数就最小。辛普森指数：随机取样的两个个体属于不同种的概率，群落中种数越多，各种个体分配越均匀，指数越高，指示群落多样性越好。</p>
+<p class="paragraph">计算公式如下：</p>
+<p class="paragraph">香农维纳指数</p>
+<p class="paragraph">辛普森指数</p>
+<p><B><a href="{{ path_table_sample_real }}">结果目录：{{ path_table_sample }}</a></B></p>
+<p><B>分析结果：</B></p>
+<p class="paragraph">下表为各样品的香农维纳指数与辛普森指数统计表：</p>
+<p class="name_table">表 3-19 基因多样性统计</p>
+<div class="center_table">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="success">
+            <th>Sample Name</th>
+            <th>Number Of Genes(#)</th>
+            <th>Shannon-wiener Index</th>
+            <th>Simpson Index</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sn, nog, swi, si in table_sample %}
+        <tr>
+            <td>{{ sn }}</td>
+            <td>{{ nog }}</td>
+            <td>{{ swi }}</td>
+            <td>{{ si }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p class="tremark">注：每列详细说明如下</p>
+<p class="tremark">1. Sample name：样品名称。</p>
+<p class="tremark">2. Number of genes：该样品中覆盖到基因集中基因的数目。</p>
+<p class="tremark">3. Shannon-wiener index：根据基因丰度表计算的香农维纳指数。</p>
+<p class="tremark">4. Simpson index：根据基因丰度表计算的辛普森指数。</p>
+

@@ -1,0 +1,166 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- #
+from __future__ import division
+__author__ = "huangy"
+__copyright__ = "Copyright 2016, The metagenome Project"
+__version__ = "1.0.0-dev"
+
+import re, os, time
+from string import Template
+from collections import OrderedDict
+import pandas as pd
+import shutil
+
+def gettime(strings):
+    return ("%s:%s s"%(strings,time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))))
+
+def cutcol_dataFrame(data,group):
+    data = pd.DataFrame.from_csv(data,sep="\t")
+    samples = parse_group_file(group).keys()
+    data.to_csv()
+    return data.loc[:,samples],parse_group_file(group)
+def rmdir_my(path):
+    if os.path.isdir(path):
+        shutil.rmtree(path)
+def mkdir(path):
+    if not os.path.isdir(path):
+        os.system("mkdir -p %s"%path)
+
+def parse_group(group_file):
+    sample_set = set()
+    group_set = {}
+    with open(group_file) as group:
+        for line in group:
+            sample_name,group_name = line.strip().split('\t')
+            if group_name not in group_set:
+                group_set[group_name] = set()
+            group_set[group_name].add(sample_name)
+            sample_set.add(sample_name)
+    sample_num_in_groups = map(lambda s: len(s), group_set.itervalues())
+    min_sample_num_in_groups = min(sample_num_in_groups)
+    sample_num_total = len(sample_set)
+    group_num = len(group_set)
+    return sample_num_in_groups, min_sample_num_in_groups, sample_num_total, group_num
+def get_name(path):
+    basename = os.path.basename(path)
+    dirname = os.path.split(path)[0]
+    filename = os.path.splitext(basename)[0]
+    suffix = os.path.splitext(basename)[1]
+    return dirname,filename,suffix
+def parse_group_file(file):
+    if file is None:
+        return None
+    group = OrderedDict()
+    with open(file) as g:
+        for line in g:
+            tabs = line.strip().split('\t')
+            if len(tabs) >= 2:
+                group[tabs[0]] = tabs[1]
+            else:
+                group[tabs[0]] = tabs[0]
+    return group
+
+
+
+
+class MyTemplate(Template):
+    delimiter = '@#'
+
+
+class Rparser(object):
+    def __init__(self):
+        self.template = None
+        self.R_script = None
+        self.file = None
+
+    def open(self, template):
+        fp = open(template)
+        template = fp.read()
+        fp.close()
+        self.template = MyTemplate(template)
+
+    def format(self, var):
+        self.R_script = self.template.safe_substitute(var)
+
+    def write(self, outfile):
+        fp = open(outfile, 'w')
+        fp.write(self.R_script)
+        self.file = outfile
+        fp.close()
+
+    def run(self):
+        os.system('R CMD BATCH --slave %(Rfile)s %(Rfile)sout' % {'Rfile': self.file})
+
+def image_trans(num,input,output):
+    os.system('convert -density %s %s %s' % (num,input,output))
+
+def Rrun(Rtxt):
+    os.system("R CMD BATCH --slave %s %sout"%(Rtxt,Rtxt))
+
+def share_mothod(tool_default_dir,work_dir,profile,subgroup,subgroup_name,numlist=None,level=None):
+    if numlist==None:
+        numlist=["01","02","03","04","05","06","07","08"]
+    if level==None:
+        work_dir_1 = "%s/group/%s/%s.pca/"%(work_dir,subgroup_name,numlist[0])
+        work_dir_2 = "%s/group/%s/%s.pcoa/"%(work_dir,subgroup_name,numlist[1])
+        work_dir_3 = "%s/group/%s/%s.nmds/"%(work_dir,subgroup_name,numlist[2])
+        work_dir_4 = "%s/group/%s/%s.anosim/"%(work_dir,subgroup_name,numlist[3])
+        work_dir_5 = "%s/group/%s/%s.mrpp/"%(work_dir,subgroup_name,numlist[4])
+        work_dir_6 = "%s/group/%s/%s.heatmap/"%(work_dir,subgroup_name,numlist[5])
+        work_dir_7_1 = "%s/group/%s/%s.flower/"%(work_dir,subgroup_name,numlist[6])
+        work_dir_7_2 = "%s/group/%s/%s.venn/"%(work_dir,subgroup_name,numlist[6])
+        work_dir_8 = "%s/group/%s/%s.wilcoxon_diff/"%(work_dir,subgroup_name,numlist[7])
+    else:
+        work_dir_1 = "%s/group/%s/%s.pca/%s/"%(work_dir,subgroup_name,numlist[0],level)
+        work_dir_2 = "%s/group/%s/%s.pcoa/%s/"%(work_dir,subgroup_name,numlist[1],level)
+        work_dir_3 = "%s/group/%s/%s.nmds/%s/"%(work_dir,subgroup_name,numlist[2],level)
+        work_dir_4 = "%s/group/%s/%s.anosim/%s/"%(work_dir,subgroup_name,numlist[3],level)
+        work_dir_5 = "%s/group/%s/%s.mrpp/%s/"%(work_dir,subgroup_name,numlist[4],level)
+        work_dir_6 = "%s/group/%s/%s.heatmap/%s/"%(work_dir,subgroup_name,numlist[5],level)
+        work_dir_7_1 = "%s/group/%s/%s.flower/%s/"%(work_dir,subgroup_name,numlist[6],level)
+        work_dir_7_2 = "%s/group/%s/%s.venn/%s/"%(work_dir,subgroup_name,numlist[6],level)
+        work_dir_8 = "%s/group/%s/%s.wilcoxon_diff/%s/"%(work_dir,subgroup_name,numlist[7],level)
+    commands = []
+    sample_num_in_groups,min_sample_num_in_groups,sample_num_total,group_num=parse_group(subgroup)
+    if sample_num_total>=5:
+        mkdir(work_dir_1)
+        commands.append("##pca")
+        commands.append("python %s/1_pca.py -i %s/%s -g %s -o %s "\
+                            %(tool_default_dir,work_dir,profile,subgroup,work_dir_1))
+        mkdir(work_dir_2)
+        commands.append("##pcoa")
+        commands.append("python %s/2_pcoa.py -i %s/%s -g %s -o %s"\
+                            %(tool_default_dir,work_dir,profile,subgroup,work_dir_2))
+    if min_sample_num_in_groups>=5:
+        mkdir(work_dir_3)
+        commands.append("##nmds")
+        commands.append("python %s/3_nmds.py -i %s/%s -g %s -o %s"\
+                            %(tool_default_dir,work_dir,profile,subgroup,work_dir_3))
+        mkdir(work_dir_4)
+        commands.append("##anosim")
+        commands.append("python %s/4_anosim.py -i %s/%s -g %s -o %s"\
+                            %(tool_default_dir,work_dir,profile,subgroup,work_dir_4))
+        mkdir(work_dir_5)
+        commands.append("##mrpp")
+        commands.append("python %s/5_mrpp.py -i %s/%s -g %s -o %s"\
+                        %(tool_default_dir,work_dir,profile,subgroup,work_dir_5))
+    mkdir(work_dir_6)
+    commands.append("##heatmap")
+    commands.append("python %s/6_heatmap.py -i %s/%s -g %s -o %s"\
+                        %(tool_default_dir,work_dir,profile,subgroup,work_dir_5))
+    if group_num>=6 and group_num<30:
+        mkdir(work_dir_7_1)
+        commands.append("##flower")
+        commands.append("perl %s/7_flower.pl %s/%s %s %s"\
+                        %(tool_default_dir,work_dir,profile,subgroup,work_dir_7_1))
+    elif group_num>=2 and group_num<6:
+        mkdir(work_dir_7_2)
+        commands.append("##venn")
+        commands.append("python %s/7_venn_flower.py -i %s/%s -o %s -g %s --with_group "%\
+                    (tool_default_dir,work_dir,profile,work_dir_7_2,subgroup))
+    if min_sample_num_in_groups>=5:
+        mkdir(work_dir_8)
+        commands.append("##diff")
+        commands.append("python %s/8_diff.py -i %s/%s -g %s -o %s"\
+                        %(tool_default_dir,work_dir,profile,subgroup,work_dir_8))
+    return commands

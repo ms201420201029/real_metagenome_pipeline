@@ -1,0 +1,45 @@
+<h1 id="项目流程">二、项目流程</h1>
+<h2 id="实验流程">2.1 实验流程</h2>
+<h3 id="建库测序流程">2.1.1 建库测序流程</h3>
+<p class="center">
+    <img height="500px" width="250px" src="images/2.1analysis_pipeline.png"/>
+</p>
+<p class="name_fig">图 2-1 建库测序流程图</p>
+<h3 id="流程说明">2.1.2流程说明</h3>
+<p class="paragraph"><B>DNA 抽提</B></p>
+<p class="paragraph">依据不同样本类型，使用相应的试剂盒进行抽提。</p>
+<p class="paragraph"><B>DNA 质检</B></p>
+<p class="paragraph">1%的琼脂糖凝胶电泳；Qubit检测基因组DNA浓度。</p>
+<p class="paragraph"><B>DNA 片段化</B></p>
+<p class="paragraph">将DNA打断成约500bp的片段。</p>
+<p class="paragraph">仪器：Bioruptar Pico</p>
+<p class="paragraph"><B>文库构建</B></p>
+<p class="paragraph">1) DNA片段末端修复和连接A碱基；</p>
+<p class="paragraph">2) 在DNA片段两端连接接头；</p>
+<p class="paragraph">3) 琼脂糖凝胶电泳进行片段筛选；</p>
+<p class="paragraph">4) PCR扩增和纯化；</p>
+<p class="paragraph">5) Agilent 2100检测文库大小，Q-PCR检测文库摩尔浓度；</p>
+<p class="paragraph">6) 氢氧化钠变性，产生单链 DNA 片段。</p>
+<p class="paragraph">试剂：NEBNext Ultra DNA Library Prep Kit for Illumina</p>
+<p class="paragraph"><B>Cluster簇生成</B></p>
+<p class="paragraph">1) DNA 片段的一端与引物碱基互补，固定在芯片flow cell上；</p>
+<p class="paragraph">2) 另一端随机与附近的另外一个引物互补，也被固定住，形成"桥 (bridge) "；</p>
+<p class="paragraph">3) PCR扩增，产生 DNA 簇；</p>
+<p class="paragraph">4) DNA 簇线性化成为单链。</p>
+<p class="paragraph">试剂：Truseq PE Cluster Kit v3-cBot-HS</p>
+<p class="paragraph"><B>Illumina HiSeq测序</B></p>
+<p class="paragraph">1) 在flow cell加入 DNA 聚合酶和4 种荧光标记的 dNTP，每次循环只掺入单种碱基；</p>
+<p class="paragraph">2) 激光扫描芯片flow cell表面，捕捉荧光信号，读取每条模板序列聚合上的核苷酸种类；</p>
+<p class="paragraph">3) 将"荧光基团"和"终止基团"化学切割，恢复3'端粘性，继续掺入第二轮单种碱基；</p>
+<p class="paragraph">4) 依次统计每轮收集到的荧光信号结果，获知模板DNA片段的序列。</p>
+<p class="paragraph">试剂：Truseq SBS Kit v3-HS </p>
+
+
+
+
+
+
+
+
+
+

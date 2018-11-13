@@ -1,0 +1,140 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- #
+__author__ = "huangy"
+__copyright__ = "Copyright 2016, The metagenome Project"
+__version__ = "1.0.0-dev"
+
+import os, re
+from configparser import ConfigParser
+from workflow.util.useful import mkdir,parse_group,rmdir_my,gettime,const
+
+bin_dir = '%s/03.assembly' % const.bin_default_dir
+
+#####################################################################################
+# 各个组装方法前准备
+def use_soapdenove_method(config, name):
+    print gettime('start create soapdenove step script')
+    commands = []
+    main_dir = os.path.dirname(config)
+    work_dir = '%s/%s/preprocess_for_assembly/soapdenove' % (main_dir, name)
+    mkdir(work_dir)
+    # prepare assembly file
+    config_gene = ConfigParser()
+    config_gene.read(config)
+    ins_list = config_gene.get("param","ins_list")
+    
+    commands.append("## assembly")
+    commands.append("cp %s/01.clean_reads/clean_reads.list %s/"%(main_dir,work_dir))
+    #commands.append("perl /data_center_03/USER/zhongwd/rd/12_soap_denovo/soapdenovo_shell_maker.pl -l clean_reads.list -i %s -minkmer 51 -maxkmer 63 -b 4 -d %s/"%( ins_list,work_dir))
+    commands.append("perl %s/soapdenovo_shell_maker.pl -l clean_reads.list -i %s -minkmer 51 -maxkmer 63 -b 4 -d %s/"%(bin_dir, ins_list,work_dir))
+    commands.append("nohup /data_center_03/USER/zhongwd/bin/qsge --queue big.q:all.q:all.q:all.q --memery 100G:5G:10G:3G --jobs 2 --lines 4 --prefix AS shell/assembly.sh &")
+    print gettime("end assembly_pre")
+    return work_dir, commands
+
+def use_megahit_version(config, name):
+    print gettime('start create megahit step script')
+    commands = []
+    main_dir = os.path.dirname(config)
+    work_dir = '%s/%s/preprocess_for_assembly/megahit' % (main_dir, name)
+    mkdir(work_dir)
+    # prepare assembly file
+    commands.append("## assembly")
+    commands.append("cp %s/01.clean_reads/clean_reads.list %s"%(main_dir,work_dir))
+    commands.append("perl %s/megahit_shell_maker.pl -l clean_reads.list -d %s" %(bin_dir, work_dir))  # 参考:/data_center_11/Project/wenpp/01.wujianrong_20180822/03.assembly/assembly_megahit
+    commands.append("nohup /data_center_03/USER/zhongwd/bin/qsge --queue neo.q --memery 30G --jobs 2 --lines 1 --prefix megahit shell/assembly.sh &")
+    print gettime("end assembly_pre")
+    return work_dir, commands
+
+
+def use_other_method(config, name):
+    print gettime('start create other step script')
+    commands = []
+    main_dir = os.path.dirname(config)
+    work_dir = '%s/%s/preprocess_for_assembly/other' % (main_dir, name)
+    mkdir(work_dir)
+    print 'This method is not complete,please select other method!'
+    return work_dir, commands
+
+
+def assembly_pre(config, name):
+    main_dir = os.path.dirname(config)
+    methods = ["soapdenove","megahit","other"]
+    for method in methods[:2]:
+        if method == "soapdenove":
+            dir, commands = use_soapdenove_method(config, name)
+        elif method == "megahit":
+            dir, commands = use_megahit_version(config, name)
+        elif method == "other":
+            dir, commands = use_other_method(config, name)
+        yield dir, commands
+
+        
+#####################################################################################
+# 各个组装方法
+
+def assembly_soapdenove(config, name):
+    print gettime("start 03.assembly soapdenove method")
+    commands = []
+    main_dir = os.path.dirname(config)
+    work_dir = '%s/%s/preprocess_for_assembly/soapdenove' % (main_dir, name)
+    # beginning assembly file
+    commands.append("## best contigs")
+    # commands.append('ls assembly/*/*/*scafSeq |while read a; do perl /data_center_06/Project/LiuLin-ascites-stool/03.assembly/bin/scaftigs.pl $a 500 ${a%%.*}.scaftigs.fna ${a%%.*}.scaftigs.stat; done')
+    commands.append('ls assembly/*/*/*scafSeq |while read a; do perl %s/scaftigs.pl $a 500 ${a%%.*}.scaftigs.fna ${a%%.*}.scaftigs.stat; done' % bin_dir)
+    commands.append("/data_center_03/USER/zhongwd/bin/list assembly/*/* >%s/list.txt" % work_dir)
+    commands.append("python %s/best_scaftigs_selecter.py -i %s/list.txt -o %s/best_scaftigs"%(bin_dir,work_dir,work_dir))
+    commands.append("rm %s/list.txt" % work_dir)
+    #commands.append("/data_center_03/USER/zhongwd/bin/list best_scaftigs/*stat | perl /data_center_07/Project/RY2015K16A01-1/03.assembly/bin/stat.pl >  %s/scaftigs.best.stat.tsv" % work_dir)
+    commands.append("/data_center_03/USER/zhongwd/bin/list best_scaftigs/*stat | perl %s/stat.pl >  %s/scaftigs.best.stat.tsv" % (bin_dir, work_dir))
+    commands.append("## histogram")
+    mkdir("%s/histogram/" % work_dir)
+    commands.append("ls best_scaftigs/*.scaftigs.fna | sed 's#best_scaftigs/\(.*\).fna#\\1#g' | while read a; do lengthfasta best_scaftigs/$a.fna >histogram/$a.length; done")
+    commands.append("ls histogram/*.scaftigs.length |while read a; do Rscript %s/scaftigs_length.R $a ${a%%.*}.histogram.pdf; done" % bin_dir)
+    commands.append("ls histogram/*.pdf |while read a; do convert -density 300 $a ${a%%.*}.png; done")
+    commands.append("## upload")
+    commands.append("ls best_scaftigs/*fna |while read a ; do gzip -c $a >${a%%.*}.fna.gz; done")
+    commands.append("md5sum best_scaftigs/*.gz > best_scaftigs/scaftigs.md5")
+    commands.append('ls best_scaftigs/*scaftigs.fna | while read a;do b=${a##*/};echo -e "${b%%.*}\\t`pwd $a`/$a";done > ../../scaftigs.list')
+    
+    print gettime("end 03.assembly")
+    return work_dir, commands
+
+def assembly_megahit(config, name):
+    print gettime("start 03.assembly megahit method")
+    commands = []
+    main_dir = os.path.dirname(config)
+    work_dir = '%s/%s/preprocess_for_assembly/megahit' % (main_dir, name)
+    # beginning assembly file
+    commands.append("## best contigs")
+    mkdir("%s/best_scaftigs/" % work_dir)
+    # commands.append('ls assembly/*/*final.contigs.fa |while read a; do b=${a%/*}; perl /data_center_06/Project/LiuLin-ascites-stool/03.assembly/bin/scaftigs.pl $a 500 best_scaftigs/${b##*/}.scaftigs.fna best_scaftigs/${b##*/}.scaftigs.stat; done')
+    #commands.append("/data_center_03/USER/zhongwd/bin/list best_scaftigs/*stat | perl /data_center_07/Project/RY2015K16A01-1/03.assembly/bin/stat.pl >  %s/scaftigs.best.stat.tsv" % work_dir
+    commands.append("ls assembly/*/*final.contigs.fa |while read a; do b=${a%%/*}; perl %s/scaftigs.pl $a 500 best_scaftigs/${b##*/}.scaftigs.fna best_scaftigs/${b##*/}.scaftigs.stat; done" % bin_dir)
+    commands.append("/data_center_03/USER/zhongwd/bin/list best_scaftigs/*stat | perl %s/stat.pl >  %s/scaftigs.best.stat.tsv" % (bin_dir, work_dir))
+    commands.append("## histogram")
+    mkdir("%s/histogram/" % work_dir)
+    commands.append("ls best_scaftigs/*.scaftigs.fna | sed 's#best_scaftigs/\(.*\).fna#\\1#g' | while read a; do /data_center_03/USER/zhongwd/bin/lengthfasta best_scaftigs/$a.fna >histogram/$a.length; done")
+    commands.append("ls histogram/*.scaftigs.length |while read a; do Rscript %s/scaftigs_length.R $a ${a%%.*}.histogram.pdf; done" % bin_dir)
+    commands.append("ls histogram/*.pdf |while read a; do convert -density 300 $a ${a%%.*}.png; done")
+    commands.append("## upload")
+    commands.append("ls best_scaftigs/*fna |while read a ; do gzip -c $a >${a%%.*}.fna.gz; done")
+    commands.append("md5sum best_scaftigs/*.gz > best_scaftigs/scaftigs.md5")
+    commands.append('ls best_scaftigs/*scaftigs.fna | while read a;do b=${a##*/};echo -e "${b%%.*}\\t`pwd $a`/$a";done > ../../scaftigs.list')
+    
+    print gettime("end 03.assembly")
+    return work_dir, commands
+
+
+
+def assembly(config, name):
+    main_dir = os.path.dirname(config)
+    methods = ["soapdenove","megahit","other"]
+    for method in methods[:2]:
+        if method == "soapdenove":
+            dir, commands = assembly_soapdenove(config, name)
+        elif method == "megahit":
+            dir, commands = assembly_megahit(config, name)
+        elif method == "other":
+            dir, commands = assembly_other(config, name)
+        yield dir, commands
+

@@ -1,0 +1,185 @@
+args <- commandArgs(T)
+pdf(args[3],height=10,width=10)
+layout(matrix(c(0,1,
+		2,2,
+		2,2,
+		2,2,
+		3,3),byrow=T,ncol=2))
+group<- read.table(args[1],stringsAsFactors=F)
+num <- ncol(group)
+argv = vector(mode="character",length=0)
+for(i in 1:num){argv[i] <-  group[1,i]}
+## Fig 1 color bar
+# Fig 1 data
+origin_dataD <- read.table(args[2], head = T, check.names = F)
+data <- sqrt(sqrt(sqrt(origin_dataD)))
+if(length(argv)==4){
+  A   <- read.table(argv[1],check.names = F)
+  B   <- read.table(argv[2],check.names = F)
+  C   <- read.table(argv[3],check.names = F)
+  D   <- read.table(argv[4],check.names = F)
+  A_in <- strsplit(argv[1],"\\/")[[1]]
+  B_in <- strsplit(argv[2],"\\/")[[1]]
+  C_in <- strsplit(argv[3],"\\/")[[1]]
+  D_in <- strsplit(argv[4],"\\/")[[1]]
+  a <- length(A_in)
+  b <- length(B_in)
+  c <- length(C_in)
+  d <- length(D_in)
+  A_line <- A_in[a]
+  B_line <- B_in[b]
+  C_line <- C_in[c]
+  D_line <- D_in[d]
+  A_name <- strsplit(A_line,"\\.")[[1]][1]
+  B_name <- strsplit(B_line,"\\.")[[1]][1]
+  C_name <- strsplit(C_line,"\\.")[[1]][1]
+  D_name <- strsplit(D_line,"\\.")[[1]][1]
+  A_num  <- which(colnames(data) %in% t(A))
+  B_num   <- which(colnames(data) %in% t(B))
+  C_num <- which(colnames(data) %in% t(C))
+  D_num  <- which(colnames(data) %in% t(D))
+  data  <- data[, c(A_num,B_num,C_num,D_num)]
+  max   <- max(data)
+#color <- grey((0:100)/100);
+  color <- rev(heat.colors(101))
+# Fig 1 draw
+  barplot(rep(1, 101), col = color, space = 0, border = NA, xaxt = "n", yaxt = "n", ylim = c(0,1))
+  label <- format(((0 : 4) / 4 * max) ^ 8, digit = 2, scentific = T)
+  axis(1, labels = label, at = ((0 : 4) / 4 * 101))
+## Fig 2 heatmap in discovery set
+# Fig 2 data
+  data_D = data[, c(A_num,B_num,C_num,D_num)]
+# Fig 2 draw
+  par(mar = c(0, 9, 0, 2))
+  image(1 : ncol(data_D), 1 : nrow(data_D), z = t(data_D), col = color, axe = F, xlab = "", ylab = "", zlim = c(0, max))
+  box()
+  mtext(paste0(ncol(data)," samples"),
+        side = 3, cex = 1.5, line = 1)
+  mtext(paste0("CAG\n",prettyNum(nrow(data),big.mark = ","),"\ngenes\n"),
+        side = 2, las = 1, adj = 0.5, line = 4, cex = 1.5)
+
+## Fig 4 bar for sample in discovery set
+# Fig 4 data
+  sample_D = c(rep(1, length(A_num)),rep(2, length(B_num)), rep(3, length(C_num)), rep(4, length(D_num)))
+  length_D = c(length(A_num),length(B_num), length(C_num), length(D_num))
+  center_D = cumsum(length_D) - length_D / 2
+# Fig 4 draw
+  par(mar = c(7, 9, 2, 2))
+  image(1 : length(sample_D), 1, z = as.matrix(sample_D), col = c("orange","lightblue", "bisque", "red"), axe = F, xlab = "", ylab = "", zlim = c(2,3))
+  text(labels = c(A_name,B_name,C_name,D_name), x = center_D, y = 1, cex = 2)
+  dev.off()
+}else if(length(argv)==3){
+  A   <- read.table(argv[1], check.names = F)
+  B   <- read.table(argv[2],  check.names = F)
+  C  <- read.table(argv[3],check.names = F)
+#  D   <- read.table(argv[4], check.names = F)
+  A_in <- strsplit(argv[1],"\\/")[[1]]
+  B_in <- strsplit(argv[2],"\\/")[[1]]
+  C_in <- strsplit(argv[3],"\\/")[[1]]
+#  D_in <- strsplit(argv[4],"\\/")[[1]]
+  a <- length(A_in)
+  b <- length(B_in)
+  c <- length(C_in)
+#  d <- length(D_in)
+  A_line <- A_in[a]
+  B_line <- B_in[b]
+  C_line <- C_in[c]
+#  D_line <- D_in[d]
+  A_name <- strsplit(A_line,"\\.")[[1]][1]
+  B_name <- strsplit(B_line,"\\.")[[1]][1]
+  C_name <- strsplit(C_line,"\\.")[[1]][1]
+# D_name <- strsplit(D_line,"\\.")[[1]][1]
+  A_num  <- which(colnames(data) %in% t(A))
+  B_num   <- which(colnames(data) %in% t(B))
+  C_num <- which(colnames(data) %in% t(C))
+#  D_num  <- which(colnames(data) %in% t(D))
+  data  <- data[, c(A_num,B_num,C_num)]
+  max   <- max(data)
+  #color <- grey((0:100)/100);
+  color <- rev(heat.colors(101))
+  # Fig 1 draw
+  barplot(rep(1, 101), col = color, space = 0, border = NA, xaxt = "n", yaxt = "n", ylim = c(0,1))
+  label <- format(((0 : 4) / 4 * max) ^ 8, digit = 2, scentific = T)
+  axis(1, labels = label, at = ((0 : 4) / 4 * 101))
+  
+  ## Fig 2 heatmap in discovery set
+  # Fig 2 data
+  data_D = data[, c(A_num,B_num,C_num)]
+  # Fig 2 draw
+  par(mar = c(0, 9, 0, 2))
+  image(1 : ncol(data_D), 1 : nrow(data_D), z = t(data_D), col = color, axe = F, xlab = "", ylab = "", zlim = c(0, max))
+  box()
+  mtext(paste0(ncol(data)," samples"),
+        side = 3, cex = 1.5, line = 1)
+  mtext(paste0("CAG\n",prettyNum(nrow(data),big.mark = ","),"\ngenes\n"),
+        side = 2, las = 1, adj = 0.5, line = 4, cex = 1.5)
+  
+  ## Fig 4 bar for sample in discovery set
+  # Fig 4 data
+  sample_D = c(rep(1, length(A_num)),rep(2, length(B_num)), rep(3, length(C_num)))
+  length_D = c(length(A_num),length(B_num), length(C_num))
+  center_D = cumsum(length_D) - length_D / 2
+  # Fig 4 draw
+  par(mar = c(7, 9, 2, 2))
+  image(1 : length(sample_D), 1, z = as.matrix(sample_D), col = c("lightblue", "bisque", "red"), axe = F, xlab = "", ylab = "", zlim = c(2,3))
+  text(labels = c(A_name,B_name,C_name), x = center_D, y = 1, cex = 2)
+  
+  dev.off()  
+}else if(length(argv)==2){
+  A   <- read.table(argv[1], check.names = F)
+  B   <- read.table(argv[2],  check.names = F)
+#  C  <- read.table(argv[3],check.names = F)
+  #  D   <- read.table(argv[4], check.names = F)
+  A_in <- strsplit(argv[1],"\\/")[[1]]
+  B_in <- strsplit(argv[2],"\\/")[[1]]
+#  C_in <- strsplit(argv[3],"\\/")[[1]]
+#  D_in <- strsplit(argv[4],"\\/")[[1]]
+  a <- length(A_in)
+  b <- length(B_in)
+#  c <- length(C_in)
+#  d <- length(D_in)
+  A_line <- A_in[a]
+  B_line <- B_in[b]
+#  C_line <- C_in[c]
+#  D_line <- D_in[d]
+  A_name <- strsplit(A_line,"\\.")[[1]][1]
+  B_name <- strsplit(B_line,"\\.")[[1]][1]
+#  C_name <- strsplit(C_line,"\\.")[[1]][1]
+#  D_name <- strsplit(D_line,"\\.")[[1]][1]
+  A_num  <- which(colnames(data) %in% t(A))
+  B_num   <- which(colnames(data) %in% t(B))
+#  C_num <- which(colnames(data) %in% t(C))
+  #  D_num  <- which(colnames(data) %in% t(D))
+  data  <- data[, c(A_num,B_num)]
+  max   <- max(data)
+  #color <- grey((0:100)/100);
+  color <- rev(heat.colors(101))
+  # Fig 1 draw
+  barplot(rep(1, 101), col = color, space = 0, border = NA, xaxt = "n", yaxt = "n", ylim = c(0,1))
+  label <- format(((0 : 4) / 4 * max) ^ 8, digit = 2, scentific = T)
+  axis(1, labels = label, at = ((0 : 4) / 4 * 101))
+  
+  ## Fig 2 heatmap in discovery set
+  # Fig 2 data
+  data_D = data[, c(A_num,B_num)]
+  # Fig 2 draw
+  par(mar = c(0, 9, 0, 2))
+  image(1 : ncol(data_D), 1 : nrow(data_D), z = t(data_D), col = color, axe = F, xlab = "", ylab = "", zlim = c(0, max))
+  box()
+  mtext(paste0(ncol(data)," samples"),
+        side = 3, cex = 1.5, line = 1)
+  mtext(paste0("CAG\n",prettyNum(nrow(data),big.mark = ","),"\ngenes\n"),
+        side = 2, las = 1, adj = 0.5, line = 4, cex = 1.5)
+  
+  ## Fig 4 bar for sample in discovery set
+  # Fig 4 data
+  sample_D = c(rep(1, length(A_num)),rep(2, length(B_num)))
+  length_D = c(length(A_num),length(B_num))
+  center_D = cumsum(length_D) - length_D / 2
+  # Fig 4 draw
+  par(mar = c(7, 9, 2, 2))
+  image(1 : length(sample_D), 1, z = as.matrix(sample_D), col = c("lightblue", "red"), axe = F, xlab = "", ylab = "", zlim = c(2,3))
+  text(labels = c(A_name,B_name), x = center_D, y = 1, cex = 2)
+  
+  dev.off()  
+}

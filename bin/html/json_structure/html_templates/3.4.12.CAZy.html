@@ -1,0 +1,39 @@
+<h3 id="基于CAZy碳水化合物活性酶数据库功能注释分析">3.4.12 基于CAZy碳水化合物活性酶数据库功能注释分析(高级分析)</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">CAZy全称为Carbohydrate-Active enZYmes Database，碳水化合物酶相关的专业数据 库，内容包括能催化碳水化合物降解、修饰、以及生物合成的相关酶系家族[12]。其包含四个主要分类：糖苷水解酶(GHs)、糖基转移酶(GTs)、 多糖裂解酶(PLs)和糖类酯解酶(CEs)。此外，还包含与碳水化合物结合结构域(CBMs)。碳水化合物活性酶(CAZyme)对地球上所有碳水化合物的合成、降解与修饰起重要作用，因此深入研究 CAZyme，对于了解微生物碳水化合物的代谢机制非常重要。将基因序列与CAZy数据库进行比对分析，能够得到碳水化合物活性酶类的物种来源，酶功能EC分类，基因、蛋白序列及蛋白结构的信息。</p>
+<p><B><a href="{{ path_table_real }}">结果目录：{{ path_table }}</a></B></p>
+<p><B>分析结果：</B></p>
+<div class="center_table">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="success">
+            <th>Gene ID</th>
+            <th>Category</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for gi, c, d in table %}
+        <tr>
+            <td>{{ gi }}</td>
+            <td>{{ c }}</td>
+            <td>{{ d }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p class="tremark">注：每列详细说明如下</p>
+<p class="tremark">1. Gene ID：基因序列名称；</p>
+<p class="tremark">2. Category：基因注释到的CAZy分类；</p>
+<p class="tremark">4. Description：具体CAZy功能注释。</p>
+<p><B><a href="{{ path_real }}">结果目录：{{ path }}</a></B></p>
+<p class="center"><img class="size2" src="{{ fig_3_42 }}"/></p>
+<p class="name_fig">图 3-45 CAZy各样本中不同的酶类型的相对丰度柱状图</p>
+<p class="center"><img class="size2" src="{{ fig_3_43 }}"/></p>
+<p class="name_fig">图 3-43 CAZy各样本中不同的分类的相对丰度柱状图。</p>
+<p class="premark">横坐标为不同样本，纵坐标为碳水化合物活性酶分类。 </p>
+<p class="center"><img class="size2" src="{{ fig_3_44 }}"/></p>
+<p class="name_fig">图 3-44 CAZy各样本中不同的酶的相对丰度柱状图。</p>
+<p class="premark">横坐标为不同样本，纵坐标为碳水化合物活性酶种类，不同颜色表示不同的的酶，色块的高度代表对应的平均丰度。</p>
+

@@ -1,0 +1,16 @@
+__default__:
+        vf: 5g
+        queue: all.q
+        qsublog: "/data_center_01/pipeline/gutMicrobiome_v1.0/snakemake/alignBacterial/log/" 
+align:
+        vf: 20g
+        queue: new.q,SJQ
+        qsublog: "/data_center_01/pipeline/gutMicrobiome_v1.0/snakemake/alignBacterial/log/align/"
+abund:
+        vf: 20g
+        queue: big.q,SJQ
+        qsublog: "/data_center_01/pipeline/gutMicrobiome_v1.0/snakemake/alignBacterial/log/abund/"
+abund_profile:
+        vf: 8g
+        queue: all.q,big.q
+        qsublog: "/data_center_01/pipeline/gutMicrobiome_v1.0/snakemake/alignBacterial/log/"

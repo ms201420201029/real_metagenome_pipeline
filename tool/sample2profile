@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+require "/data_center_03/USER/zhongwd/lib/math.pm";
+open IN, "$ARGV[1]" or die $!;
+#head 
+$_ = <IN>;
+chomp;
+@sample_arr = split /\t/;
+shift @sample_arr if $sample_arr[0] eq "";
+foreach $i (0 .. $#sample_arr) {
+	$sample_ind{$sample_arr[$i]} = $i;
+}
+
+#sample list
+open SA, "$ARGV[0]" or die $!;
+while (<SA>) {
+	chomp;
+	push @sample_list , $_;
+}
+close SA;
+@sample_ind = map {$sample_ind{$_}} @sample_list;
+
+#profile
+$head = "\t" . (join "\t", @sample_arr[@sample_ind]) . "\n";
+print $head;
+while (<IN>) {
+	chomp;
+	@_ = split /\t/;
+	$id = shift @_;
+	$abun = "$id\t" . (join "\t", @_[@sample_ind]) . "\n";
+	print $abun if sum(@_[@sample_ind]) != 0;
+}
+close IN;
