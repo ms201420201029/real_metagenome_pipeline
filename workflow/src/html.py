@@ -16,6 +16,9 @@ def html(config, sh_file, name):
     commands = []
     work_dir = '%s/' % (os.path.dirname(sh_file))
 
+    if glob.glob(work_dir+'/*'):
+        os.system('rm -rf %s/*' % work_dir)
+
     #获取分组名称
     config_gene = ConfigParser()
     config_gene.read(config)
