@@ -192,6 +192,11 @@ if __name__ == '__main__':
     output_dir   = params['output_dir']
     out_suffix = params['out_suffix']
 
+    if os.path.isdir(output_dir):
+        os.system('rm -rf %s/*' % output_dir)
+    else:
+        mkdir(output_dir)
+
     project_config = ConfigParser()
     project_config.read(params['project_config'])
     # 获取一个或多个工作路径的名称
