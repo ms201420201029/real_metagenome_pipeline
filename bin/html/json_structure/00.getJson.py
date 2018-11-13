@@ -150,7 +150,8 @@ if __name__ == '__main__':
                     key = tabs[0]
                     html_dict[group][key] = {}
 
-                elif not check_if_sample_enough([html_result_path+'/'+group+'/'+os.path.dirname(tabs[2])]):
+                # elif not check_if_sample_enough([html_result_path+'/'+group+'/'+os.path.dirname(tabs[2])]):
+                elif not check_if_sample_enough(['result/html/html_material/images/'+group+'/'+os.path.dirname(tabs[2])]):
                     print(tabs[2], 'sample_not_enough')
                     html_dict[group][key]['sample_not_enough'] = True
 
@@ -160,7 +161,7 @@ if __name__ == '__main__':
 
                     html_dict[group][key]['path'] = tabs[1]
                     html_dict[group][key]['path_real'] = '../result/result/'+tabs[1]
-                    html_dict[group][key][tabs[3]] = 'images/'+group+'/'+tabs[2]
+                    html_dict[group][key][tabs[3]] = 'result/html/html_material/images/'+group+'/'+tabs[2]
 
                 elif tabs[0] == 'figs':
                     if '#@group' in tabs[1]:
@@ -168,7 +169,7 @@ if __name__ == '__main__':
 
                     html_dict[group][key]['path'] = tabs[1]
                     html_dict[group][key]['path_real'] = '../result/result/'+tabs[1]
-                    html_dict[group][key]['figs'] = sorted(['images/'+group+'/'+os.path.dirname(tabs[2])+'/'+os.path.basename(fig) for fig in glob.glob('images/'+group+'/'+tabs[2])])
+                    html_dict[group][key]['figs'] = sorted(['result/html/html_material/images/'+group+'/'+os.path.dirname(tabs[2])+'/'+os.path.basename(fig) for fig in glob.glob('result/html/html_material/images/'+group+'/'+tabs[2])])
 
                 elif tabs[0] == 'table_sample':
                     # 涉及到sample的表格，需要对表格中的样品进行统一
@@ -180,7 +181,7 @@ if __name__ == '__main__':
                     html_dict[group][key]['path_table_sample'] = tabs[1]
                     html_dict[group][key]['path_table_sample_real'] = '../result/result/'+tabs[1]
                     fields = [field.strip() for field in tabs[4].strip().split(',')]
-                    table_sample = pd.read_csv('images/'+group+'/'+tabs[2], index_col=0, header=0, sep='\t')[fields].loc[html_dict[group]['samples']]
+                    table_sample = pd.read_csv('result/html/html_material/images/'+group+'/'+tabs[2], index_col=0, header=0, sep='\t')[fields].loc[html_dict[group]['samples']]
 
                     html_dict[group][key]['table_sample'] = []
                     for sample in table_sample.index:
@@ -194,8 +195,8 @@ if __name__ == '__main__':
                     html_dict[group][key]['path_table'] = tabs[1]
                     html_dict[group][key]['path_table_real'] = '../result/result/'+tabs[1]
                     fields = [field.strip() for field in tabs[4].strip().split(',')]
-                    print('images/'+group+'/'+tabs[2])
-                    table = pd.read_csv('images/'+group+'/'+tabs[2], index_col=None, header=0, sep='\t')[fields]
+                    # print('images/'+group+'/'+tabs[2])
+                    table = pd.read_csv('result/html/html_material/images/'+group+'/'+tabs[2], index_col=None, header=0, sep='\t')[fields]
 
                     html_dict[group][key]['table'] = []
                     for i in list(table.index)[:3 if table.shape[0] > 2 else table.shape[0]]:
@@ -211,7 +212,7 @@ if __name__ == '__main__':
                     html_dict[group][key]['path_otu'] = tabs[1]
                     html_dict[group][key]['path_otu_real'] = '../result/result/'+tabs[1]
 
-                    otu = pd.read_csv('images/'+group+'/'+tabs[2], index_col=None, header=0, sep='\t')
+                    otu = pd.read_csv('result/html/html_material/images/'+group+'/'+tabs[2], index_col=None, header=0, sep='\t')
                     otu = otu[[otu.keys()[0]]+html_dict[group]['samples']]
 
                     html_dict[group][key]['otu'] = []
