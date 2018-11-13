@@ -19,7 +19,7 @@ def html(config, sh_file, name):
     #获取分组名称
     config_gene = ConfigParser()
     config_gene.read(config)
-    groups = re.split("\s+|\t|,\t+|,\s*", config_gene.get("param","group"))
+    groups = re.split("\s+|\t|,\t+|,\s*", config_gene.get("html","group"))
     group_dir = config_gene.get("param","group_dir").strip()
 
     #准备配置文件
