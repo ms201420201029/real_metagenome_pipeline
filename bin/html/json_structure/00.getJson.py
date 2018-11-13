@@ -30,6 +30,8 @@ def read_params():
                         help='html的配置文件')
     parser.add_argument('-g', '--group_path', dest='group_path', metavar='dir', type=str, required=True,
                         help='分组文件所在文件夹')
+    parser.add_argument('-r', '--html_result_dir', dest='html_result_dir', metavar='html_result_dir', type=str, required=True,
+                        help='html结果文件文件夹')
     parser.add_argument('-o', '--output_json', metavar='output_json', dest='output_json', required=True, type=str,
                         help='输出json文件')
     args = parser.parse_args()
@@ -88,6 +90,7 @@ if __name__ == '__main__':
     h_config         = params['html_config']
     output           = params['output_json']
     group_path       = params['group_path']
+    html_result_path = params['html_result_dir']
 
     project_config = ConfigParser()
     project_config.read(params['project_config'])
