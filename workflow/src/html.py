@@ -54,8 +54,8 @@ def html(config, sh_file, name):
         commands.append("/data_center_01/home/mas/python3.6/bin/python3 %s/html_structure/cp_html_structure.py -c %s/html_structure/html_config/%s_html_structure -o %s/result/html/html_material/images/%s/"\
                         % (bin_html_default_dir, work_dir, group, work_dir, group))
 
-    commands.append("/data_center_01/home/mas/python3.6/bin/python3 %s/json_structure/00.getJson.py -p %s -c %s/json_structure/json_structure -g %s -o %s/json_structure/json_structure.json"\
-                    % (bin_html_default_dir, config, work_dir, group_dir, work_dir))
+    commands.append("/data_center_01/home/mas/python3.6/bin/python3 %s/json_structure/00.getJson.py -p %s -c %s/json_structure/json_structure -g %s -o %s/json_structure/json_structure.json -r %s/result/html/html_material/images/"\
+                    % (bin_html_default_dir, config, work_dir, group_dir, work_dir, work_dir))
     commands.append("/data_center_01/home/mas/python3.6/bin/python3 %s/json_structure/parse_html.py -j %s/json_structure/json_structure.json -t %s/json_structure/html_templates/ -o %s/result/html/"\
                     % (bin_html_default_dir, work_dir, bin_html_default_dir, work_dir))
 
