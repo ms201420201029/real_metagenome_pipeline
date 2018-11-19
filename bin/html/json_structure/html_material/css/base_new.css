@@ -27,6 +27,7 @@ p.name_fig {
     font-size: 0.9em;
     margin-left: 2em;
     margin-right: 2em;
+    font-weight: bold;
 }
 
 p.name_table {
