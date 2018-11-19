@@ -9,7 +9,7 @@ import os, re, sys, time, const, shutil, pandas as pd
 from string import Template
 from collections import OrderedDict
 
-const.main_dir = '/data_center_01/pipeline/real_metagenome/real_metagenome_v3.0.0/'
+const.main_dir = '/data_center_01/pipeline/real_metagenome/develop_real_metagenome_v3.0.0/liulf/real_metagenome_pipeline/'
 #const.main_dir = '%s/../..' % os.path.dirname(os.path.abspath(__file__))
 #const.config_default_dir = '%s/config' % const.main_dir
 #const.sh_default_dir = '%s/sh' % const.main_dir
