@@ -1,7 +1,7 @@
 <h2>3.2 物种注释与差异物种分析</h2>
 <h3 id="物种注释统计">3.2.1 物种注释统计</h3>
 <p><B>分析方法：</B></p>
-<p class="paragraph">首先，通过SOAPaligner(version 2.21)将Clean Reads与NCBI数据库中已知的细菌、真菌、病毒和古细菌序列构建的参考数据库进行序列比对[1]，比对参数为-m 4 -r 2 -m 100 -x 1000[2]，然后利用比对上的reads进行界(Kingdom)、门(Phylum)、纲(Class)、目(Order)、科(Family)、属(Genus)、种(Species)的分类和丰度统计，从而构建相应分类学水平上的taxonomy profile。</p>
+<p class="paragraph">首先，通过SOAPaligner(version 2.21)将Clean Reads与NCBI数据库中已知的细菌、真菌、病毒和古细菌序列构建的参考数据库进行序列比对<sup>[1]</sup>，比对参数为-m 4 -r 2 -m 100 -x 1000<sup>[2]</sup>，然后利用比对上的reads进行界(Kingdom)、门(Phylum)、纲(Class)、目(Order)、科(Family)、属(Genus)、种(Species)的分类和丰度统计，从而构建相应分类学水平上的taxonomy profile。</p>
 <p class="paragraph">其中单个样品各个物种丰度之和为1，即为各物种在样品中的相对丰度。</p>
 <p><B><a href="{{ path_table_sample_real }}">结果目录：{{ path_table_sample }}</a></B></p>
 <p><B>分析结果：</B></p>
@@ -58,5 +58,5 @@
         </tbody>
     </table>
 </div>
-<p class="tremark">注：上表和下表中第一列是物种名称，剩余各列是物种在各个样品中的丰度值。由于样品和物种较多，此处仅展示部分样品中的部分物种丰度，完整结果见附件中的对应文件。</p>
+<p class="tremark">注：上表和下表中第一列是物种名称，其余各列是物种在各个样品中的丰度值。由于样品和物种较多，此处仅展示部分样品中的部分物种丰度，完整结果见附件中的对应文件。</p>
 
