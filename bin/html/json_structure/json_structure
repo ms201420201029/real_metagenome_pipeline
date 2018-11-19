@@ -32,9 +32,9 @@ fig	02.taxonomy/00.pieplot/	3.2.2.taxon_pieplot/genus.pie.svg	fig_3_2_1
 fig	02.taxonomy/00.pieplot/	3.2.2.taxon_pieplot/species.pie.svg	fig_3_2_2
 
 # 3.2.3 多样品物种分析
-3.2.3.axon_barplot.html
+3.2.3.taxon_barplot.html
 fig	02.taxonomy/group/#@group/01.barplot/	3.2.3.axon_barplot/genus_barplot.png	fig_3_3_1
-fig	02.taxonomy/group/#@group/01.barplot/	3.2.3.taxon_barplot/species_barplot.png	fig_3_3_1
+fig	02.taxonomy/group/#@group/01.barplot/	3.2.3.taxon_barplot/species_barplot.png	fig_3_3_2
 
 # 3.2.4 核心物种统计分析
 3.2.4.taxon_venn_flower.html
