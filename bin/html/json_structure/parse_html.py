@@ -54,7 +54,7 @@ if __name__ == '__main__':
                    '3.1.2.qc_data_statistic.html',
                    '3.2.1.align_statictic.html',
                    '3.2.2.taxon_pieplot.html',
-                   '3.2.3.axon_barplot.html',
+                   '3.2.3.taxon_barplot.html',
                    '3.2.4.taxon_venn_flower.html',
                    '3.2.5.taxon_accum_share.html',
                    '3.2.6.taxon_top_boxplot.html',
