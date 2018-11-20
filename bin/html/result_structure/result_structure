@@ -108,6 +108,7 @@ dir	07.kegg/group/#@group/10.ko_lefse/path_barplot/	07.kegg/group/#@group/10.ko_
 file	07.kegg/group/#@group/10.ko_lefse/pathway/707_compare.txt	07.kegg/group/#@group/10.ko_lefse/pathway/707_compare.txt
 dir	07.kegg/group/#@group/10.ko_lefse/detail_pathway/*_map/	07.kegg/group/#@group/10.ko_lefse/detail_pathway/
 dir	07.kegg/group/#@group/12.functional_barplot/	07.kegg/group/#@group/12.functional/
+dir	07.kegg/12.functional_barplot/	07.kegg/group/#@group/12.functional/
 dir	07.kegg/group/#@group/13.functional_clust/	07.kegg/group/#@group/13.functional_clust/
 dir	07.kegg/group/#@group/14.ROC/	07.kegg/group/#@group/14.ROC/
 08.eggnog/
@@ -122,6 +123,7 @@ file	10.MGS/#@group/taxonomy/group.tax.tsv	10.MGS/#@group/taxonomy/group.tax.tsv
 dir	11.CAG/#@group/outfile/	11.CAG/#@group/outfile/
 file	11.CAG/#@group/taxonomy/group.tax.tsv	11.CAG/#@group/taxonomy/group.tax.tsv
 12.cazy/
+file	12.cazy/cazy.anno.tsv	12.cazy/cazy.anno.tsv
 dir	12.cazy/12.functional_barplot/	12.cazy/12.functional_barplot/
 dir	12.cazy/group/#@group_group/02.heatmap/	12.cazy/group/#@group/02.heatmap/
 dir	12.cazy/group/#@group_group/03.pca/	12.cazy/group/#@group/03.pca/
