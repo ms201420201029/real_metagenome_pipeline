@@ -1,5 +1,5 @@
 p.paragraph {
-    text-align: left;
+    text-align: justify;
     text-indent: 2em;
     line-height: 1.5
 }
@@ -24,16 +24,17 @@ p.paragraph {
 p.name_fig {
     text-align: center;
     line-height: 1.5;
-    font-size: 0.9em;
+    font-size: 16px;;
     margin-left: 2em;
     margin-right: 2em;
+    font-weight: bold;
 }
 
 p.name_table {
 	font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
     text-align: center;
     line-height: 1.5;
-    font-size: 1.5em;
+    font-size: 16px;
     margin-left: 2em;
     margin-right: 2em;
 }
@@ -41,16 +42,18 @@ p.name_table {
 p.premark {
     text-align: left;
     line-height: 1.5;
-    font-size: 1.2em;
-    margin-left: 4em;
-    margin-right: 4em;
+    text-indent: 2em;
+    font-size: 16px;
+    margin-left: 0em;
+    margin-right: 0em;
 }
 
 p.tremark {
     text-align: left;
     line-height: 1.5;
-    margin-left: 2em;
-    font-size: 1.2em;
+    text-indent: 2em;
+    margin-left: 0em;
+    font-size: 16px;
 }
 
 
