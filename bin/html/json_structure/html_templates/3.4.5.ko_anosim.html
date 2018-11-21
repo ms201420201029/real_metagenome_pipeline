@@ -1,0 +1,15 @@
+<h3 id="KO的Anosim分析">3.4.5 KO的Anosim分析(组内样品数≥5)</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">Anosim分析又称为相似性分析，是一种非参数检验，用来检验组间(两组或多组)的差异是否显著大于组内差异，从而判断分组是否有意义。首先利用Bray-Curtis算法计算两两样品间的距离，然后将所有距离从小到大进行排序，并计算R值，之后将样品进行置换，重新计算R*值，R*值大于R的概率即为P值。计算过程由R语言的vegan包</p>
+{% if sample_not_enough == True %}
+	<p><B>结果目录：</B></p>
+	<p><B>分析结果：</B></p>
+    <p class="paragraph">样本数不足，无法完成此项分析！</p>
+{% else %}
+    <p><B><a href="{{ path_real }}">结果目录：{{ path }}</a></B></p>
+    <p><B>分析结果：</B></p>
+    <p class="center"><img class="size2" src="{{ fig_3_28 }}"/></p>
+    <p class="name_fig">图 3-28组间与组内距离箱线图</p>
+    <p class="premark">横坐标代表组的类别，纵坐标代表样品之间的距离。图中共有N+1个箱线图，N为分组数量，最右边的箱线图指的是分组之间的差异，其它箱线图代表组内差异。</p>
+{% endif %}
+

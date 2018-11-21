@@ -1,0 +1,46 @@
+<h2 id="基于KEGG数据库功能注释统计">3.4 功能注释分析</h2>
+<h3>3.4.1 基于KEGG数据库功能注释分析</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">KEGG(Kyoto Encyclopedia of Genes and Genomes，京都基因和基因组百科全书，http://www.genome.jp/kegg/)是基因组破译方面的数据库，是一个整合了基因组、化学和系统功能信息的数据库<sup>[10]</sup>。各个数据库中包含了大量的有用信息：基因组信息存储在GENES数据库里，包括完整和部分测序的基因组序列；更高级的功能信息存储在PATHWAY数据库里，包括图解的细胞生化过程如代谢、膜转运、信号传递、细胞周期，还包括同系保守的子通路等信息。与其他数据库相比，KEGG的一个显著特点就是具有强大的图形功能，它利用图形而不是文字来介绍众多的代谢途径以及各途径之间的关系，这样可以使研究者能够对其所要研究的代谢途径有一个直观全面的了解，KEGG 数据库中丰富的通路信息将有助于我们从系统水平去了解基因的生物学功能。</p>
+<p class="paragraph">运用 BLAST(BLAST Version 2.2.28+，http://blast.ncbi.nlm.nih.gov/Blast.cgi)将基因集与 KEGG 的基因数据库(GENES)进行比对，然后进行后续分析。并根据KEGG数据库得到的KO注释信息，累加对应的基因丰度，得到KO丰度表。</p>
+<p><B><a href="{{ path_table_real }}">结果目录：{{ path_table }}</a></B></p>
+<p><B>分析结果：</B></p>
+<p class="paragraph">下表为部分Gene关于KEGG数据库的注释结果：</p>
+<p class="name_table">表3-23 基因集部分基因KEGG注释结果</p>
+<div class="center_table">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="success">
+            <th>Gene ID</th>
+            <th>Entry</th>
+            <th>Gene Name</th>
+            <th>Definition</th>
+            <th>KO</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for gi, e, gn, d, k in table %}
+        <tr>
+            <td>{{ gi }}</td>
+            <td>{{ e }}</td>
+            <td>{{ gn }}</td>
+            <td>{{ d }}</td>
+            <td>{{ k }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<p class="tremark">注：每列详细说明如下</p>
+<p class="tremark">1. Gene ID：基因序列名称；</p>
+<p class="tremark">2. Entry：基因注释到的KEGG数据库中基因编号；</p>
+<p class="tremark">3. Gene Name：基因注释到的基因名称；</p>
+<p class="tremark">4. Definition：基因的具体功能注释与定义。</p>
+<p class="tremark">5. KO：基因在KEGG数据库中的KO编号。</p>
+
+<p class="paragraph">下图为各类功能在基因集中数目与比例统计图：</p>
+<p class="center"><img class="size2" src="{{ fig_3_25 }}"/></p>
+<p class="name_fig">图 3-32基因集的KEGG注释结果分类统计</p>
+<p class="premark">纵坐标为KEGG代谢通路的名称，横坐标为注释到该通路下的基因个数及其个数占被注释上的基因总数的比例</p>
+

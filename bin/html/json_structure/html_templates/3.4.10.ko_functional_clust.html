@@ -1,0 +1,16 @@
+<h3 id="优势KEGG功能聚类分析">3.4.10 优势KEGG功能聚类分析(总样品数≥5)</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">为了研究不同样品的相似性，还可以通过对样品进行聚类分析，构建样品的聚类树。Bray-Curtis 距离是系统聚类法中使用最普遍的一个距离指标，它主要用来刻画样品间的相近程度，它的大小是进行样品分类的主要依据。</p>
+<p class="paragraph">基于KEGG功能丰度表，以 Bray-Curtis 方法计算距离矩阵，进行样品间聚类分析，并将聚类结果与各样品在各数据库第一层级上的功能相对丰度整合展示。</p>
+{% if sample_not_enough == True %}
+    <p><B>结果目录：</B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">样本数不足，无法完成此项分析！</p>
+{% else %}
+    <p><B><a href="{{ path_real }}">结果目录：{{ path }}</a></B></p>
+    <p><B>分析结果：</B></p>
+    <p class="center"><img class="size2" src="{{ fig_3_40 }}"/></p>
+    <p class="name_fig">图 3-40优势KEGG功能聚类树状图</p>
+    <p class="premark">树状图的分支颜色代表该分支的分类，高度代表分支之间的距离，距离越近分支分叉的高度越低。柱状图展现了所有样品中平均丰度最高的前10种物种的丰度</p>
+{% endif %}
+

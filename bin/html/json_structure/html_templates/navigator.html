@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>锐翌基因</title>
+    <link href="html_material/images/label.png" rel="shortcut icon"/>
+    <link rel="stylesheet" type="text/css" href="html_material/css/base_new.css">
+    <link rel="stylesheet" href="html_material/css/style.css"/>
+    <!-- Core JavaScript Files -->
+    <script type="text/javascript" src="html_material/js/jquery.min.js"></script>
+    <script type="text/javascript" src="html_material/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="html_material/js/table.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script type="text/javascript" src="html_material/js/custom.js"></script>
+    <!-- Bootstrap Core CSS -->
+    <link href="html_material/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <!-- Squad theme CSS -->
+    <link href="html_material/css/style2.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="html_material/js/table/bootstrap-table.min.css">
+    <!-- table css and js -->
+    <script type="text/javascript" src="html_material/js/table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="html_material/js/table/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="html_material/js/table/bootstrap-table-filter-control.js"></script>
+    <script type="text/javascript" src="html_material/js/table/bootstrap-table-export.js"></script>
+    <script type="text/javascript" src="html_material/js/table/tableExport.js"></script>
+    <script language="Javascript">
+        $(document).ready(function () {
+            $(".center img").on("click", function () {
+                window.open(this.src.replace("png", "pdf"));
+            });
+            $(".item img").on("click", function () {
+                window.open(this.src.replace("png", "pdf"));
+            });
+        });
+        function StartExcel(strAllName) {
+            var oExcel;
+            var oWorkbook;
+            if (strAllName == null || strAllName == "") {
+                alert("不存在表格");
+                return;
+            }
+            if (window.ActiveXObject) {
+                oExcel = new ActiveXObject("Excel.Application");
+            } else {
+                //      alert("建议使用IE浏览器");
+                window.open(strAllName, "_blank")
+                return;
+            }
+            oExcel.Workbooks.Open(strAllName);
+            //  oExcel.DisplayAlerts = false;
+            oExcel.Visible = true;
+            //  oExcel.Quit();
+        }
+    </script>
+</head>
+<body class="easyui-layout">
+
+<nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
+    <div class="container" style="width:1470px">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="LOGO.png">
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#项目信息" class="cs-navi-tab">项目信息</a></li>
+                <li class="active"><a href="#项目流程" class="cs-navi-tab">项目流程</a></li>
+                <li class="dropdown">
+                    <a href="#数据质控" class="dropdown-toggle" data-toggle="dropdown">数据质控<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#原始数据统计" class="cs-navi-tab">3.1.1 原始数据统计</a></li>
+                        <li><a href="#质控(QC)数据统计" class="cs-navi-tab">3.1.2 质控(QC)数据统计</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#物种注释与差异物种分析" class="dropdown-toggle" data-toggle="dropdown">物种注释与差异物种分析<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#物种注释统计" class="cs-navi-tab">3.2.1 物种注释统计</a></li>
+                        <li><a href="#单样品物种组成分析" class="cs-navi-tab">3.2.2 单样品物种组成分析</a></li>
+                        <li><a href="#多样品物种分析" class="cs-navi-tab">3.2.3 多样品物种分析</a></li>
+                        <li><a href="#核心物种统计分析" class="cs-navi-tab">3.2.4 核心物种统计分析</a></li>
+                        <li><a href="#物种累积曲线" class="cs-navi-tab">3.2.5 物种累积曲线</a></li>
+                        <li><a href="#优势物种分析" class="cs-navi-tab">3.2.6 优势物种分析</a></li>
+                        <li><a href="#三角Ternary图" class="cs-navi-tab">3.2.7 三角Ternary图</a></li>
+                        <li><a href="#单样品优势物种分类树" class="cs-navi-tab">3.2.8 单样品优势物种分类树</a></li>
+                        <li><a href="#优势物种聚类分析" class="cs-navi-tab">3.2.9 优势物种聚类分析</a></li>
+                        <li><a href="#主成分分析" class="cs-navi-tab">3.2.10 主成分分析</a></li>
+                        <li><a href="#主坐标分析" class="cs-navi-tab">3.2.11 主坐标分析</a></li>
+                        <li><a href="#非度量多维尺度分析" class="cs-navi-tab">3.2.12 非度量多维尺度分析</a></li>
+                        <li><a href="#物种Anosim分析" class="cs-navi-tab">3.2.13 物种Anosim分析</a></li>
+                        <li><a href="#物种Adonis分析" class="cs-navi-tab">3.2.14 物种Adonis分析</a></li>
+                        <li><a href="#物种MRPP分析" class="cs-navi-tab">3.2.15 物种MRPP分析</a></li>
+                        <li><a href="#物种秩和检验差异分析" class="cs-navi-tab">3.2.16 物种秩和检验差异分析</a></li>
+                        <li><a href="#物种LEfSe差异分析" class="cs-navi-tab">3.2.17 物种LEfSe差异分析</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#基因集构建与差异基因分析" class="dropdown-toggle" data-toggle="dropdown">基因集构建与差异基因分析 <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#序列拼接组装" class="cs-navi-tab">3.3.1 序列拼接组装</a></li>
+                    <li><a href="#基因预测" class="cs-navi-tab">3.3.2 基因预测</a></li>
+                    <li><a href="#基因集构建" class="cs-navi-tab">3.3.3 基因集构建</a></li>
+                    <li><a href="#基因丰度表" class="cs-navi-tab">3.3.4 基因丰度表</a></li>
+                    <li><a href="#CAG分析" class="cs-navi-tab">3.3.5 CAG分析</a></li>
+                    <li><a href="#基因Anosim分析" class="cs-navi-tab">3.3.6 基因Anosim分析</a></li>
+                    <li><a href="#基因多样性分析" class="cs-navi-tab">3.3.7 基因多样性分析</a></li>
+                    <li><a href="#基因秩和检验差异分析" class="cs-navi-tab">3.3.8 基因秩和检验差异分析</a></li>
+                    <li><a href="#差异基因聚类分析" class="cs-navi-tab">3.3.9 差异基因聚类分析</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#功能注释分析" class="dropdown-toggle" data-toggle="dropdown">功能注释分析 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#基于KEGG数据库功能注释统计" id="raw_data" class="cs-navi-tab">3.4.1 基于KEGG数据库功能注释统计</a></li>
+                        <li><a href="#KO丰度统计" class="cs-navi-tab">3.4.2 KO丰度统计</a></li>
+                        <li><a href="#优势KO热图分析" class="cs-navi-tab">3.4.3 优势KO热图分析</a></li>
+                        <li><a href="#KO主成分分析" class="cs-navi-tab">3.4.4 KO主成分分析</a></li>
+                        <li><a href="#KO的Anosim分析" class="cs-navi-tab">3.4.5 KO的Anosim分析</a></li>
+                        <li><a href="#KO的秩和检验" class="cs-navi-tab">3.4.6 KO的秩和检验</a></li>
+                        <li><a href="#KO的ROC曲线" class="cs-navi-tab">3.4.7 KO的ROC曲线</a></li>
+                        <li><a href="#KO的LEfSe差异分析" class="cs-navi-tab">3.4.8 KO的LEfSe差异分析</a></li>
+                        <li><a href="#KEGG功能丰度统计" class="cs-navi-tab">3.4.9 KEGG功能丰度统计</a></li>
+                        <li><a href="#优势KEGG功能聚类分析" class="cs-navi-tab">3.4.10 优势KEGG功能聚类分析</a></li>
+                        <li><a href="#基于eggNOG数据库功能注释分析" class="cs-navi-tab">3.4.11 基于eggNOG数据库功能注释分析</a></li>
+                        <li><a href="#基于CAZy碳水化合物活性酶数据库功能注释分析" class="cs-navi-tab">3.4.12 基于CAZy碳水化合物活性酶数据库功能注释分析</a></li>
+                        <li><a href="#基于ARDB耐药基因数据库功能注释分析" class="cs-navi-tab">3.4.13 基于ARDB耐药基因数据库功能注释分析</a></li>
+                    </ul>
+                </li>
+                <li class="active"><a href="#备注" class="cs-navi-tab">备注</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+

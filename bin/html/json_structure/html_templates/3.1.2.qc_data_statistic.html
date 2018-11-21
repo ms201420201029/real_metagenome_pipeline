@@ -1,0 +1,44 @@
+<h3 id="质控(QC)数据统计">3.1.2 质控(QC)数据统计</h3>
+<p class="paragraph"><B>分析方法：</B></p>
+<p class="paragraph">原始序列3’端带有Adaptor接头序列以及一些少量低质量数据和杂质序列，另外，某些样品宿主污染严重，为了提高后续分析质量和可靠性，需要对原始序列进行去接头、质量剪切和去除宿主DNA污染等。</p>
+<p class="paragraph">具体分析方法为：将有Adaptor接头序列污染的reads截取Adaptor序列部分，过滤长度<50bp的reads；去除包含N碱基数目≥3的reads，对序列3’端进行截切，去掉质量值<20的碱基，并过滤截切后长度<60%原长的reads；如果样品来源于宿主，则尽可能找到宿主的基因组或与宿主亲缘关系较近物种的基因组，通过SOAPaligner比对宿主基因组，将宿主污染的reads剔除<sup>[1]</sup>。</p>
+<p><B><a href="{{ path_table_sample_real }}">结果目录：{{ path_table_sample }}</a></B></p>
+<p><B>分析结果：</B></p>
+<p class="paragraph">质控(QC)数据统计如下表所示：</p>
+<p class="name_table">表 3-2 质控数据统计</p>
+<div class="center_table">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="success">
+            <th>Sample Name</th>
+            <th>Adaptor(%)</th>
+            <th>Low Quality(%)</th>
+            <th>Host(%)</th>
+            <th>Clean Reads(#)</th>
+            <th>Clean Bases(bp)</th>
+            <th>Data Use Rate(%)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sn, a, lq, h, cr, cb, dur in table_sample %}
+        <tr>
+            <td>{{ sn }}</td>
+            <td>{{ a }}</td>
+            <td>{{ lq }}</td>
+            <td>{{ h }}</td>
+            <td>{{ cr }}</td>
+            <td>{{ cb }}</td>
+            <td>{{ dur }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p class="tremark">注：每列详细说明如下</p>
+<p class="tremark">1. Sample name：样品名称；</p>
+<p class="tremark">2. Adaptor：接头污染reads的条数占总reads条数的比例；</p>
+<p class="tremark">3. Low quality：低质量reads的条数占总reads条数的比例；</p>
+<p class="tremark">4. Host：宿主污染的reads条数占总reads条数的比例；</p>
+<p class="tremark">5. Clean Reads：过滤后的数据中reads 的条数；</p>
+<p class="tremark">6. Clean Bases：过滤后的数据中碱基的个数，1G=10<sup>9</sup>；</p>
+<p class="tremark">7. Data Use Rate：Clean Reads与Raw Reads的比率。</p>

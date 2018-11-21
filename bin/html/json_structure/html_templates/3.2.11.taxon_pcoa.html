@@ -1,0 +1,17 @@
+<h3 id="主坐标分析">3.2.11 主坐标分析(PCoA分析)(总样品数≥5)</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">主坐标分析(principal co-ordinates analysis, PCoA)由Gower在1966年建立，是一种研究数据相似性或差异性的可视化方法。因为样品间差异数据可用各种各样的办法给出，这种方法用得很普遍。主坐标方法最后找出的坐标系不仅正交, 而且第一轴、第二轴……依次按N个点在该轴上的方差大小顺序排列，所以也可用较少的维数，特别是直观的二、三维空间去排列样品，而使信息的损失最少。我们采用Bray-Curtis距离，得到样品间的距离矩阵，再进行利用R中的ade4包进行PCoA分析。</p>
+{% if sample_not_enough == True %}
+    <p><B>结果目录：</B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">样本数不足，无法完成此项分析！</p>
+{% else %}
+    <p><B><a href="{{ path_real }}">结果目录：{{ path }}</a></B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">两组样品的PCoA图如下所示：</p>
+    <p class="center"><img class="size2" src="{{ fig_3_11_1 }}"/></p>
+    <p class="center"><img class="size2" src="{{ fig_3_11_2 }}"/></p>
+    <p class="name_fig">图 3-15 主坐标分析(箱线图需有分组信息)</p>
+    <p class="premark">坐标轴上如“PCoA1(a%)”表示第一主坐标所占比例为a%。不同的颜色代表不同的分组，横纵坐标的刻度是相对距离，没有实际意义PCoA1表示尽可能最大解释数据变化的主坐标成分，PCoA2表示剩余的变化度中占比例最大的主坐标成分</p>
+{% endif %}
+

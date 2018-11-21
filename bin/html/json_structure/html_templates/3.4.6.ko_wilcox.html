@@ -1,0 +1,57 @@
+<h3 id="KO的秩和检验">3.4.6 KO的秩和检验(组内样品数≥5)</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">根据KO丰度表，通过秩和检验计算KO在两组之间的差异p-值，并用FDR校正后得到q-值，根据q-值<0.05筛选在实验组与对照组间有显著差异表达的KO。根据KO的分类，可以得到每个类别中差异KO占所有差异KO的比例。</p>
+{% if sample_not_enough == True %}
+    <p><B>结果目录：</B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">样本数不足，无法完成此项分析！</p>
+{% else %}
+    <p><B><a href="{{ path_table_real }}">结果目录：{{ path_table }}</a></B></p>
+    <p><B>分析结果：</B></p>
+    <p class="name_table">表3-26 部分差异KO结果统计</p><p class="name_table"></p>
+    <div class="center_table">
+        <table class="table table-bordered">
+            <thead>
+            <tr class="success">
+                <th>KO ID</th>
+                <th>P-value</th>
+                <th>Q-value</th>
+                <th>Group</th>
+                <th>Definition</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ki, p, q, g, d in table %}
+            <tr>
+                <td>{{ ki }}</td>
+                <td>{{ p }}</td>
+                <td>{{ q }}</td>
+                <td>{{ g }}</td>
+                <td>{{ d }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="tremark">注：每列详细说明如下</p>
+    <p class="tremark">KO ID：KO编号。</p>
+    <p class="tremark">P-value：秩和检验p-value。</p>
+    <p class="tremark">Q-value：FDR方法校正后的p-value。</p>
+    <p class="tremark">Group：该KO富集的组别。</p>
+    <p class="tremark">Descripition：该KO的功能描述。</p>
+    <p class="paragraph">根据所有显著差异KO的p值进行升序排列，选取排名前 18 的KO丰度信息绘制箱型图。</p>
+    <p class="center"><img class="size2" src="{{ fig_3_29 }}"/></p>
+    <p class="name_fig">图 3-29显著差异KO的丰度分布图</p>
+    <p class="premark">横坐标表示KO的名称，纵坐标表示KO的丰度。</p>
+
+    <p class="paragraph">根据秩和检验得到的组间具有差异的KO进行绘制丰度聚类热图，展示结果如下:</p>
+    <p class="center"><img class="size2" src="{{ fig_3_30 }}"/></p>
+    <p class="name_fig">图 3-30显著差异KO热图</p>
+    <p class="premark">纵坐标为KO的名称，横坐标为样品名称。</p>
+
+    <p class="paragraph">根据秩和检验得到的组间具有差异的KO，进行KEGG代谢通路分析，得到差异KO富集的某KEGG代谢通路，展示结果如下：</p>
+    <p class="center"><img class="size2" src="{{ fig_3_31 }}"/></p>
+    <p class="name_fig">图 3-31 KEGG富集pathway</p>
+    <p class="premark">长方形节点表示基因产物(如酶类)，绿色方框表示上调KO，即实验组相对对照组显著富集的KO；红色为下调KO，即对照组相对实验组显著富集的KO。实现箭头的方向表示酶促反应进行的方向，虚线箭头表示此产物可通过中间产物与其他代谢途径发生关系。</p>
+{% endif %}
+

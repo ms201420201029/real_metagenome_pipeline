@@ -1,0 +1,44 @@
+<h3 id="基因预测">3.3.2 基因预测</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">MetaGeneMark(http://exon.gatech.edu/GeneMark/metagenome/Prediction/，version 2.10)<sup>[6]</sup>是采用启发式算法的适用于Metagenomes和未知原核生物的基因预测软件。利用软件MetaGeneMark对组装结果进行开放阅读框(ORFs)的预测，然后根据得到的.gff注释文件还原成.fna基因序列文件，并从中筛选出长度大于100bp的基因序列，并翻译成对应的氨基酸序列。</p>
+<p><B><a href="{{ path_table_sample_real }}">结果目录：{{ path_table_sample }}</a></B></p>
+<p><B>分析结果：</B></p>
+<p class="paragraph">以下是基因预测结果统计表</p>
+<p class="name_table">表 3-14 基因预测结果统计</p>
+<div class="center_table">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="success">
+            <th>Sample Name</th>
+            <th>Number of ORFs(#)</th>
+            <th>Ratio of complete ORFs</th>
+            <th>Total length(bp)</th>
+            <th>Maximal length(bp)</th>
+            <th>Average length(bp)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sn, noo, roco, tl, ml, al in table_sample %}
+        <tr>
+            <td>{{ sn }}</td>
+            <td>{{ noo }}</td>
+            <td>{{ roco }}</td>
+            <td>{{ tl }}</td>
+            <td>{{ ml }}</td>
+            <td>{{ al }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p class="tremark">注：每列详细说明如下</p>
+<p class="tremark">1. Sample name：样品名称。</p>
+<p class="tremark">2. Number of ORFs：所有ORFs的序列条数。</p>
+<p class="tremark">3. Number of complete ORFs：所有完整的ORFs序列条数，即包含起始密码子与终止密码子的ORFs。</p>
+<p class="tremark">4. Total length：所有ORFs的总序列长度。</p>
+<p class="tremark">5. Maximal length：最长ORFs的序列长度。</p>
+<p class="tremark">6. Average length：所有ORFs的平均序列长度。</p>
+<p class="center"><img class="size2" src="{{ fig_3_18 }}"/></p>
+<p class="name_fig">图 3-21 单样品基因长度直方图</p>
+<p class="premark">直方图横坐标表示长度区间，纵坐标表示在该区间内的预测出的基因数目，由于长度在3000bp以上的基因序列长度范围很广，将其缩并在一起</p>
+
