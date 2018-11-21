@@ -169,7 +169,7 @@ if __name__ == '__main__':
 
                     html_dict[group][key]['path'] = tabs[1]
                     html_dict[group][key]['path_real'] = '../result/'+tabs[1]
-                    html_dict[group][key]['figs'] = sorted(['html_material/images/'+group+'/'+os.path.dirname(tabs[2])+'/'+os.path.basename(fig) for fig in glob.glob('html_material/images/'+group+'/'+tabs[2])])
+                    html_dict[group][key]['figs'] = sorted(['html_material/images/'+group+'/'+os.path.dirname(tabs[2])+'/'+os.path.basename(fig) for fig in glob.glob('result/html/html_material/images/'+group+'/'+tabs[2])])
 
                 elif tabs[0] == 'table_sample':
                     # 涉及到sample的表格，需要对表格中的样品进行统一
