@@ -1,6 +1,7 @@
 <h3 id="基因秩和检验差异分析">3.3.8 基因秩和检验差异分析(组内样品数≥5)</h3>
 <p><B>分析方法：</B></p>
 <p class="paragraph">首先过滤丰度过低的基因，只保留在任意一组中丰度中值>1E-8的基因，然后根据基因的丰度，通过Wilcox rank-sum test秩和检验(也称为Mann-Whitney U test)来计算每个基因在实验组和对照组上的p-value，并用FDR(false discovery rate，错误发现率)方法校正后称为q-value，再根据q-value筛选出在两组间显著差异的基因。一般阈值为q-value≤0.05<sup>[2]</sup>。其中计算None Hypothesis(即非差异基因比例)由R软件中的q-value包实现。</p>
+
 {% if sample_not_enough == True %}
     <p><B>结果目录：</B></p>
     <p><B>分析结果：</B></p>

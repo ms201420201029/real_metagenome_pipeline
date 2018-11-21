@@ -1,6 +1,7 @@
 <h3 id="物种秩和检验差异分析">3.2.16 物种秩和检验差异分析(组内样品数≥5)</h3>
 <p><B>分析方法：</B></p>
 <p class="paragraph">根据物种丰度，通过wilcox rank-sum test秩和检验来计算每个物种在门(phylum)、属(genus)、种(species)上组间的p-value，并用FDR(false discovery rate，错误发现率)方法校正后称为q-value，再根据q-value筛选出在两组间显著差异的物种，一般阈值为q-value≤0.05<sup>[2]</sup>。箱线图可直观展示不同组之间的差异物种的丰度情况，而热图可以用颜色变化反映二维矩阵或表格中的数据信息。</p>
+
 {% if sample_not_enough == True %}
     <p><B>结果目录：</B></p>
     <p><B>分析结果：</B></p>
