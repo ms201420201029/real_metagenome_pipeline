@@ -181,12 +181,12 @@ fig	07.kegg/group/#@group/10.ko_lefse/	3.4.7.ko_lefse/lefse.png	fig_3_32
 fig	07.kegg/group/#@group/10.ko_lefse/	3.4.7.ko_lefse/heatmap.png	fig_3_33
 fig	07.kegg/group/#@group/10.ko_lefse/	3.4.7.ko_lefse/pathway.png	fig_3_34
 
-# 3.4.8 差异KO的ROC曲线
-3.4.8.ko_roc.html
-fig	07.kegg/group/#@group/14.ROC/roc.png	3.4.8.ROC/roc.png	fig_3_35
+# # 3.4.8 差异KO的ROC曲线
+# 3.4.8.ko_roc.html
+# fig	07.kegg/group/#@group/14.ROC/roc.png	3.4.8.ROC/roc.png	fig_3_35
 
 # 3.4.9 KEGG功能丰度统计
-3.4.9.ko_functional.html
+3.4.8.ko_functional.html
 otu	07.kegg/12.functional_barplot/kegg_level1_profile.txt	3.4.9.ko_functional/kegg_level1_profile.txt	table_3_20
 fig	07.kegg/group/#@group/12.functional/	3.4.9.ko_functional/level1_barplot.png	fig_3_36
 fig	07.kegg/group/#@group/12.functional/	3.4.9.ko_functional/level2_barplot.png	fig_3_37
@@ -194,23 +194,23 @@ fig	07.kegg/group/#@group/12.functional/	3.4.9.ko_functional/level1_barplot_with
 fig	07.kegg/group/#@group/12.functional/	3.4.9.ko_functional/level2_barplot_withgroup.png	fig_3_39
 
 # 3.4.10 优势KEGG功能聚类分析(总样品数≥5)
-3.4.10.ko_functional_clust.html
+3.4.9.ko_functional_clust.html
 fig	07.kegg/group/#@group/13.functional_clust/	3.4.10.ko_functional_clust/sample_cluster.png	fig_3_40
 
 # 3.4.11 基于eggNOG数据库功能注释分析
-3.4.11.eggNOG.html
+3.4.10.eggNOG.html
 table	08.eggnog/eggnog.anno.tsv	3.4.11.eggNOG/eggnog.anno.tsv	table_3_21	Gene ID,Protein name,Nog name,Description,Category
 fig	08.eggnog/	3.4.11.eggNOG/NOG.png	fig_3_41
 
-# 3.4.12 基于CAZy碳水化合物活性酶数据库功能注释分析(高级分析)
-3.4.12.CAZy.html
-table	12.cazy/cazy.anno.tsv	3.4.12.CAZy/cazy.anno.tsv	table_3_22	#Gene id,Cazy type,Description
-fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/type_barplot.png	fig_3_42
-fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/class_barplot.png	fig_3_43
-fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/enzyme_barplot.png	fig_3_44
-
-# 3.4.13 基于ARDB耐药基因数据库功能注释分析(高级分析)
-3.4.13.ARDB.html
-fig	09.ardb/group/#@group/	3.4.13.ARDB/ardb.class.png	fig_3_45
-fig	09.ardb/group/#@group/	3.4.13.ARDB/ardb.type.png	fig_3_46
+# # 3.4.12 基于CAZy碳水化合物活性酶数据库功能注释分析(高级分析)
+# 3.4.12.CAZy.html
+# table	12.cazy/cazy.anno.tsv	3.4.12.CAZy/cazy.anno.tsv	table_3_22	#Gene id,Cazy type,Description
+# fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/type_barplot.png	fig_3_42
+# fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/class_barplot.png	fig_3_43
+# fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/enzyme_barplot.png	fig_3_44
+# 
+# # 3.4.13 基于ARDB耐药基因数据库功能注释分析(高级分析)
+# 3.4.13.ARDB.html
+# fig	09.ardb/group/#@group/	3.4.13.ARDB/ardb.class.png	fig_3_45
+# fig	09.ardb/group/#@group/	3.4.13.ARDB/ardb.type.png	fig_3_46
 
