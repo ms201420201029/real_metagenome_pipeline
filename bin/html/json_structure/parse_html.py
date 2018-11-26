@@ -85,12 +85,12 @@ if __name__ == '__main__':
                    '3.4.5.ko_anosim.html',
                    '3.4.6.ko_wilcox.html',
                    '3.4.7.ko_lefse.html',
-                   '3.4.8.ko_roc.html',
-                   '3.4.9.ko_functional.html',
-                   '3.4.10.ko_functional_clust.html',
-                   '3.4.11.eggNOG.html',
-                   '3.4.12.CAZy.html',
-                   '3.4.13.ARDB.html',
+                   # '3.4.8.ko_roc.html',
+                   '3.4.8.ko_functional.html',
+                   '3.4.9.ko_functional_clust.html',
+                   '3.4.10.eggNOG.html',
+                   # '3.4.12.CAZy.html',
+                   # '3.4.13.ARDB.html',
                    'resultsDirectory.html']
 
     noneed_parse = ['navigator.html', '2.1.laboratory_pipeline.html', '2.2.analysis_pipeline.html', '2.3.analysis_content.html', 'resultsDirectory.html']
