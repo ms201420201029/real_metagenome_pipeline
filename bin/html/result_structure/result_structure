@@ -36,8 +36,9 @@ dir	02.taxon/group_analysis/#@group/01.barplot/species/	02.taxonomy/group/#@grou
 dir	02.taxon/group_analysis/#@group/02.venn_flower/genus/	02.taxonomy/group/#@group/02.venn_flower/genus/
 dir	02.taxon/group_analysis/#@group/02.venn_flower/species/	02.taxonomy/group/#@group/02.venn_flower/species/
 dir	02.taxon/group_analysis/#@group/03.top_boxplot/	02.taxonomy/group/#@group/03.top_boxplot/
-dir	02.taxon/group_analysis/#@group/04.ternaryplot/genus/	02.taxonomy/group/#@group/04.ternaryplot/genus/
-dir	02.taxon/group_analysis/#@group/04.ternaryplot/species/	02.taxonomy/group/#@group/04.ternaryplot/species/
+# 虽然也是文件夹，但会有一个分组够不够的log文件
+gnum	02.taxon/group_analysis/#@group/04.ternaryplot/genus/	02.taxonomy/group/#@group/04.ternaryplot/genus/
+gnum	02.taxon/group_analysis/#@group/04.ternaryplot/species/	02.taxonomy/group/#@group/04.ternaryplot/species/
 dir	02.taxon/group_analysis/#@group/05.top_barplot/genus/	02.taxonomy/group/#@group/05.top_barplot/genus/
 dir	02.taxon/group_analysis/#@group/05.top_barplot/species/	02.taxonomy/group/#@group/05.top_barplot/species/
 dir	02.taxon/group_analysis/#@group/06.pca/genus/	02.taxonomy/group/#@group/06.pca/genus/
