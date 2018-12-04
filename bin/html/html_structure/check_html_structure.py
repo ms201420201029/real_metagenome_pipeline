@@ -119,6 +119,17 @@ def check_if_sample_enough(dirs):
     return True
 
 
+def check_if_group_enough(dirs):
+    '''
+    通过这层或者上一层是否存在分组不足的日志文件来判断此分析是否是分组不足
+    足返回True，不足返回False
+    '''
+    for dir in dirs:
+        if glob.glob(dir+'/group_num.log') or glob.glob('/'+'/'.join([d for d in dir.split('/') if d][:-1])+'/group_num.log') or glob.glob('/'+'/'.join([d for d in dir.split('/') if d][:-2])+'/group_num.log'):
+            return False
+    return True
+
+
 def is_file_exists(dirs, file):
     '''
     判断多个文件中是否含有该文件（文件为含通配符的名称或者固定文件名）
@@ -261,26 +272,31 @@ if __name__ == '__main__':
                 if check_if_sample_enough([dir+'/'+os.path.dirname(tabs[1]) for dir in work_dirs]):
                     # 样品足：
                     #    1、文件是否存在 （1）不存在 （2）存在一个 （3）存在多个
-                    file_dirs, similar_dirs = is_file_exists(work_dirs, tabs[1])
-                    if file_dirs:
-                        # 文件存在
-                        if len(file_dirs) == 1 or len(set([os.path.getsize(f) for f in file_dirs])) == 1:
-                            # 文件只有一个，或多个文件大小一致，选取其中之一
-                            new_conf.write('%s\t%s\t%s\n' % (tabs[0], file_dirs[0], tabs[2]))
+                    if check_if_group_enough([dir+'/'+os.path.dirname(tabs[1]) for dir in work_dirs]):
+                        # 分组够
+                        file_dirs, similar_dirs = is_file_exists(work_dirs, tabs[1])
+                        if file_dirs:
+                            # 文件存在
+                            if len(file_dirs) == 1 or len(set([os.path.getsize(f) for f in file_dirs])) == 1:
+                                # 文件只有一个，或多个文件大小一致，选取其中之一
+                                new_conf.write('%s\t%s\t%s\n' % (tabs[0], file_dirs[0], tabs[2]))
+                            else:
+                                new_conf.write('\n#################################################################################################################################################\n')
+                                new_conf.write('# warning : %s文件有%d个，且大小不一，请检查原因并修改下面配置！（默认选择第一个）\n' % (re.sub('#@batch', batch_name, tabs[1]), len(file_dirs)))
+                                for f in file_dirs:
+                                    new_conf.write('%s\t%s\t%s\n' % (tabs[0], f, tabs[2]))
+                                new_conf.write('#################################################################################################################################################\n\n')
                         else:
+                            print(tabs)
+                            # 文件不存在
                             new_conf.write('\n#################################################################################################################################################\n')
-                            new_conf.write('# warning : %s文件有%d个，且大小不一，请检查原因并修改下面配置！（默认选择第一个）\n' % (re.sub('#@batch', batch_name, tabs[1]), len(file_dirs)))
-                            for f in file_dirs:
-                                new_conf.write('%s\t%s\t%s\n' % (tabs[0], f, tabs[2]))
+                            new_conf.write('# warning : %s文件不存在，请检查原因并修改下面配置！\n' % tabs[1])
+                            for f in similar_dirs:
+                                new_conf.write('%s\t%s\t%s\n' % (tabs[0], f+'/'+os.path.basename(tabs[1]), tabs[2]))
                             new_conf.write('#################################################################################################################################################\n\n')
                     else:
-                        print(tabs)
-                        # 文件不存在
-                        new_conf.write('\n#################################################################################################################################################\n')
-                        new_conf.write('# warning : %s文件不存在，请检查原因并修改下面配置！\n' % tabs[1])
-                        for f in similar_dirs:
-                            new_conf.write('%s\t%s\t%s\n' % (tabs[0], f+'/'+os.path.basename(tabs[1]), tabs[2]))
-                        new_conf.write('#################################################################################################################################################\n\n')
+                        # 分组不够
+                        new_conf.write('%s\t%s\tgroup_not_enough.log\n' % (tabs[0], tabs[1]))
 
                 else:
                     # 样品不足

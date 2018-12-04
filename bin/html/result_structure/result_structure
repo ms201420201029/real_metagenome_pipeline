@@ -10,7 +10,7 @@
 # dir是目录文件，其中的文件都会根据后缀进行判断，若符合要求，则留下；dir下面的其他文件夹内容不复制
 
 00.raw_reads/
-file	00.raw_reads/raw_reads_#@batch.stat.tsv	00.raw_reads/raw_reads.stat.tsv
+file	00.raw_reads/rawdata.stat.tsv	00.raw_reads/raw_reads.stat.tsv
 # 注意这会有新旧文件之分,后缀前加个（1），（2）等
 files	00.raw_reads/01.fastqc/*/*.zip	00.raw_reads/01.fastqc/
 # 注意这会有新旧文件之分,后缀前加个（1），（2）等
@@ -27,6 +27,7 @@ dir	02.taxon/samples_nalysis/02.venn_flower/genus	02.taxonomy/02.venn_flower/gen
 dir	02.taxon/samples_nalysis/02.venn_flower/species	02.taxonomy/02.venn_flower/species
 dir	02.taxon/samples_nalysis/03.accum_share/	02.taxonomy/03.accum_share/
 dir	02.taxon/samples_nalysis/04.rarecurve/	02.taxonomy/04.rarecurve/
+dir	02.taxon/samples_nalysis/05.treeplot/*/	02.taxonomy/05.treeplot/*/
 dir	02.taxon/group_analysis/#@group/01.barplot/phylum/	02.taxonomy/group/#@group/01.barplot/phylum/
 dir	02.taxon/group_analysis/#@group/01.barplot/class/	02.taxonomy/group/#@group/01.barplot/class/
 dir	02.taxon/group_analysis/#@group/01.barplot/order/	02.taxonomy/group/#@group/01.barplot/order/
@@ -94,20 +95,21 @@ dir	07.kegg/group/#@group/03.pca/	07.kegg/group/#@group/03.ko_pca/
 dir	07.kegg/group/#@group/04.pcoa/	07.kegg/group/#@group/04.ko_pcoa/
 dir	07.kegg/group/#@group/05.nmds/	07.kegg/group/#@group/05.ko_nmds/
 dir	07.kegg/group/#@group/06.anosim/	07.kegg/group/#@group/06.ko_anosim/
-dir	07.kegg/group/#@group/07.mrpp/	07.kegg/group/#@group/07.ko_mrpp/
-dir	07.kegg/group/#@group/08.venn/	07.kegg/group/#@group/08.ko_venn/
-dir	07.kegg/group/#@group/09.ko_wilcoxon/	07.kegg/group/#@group/09.ko_wilcox/
-dir	07.kegg/group/#@group/09.ko_wilcoxon/diff_boxplot/	07.kegg/group/#@group/09.ko_wilcox/diff_boxplot/
-dir	07.kegg/group/#@group/09.ko_wilcoxon/heatmap/	07.kegg/group/#@group/09.ko_wilcox/heatmap/
-dir	07.kegg/group/#@group/09.ko_wilcoxon/path_barplot/	07.kegg/group/#@group/09.ko_wilcox/path_barplot/
-file	07.kegg/group/#@group/09.ko_wilcoxon/pathway/707_compare.txt	07.kegg/group/#@group/09.ko_wilcox/pathway/707_compare.txt
-dir	07.kegg/group/#@group/09.ko_wilcoxon/detail_pathway/*_map/	07.kegg/group/#@group/09.ko_wilcox/detail_pathway/
-dir	07.kegg/group/#@group/10.ko_lefse/	07.kegg/group/#@group/10.ko_lefse/
-dir	07.kegg/group/#@group/10.ko_lefse/diff_boxplot/	07.kegg/group/#@group/10.ko_lefse/diff_boxplot/
-dir	07.kegg/group/#@group/10.ko_lefse/heatmap/	07.kegg/group/#@group/10.ko_lefse/heatmap/
-dir	07.kegg/group/#@group/10.ko_lefse/path_barplot/	07.kegg/group/#@group/10.ko_lefse/path_barplot/
-file	07.kegg/group/#@group/10.ko_lefse/pathway/707_compare.txt	07.kegg/group/#@group/10.ko_lefse/pathway/707_compare.txt
-dir	07.kegg/group/#@group/10.ko_lefse/detail_pathway/*_map/	07.kegg/group/#@group/10.ko_lefse/detail_pathway/
+dir	07.kegg/group/#@group/07.adonis/	07.kegg/group/#@group/07.adonis/
+dir	07.kegg/group/#@group/08.mrpp/	07.kegg/group/#@group/08.ko_mrpp/
+dir	07.kegg/group/#@group/09.venn/	07.kegg/group/#@group/09.ko_venn/
+dir	07.kegg/group/#@group/10.ko_wilcoxon/	07.kegg/group/#@group/10.ko_wilcox/
+dir	07.kegg/group/#@group/10.ko_wilcoxon/diff_boxplot/	07.kegg/group/#@group/10.ko_wilcox/diff_boxplot/
+dir	07.kegg/group/#@group/10.ko_wilcoxon/heatmap/	07.kegg/group/#@group/10.ko_wilcox/heatmap/
+dir	07.kegg/group/#@group/10.ko_wilcoxon/path_barplot/level_2/	07.kegg/group/#@group/10.ko_wilcox/path_barplot/level_2/
+file	07.kegg/group/#@group/10.ko_wilcoxon/pathway/707_compare.txt	07.kegg/group/#@group/10.ko_wilcox/pathway/707_compare.txt
+dir	07.kegg/group/#@group/10.ko_wilcoxon/detail_pathway/*_map/	07.kegg/group/#@group/10.ko_wilcox/detail_pathway/
+dir	07.kegg/group/#@group/11.ko_lefse/	07.kegg/group/#@group/11.ko_lefse/
+# dir	07.kegg/group/#@group/11.ko_lefse/diff_boxplot/	07.kegg/group/#@group/11.ko_lefse/diff_boxplot/
+dir	07.kegg/group/#@group/11.ko_lefse/heatmap/	07.kegg/group/#@group/11.ko_lefse/heatmap/
+dir	07.kegg/group/#@group/11.ko_lefse/path_barplot/level_2/	07.kegg/group/#@group/11.ko_lefse/path_barplot/level_2/
+file	07.kegg/group/#@group/11.ko_lefse/pathway/707_compare.txt	07.kegg/group/#@group/11.ko_lefse/pathway/707_compare.txt
+dir	07.kegg/group/#@group/11.ko_lefse/detail_pathway/*_map/	07.kegg/group/#@group/11.ko_lefse/detail_pathway/
 dir	07.kegg/group/#@group/12.functional_barplot/	07.kegg/group/#@group/12.functional/
 dir	07.kegg/12.functional_barplot/	07.kegg/group/#@group/12.functional/
 dir	07.kegg/group/#@group/13.functional_clust/	07.kegg/group/#@group/13.functional_clust/
@@ -118,23 +120,23 @@ dir	08.eggnog/group/#@group/	08.eggnog/group/#@group/
 09.ardb/
 dir	09.ardb/group/#@group/	09.ardb/group/#@group/
 10.MGS/
-dir	10.MGS/#@group/outfile/	10.MGS/#@group/heatmap/
-file	10.MGS/#@group/taxonomy/group.tax.tsv	10.MGS/#@group/taxonomy/group.tax.tsv
+dir	10.MGS/#@group/fig/	10.MGS/#@group/heatmap/
+file	10.MGS/#@group/taxonomy/final.stat.sort.tsv	10.MGS/#@group/taxonomy/group.tax.tsv
 11.CAG/
 dir	11.CAG/#@group/outfile/	11.CAG/#@group/outfile/
 file	11.CAG/#@group/taxonomy/group.tax.tsv	11.CAG/#@group/taxonomy/group.tax.tsv
 12.cazy/
 file	12.cazy/cazy.anno.tsv	12.cazy/cazy.anno.tsv
 dir	12.cazy/12.functional_barplot/	12.cazy/12.functional_barplot/
-dir	12.cazy/group/#@group_group/02.heatmap/	12.cazy/group/#@group/02.heatmap/
-dir	12.cazy/group/#@group_group/03.pca/	12.cazy/group/#@group/03.pca/
-dir	12.cazy/group/#@group_group/04.pcoa/	12.cazy/group/#@group/04.pcoa/
-dir	12.cazy/group/#@group_group/05.nmds/	12.cazy/group/#@group/05.nmds/
-dir	12.cazy/group/#@group_group/06.anosim/	12.cazy/group/#@group/06.anosim/
-dir	12.cazy/group/#@group_group/07.adonis/	12.cazy/group/#@group/07.adonis/
-dir	12.cazy/group/#@group_group/08.mrpp/	12.cazy/group/#@group/08.mrpp/
-dir	12.cazy/group/#@group_group/09.venn/	12.cazy/group/#@group/09.venn/
-dir	12.cazy/group/#@group_group/10.ko_wilcoxon/	12.cazy/group/#@group/10.ko_wilcoxon/
-dir	12.cazy/group/#@group_group/11.lefse/	12.cazy/group/#@group/11.lefse/
-dir	12.cazy/group/#@group_group/12.functional_clust/	12.cazy/group/#@group/12.functional_clust/
+dir	12.cazy/group/#@group/02.heatmap/	12.cazy/group/#@group/02.heatmap/
+dir	12.cazy/group/#@group/03.pca/	12.cazy/group/#@group/03.pca/
+dir	12.cazy/group/#@group/04.pcoa/	12.cazy/group/#@group/04.pcoa/
+dir	12.cazy/group/#@group/05.nmds/	12.cazy/group/#@group/05.nmds/
+dir	12.cazy/group/#@group/06.anosim/	12.cazy/group/#@group/06.anosim/
+dir	12.cazy/group/#@group/07.adonis/	12.cazy/group/#@group/07.adonis/
+dir	12.cazy/group/#@group/08.mrpp/	12.cazy/group/#@group/08.mrpp/
+dir	12.cazy/group/#@group/09.venn/	12.cazy/group/#@group/09.venn/
+dir	12.cazy/group/#@group/10.ko_wilcoxon/	12.cazy/group/#@group/10.ko_wilcoxon/
+dir	12.cazy/group/#@group/11.lefse/	12.cazy/group/#@group/11.lefse/
+dir	12.cazy/group/#@group/12.functional_clust/	12.cazy/group/#@group/12.functional_clust/
 

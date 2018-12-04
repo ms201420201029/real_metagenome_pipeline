@@ -1,7 +1,42 @@
 <h3 id="物种Adonis分析">3.2.14 物种Adonis分析(组内样品数≥5)</h3>
+<p><B>分析方法：</B></p>
+<p class="paragraph">adonis分析，也称PERMANOVA（Permutational multivariate analysis of variance，置换多元方差分析）分析，可利用半度量（如Bray-Curtis）或度量距离矩阵（如Euclidean）对总方差进行分解，通过线性模型分析不同分组因素或环境因子（如临床表型数据、土壤理化指标等）对样本差异的稀释度，并使用置换检验进行显著性分析。R值表示不同分组或环境因子对样本差异的稀释度，即分组或或环境因子指标方差与总方差的比例。p值表示本次分析的可信度。计算过程由R语言的vegan包实现。</p>
 
 {% if sample_not_enough == True %}
-    <p>样本数不足，无法完成此项分析！</p>
+    <p><B>结果目录：</B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">样本数不足，无法完成此项分析！</p>
 {% else %}
+    <p><B><a href="{{ path_table_real }}">结果目录：{{ path_table }}</a></B></p>
+    <p><B>分析结果：</B></p>
+    <p class="name_table">表 3-11 Adonis分析结果统计(Statistics of Adonis)</p>
+    <div class="center_table">
+        <table class="table table-bordered">
+            <thead>
+            <tr class="success">
+                <th>Group</th>
+                <th>R statistic</th>
+                <th>P-value</th>
+                <th>Permutation number</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for g, r, p, pn in table %}
+            <tr>
+                <td>{{ g }}</td>
+                <td>{{ r }}</td>
+                <td>{{ p }}</td>
+                <td>{{ pn }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="tremark">注：每列详细说明如下</p>
+    <p class="tremark">1. Method Name：计算距离的方法；</p>
+    <p class="center"><img class="size2" src="{{ fig_3_14_1 }}"/></p>
+    <p class="center"><img class="size2" src="{{ fig_3_14_2 }}"/></p>
+    <p class="name_fig">图 3-15 计算环境因子对总体方差的解释度</p>
+    <p class="premark">上图通过PCA的方式展现。下图通过PCoA的方式展现。</p>
 {% endif %}
 

@@ -63,6 +63,15 @@ if __name__ == '__main__':
 
                 if tabs[2] == 'sample_not_enough.log':
                     os.system('touch %s/sample_not_enough.log' % (output+'/'+tabs[0]))
+                elif tabs[2] == 'group_not_enough.log':
+                    os.system('touch %s/group_not_enough.log' % (output+'/'+tabs[0]))
+                elif '*' in tabs[1] and '*' not in tabs[2]:
+                    if not glob.glob(output+'/'+tabs[2]):
+                        files = glob.glob(tabs[1])
+                        if not files:
+                            sys.stderr.write('error : %s 文件不存在，请分析完成后重新运行此脚本！\n' % tabs[1])
+                        else:
+                            os.system('cp %s %s' % (files[0], output+'/'+tabs[2]))
                 else:
                     if not glob.glob(output+'/'+tabs[2]):
                         # 结果文件不存在

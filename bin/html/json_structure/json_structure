@@ -13,7 +13,7 @@
 
 # 3.1.1 原始数据统计
 3.1.1.rawreads_statistic.html
-table_sample	00.raw_reads/raw_reads.stat.tsv	3.1.1.rawreads_statistic/raw_reads.stat.tsv	table_3_1	Reads length(bp),Insert size(bp),Raw reads(#),Raw bases(bp),Q20,Q30,GC
+table_sample	00.raw_reads/raw_reads.stat.tsv	3.1.1.rawreads_statistic/raw_reads.stat.tsv	table_3_1	Read length (bp),Insert size (bp),Raw reads (#),Raw bases (bp),Q20(%),Q30(%),GC(%)
 fig	00.raw_reads/01.fastqc/	3.1.1.rawreads_statistic/per_base_sequence_content.png	fig_3_1_1
 fig	00.raw_reads/01.fastqc/	3.1.1.rawreads_statistic/per_base_quality.png	fig_3_1_2
 
@@ -56,7 +56,7 @@ fig	02.taxonomy/group/#@group/04.ternaryplot/	3.2.7.taxon_ternaryplot/species.te
 
 # 3.2.8 单样品优势物种分类树
 3.2.8.taxon_treeplot.html
-fig	XXXXXX	3.2.8.taxon_treeplot/	fig_3_8
+fig	02.taxonomy/05.treeplot/	3.2.8.taxon_treeplot/tree.pdf	fig_3_8
 
 # 3.2.9 优势物种聚类分析(总样品数≥3)
 3.2.9.taxon_top_barplot.html
@@ -80,21 +80,22 @@ fig	02.taxonomy/group/#@group/08.nmds/	3.2.12.taxon_nmds/species_braynmds.png	fi
 
 # 3.2.13 物种Anosim分析(组内样品数≥5)
 3.2.13.taxon_anosim.html
-table	02.taxonomy/group/#@group/09.anosim/species/bray_anosim.txt	3.2.13.taxon_anosim/bray_anosim.txt	table_3_5	Group,R statistic,P-value,Permutation number
+table	02.taxonomy/group/#@group/09.anosim/species/bray_anosim.txt	3.2.13.taxon_anosim/bray_anosim.txt	table_3_5	Method name,R statistic,P-value,Permutation number
 fig	02.taxonomy/group/#@group/09.anosim/	3.2.13.taxon_anosim/bray_anosim.png	fig_3_13
 
 # 3.2.14 物种Adonis分析(组内样品数≥5)
 3.2.14.taxon_adonis.html
+table	02.taxonomy/group/#@group/10.adonis/species/bray_adonis.txt	3.2.14.taxon_adonis/bray_adonis.txt	table_3_6	Method name,R statistic,P-value,Permutation number
 fig	02.taxonomy/group/#@group/10.adonis	3.2.14.taxon_adonis/genus_bray_adonis.png	fig_3_14_1
 fig	02.taxonomy/group/#@group/10.adonis	3.2.14.taxon_adonis/species_bray_adonis.png	fig_3_14_2
 
 # 3.2.15 物种MRPP分析(组内样品数≥5)
 3.2.15.taxon_mrpp.html
-table	02.taxonomy/group/#@group/11.mrpp/species/mrpp.txt	3.2.15.taxon_mrpp/species_mrpp.txt	table_3_6	Group,A,ObserveDelta,ExpectDelta,Significance
+table	02.taxonomy/group/#@group/11.mrpp/species/mrpp.txt	3.2.15.taxon_mrpp/species_mrpp.txt	table_3_7	Group,A,ObserveDelta,ExpectDelta,Significance
 
 # 3.2.16 物种秩和检验差异分析(组内样品数≥5)
 3.2.16.taxon_wilcox.html
-table	02.taxonomy/group/#@group/12.diff/species/diff.marker.filter.tsv	3.2.16.taxon_wilcox/species_diff.marker.filter.tsv	table_3_7	taxonname,pvalue,fdr,enrichment
+table	02.taxonomy/group/#@group/12.diff/species/diff.marker.filter.tsv	3.2.16.taxon_wilcox/species_diff.marker.filter.tsv	table_3_8	taxonname,pvalue,fdr,enrichment
 fig	02.taxonomy/group/#@group/12.diff/	3.2.16.taxon_wilcox/genus_genus_diff.png	fig_3_15_1
 fig	02.taxonomy/group/#@group/12.diff/	3.2.16.taxon_wilcox/species_species_diff.png	fig_3_15_2
 
@@ -105,56 +106,57 @@ fig	02.taxonomy/group/#@group/13.lefse/	3.2.17.taxon_lefse/species_LDA.png	fig_3
 
 # 3.3.1 序列拼接组装
 3.3.1.assembly.html
-table_sample	03.assembly/scaftigs.best.status.tsv	3.3.1.assembly/scaftigs.best.stat.tsv	table_3_8	Number of contigs (#),N50 length (bp),N90 length (bp),Total length (bp),Maximal length (bp),Average length(bp)
+table_sample	03.assembly/scaftigs.best.status.tsv	3.3.1.assembly/scaftigs.best.stat.tsv	table_3_9	Number of scaftigs (#),N50 length (bp),N90 length (bp),Total length (bp),Maximal length (bp),Average length(bp)
 fig	03.assembly/	3.3.1.assembly/histogram.png	fig_3_17
 
 # 3.3.2 基因预测
 3.3.2.gene_predict.html
-table_sample	04.gene_predict/orf.status.tsv	3.3.2.gene_predict/orf.stat.tsv	table_3_9	Number of ORFs(#),Ratio of complete ORFs,Total length(bp),Maximal length(bp),Average length(bp)
+table_sample	04.gene_predict/orf.status.tsv	3.3.2.gene_predict/orf.stat.tsv	table_3_10	Number of ORFs(#),Ratio of complete ORFs,Total length(bp),Maximal length(bp),Average length(bp)
 fig	04.gene_predict/	3.3.2.gene_predict/gene.histogram.png	fig_3_18
 
 # 3.3.3 基因集构建
 3.3.3.gene_catalog.html
-table	05.gene_catalog/gene_catalog.status.tsv	3.3.3.gene_catalog/gene_catalog.stat.tsv	table_3_10	Number of samples(#),Number of ORFs(#),Ratio of complete ORFs,Total length(bp),Maximal length(bp),Average length(bp)
+table	05.gene_catalog/gene_catalog.status.tsv	3.3.3.gene_catalog/gene_catalog.stat.tsv	table_3_11	Number of samples(#),Number of ORFs(#),Ratio of complete ORFs,Total length(bp),Maximal length(bp),Average length(bp)
 fig	05.gene_catalog/	3.3.3.gene_catalog/gene_catalog.length.histogram.png	fig_3_19
 
 # 3.3.4 基因丰度表
 3.3.4.gene_profile.html
-otu	06.gene_profile/gene.profile	3.3.4.gene_profile/gene.profile	table_3_11
+otu	06.gene_profile/gene.profile	3.3.4.gene_profile/gene.profile	table_3_12
 
 # 3.3.5 CAG 分析(总样品数≥20)(高级分析)
 3.3.5.cag.html
-table	11.CAG/#@group/outfile/taxonomy_stat.tsv	3.3.5.cag/taxonomy_stat.tsv	table_3_12	CAG ID,Number of genes(#),Taxonomy,Level,Number of genes on DataBase(#)
+table	11.CAG/#@group/outfile/taxonomy_stat.tsv	3.3.5.cag/taxonomy_stat.tsv	table_3_13	CAG ID,Number of genes(#),Taxonomy,Level,Number of genes on DataBase(#)
 fig	11.CAG/#@group/outfile/	3.3.5.cag/1.CAG.png	fig_3_20
 
 # 3.3.6 基因Anosim分析(组内样品数≥5)
 3.3.6.gene_anosim.html
-table	06.gene_profile/group/#@group/02.anosim/bray_anosim.txt	3.3.6.gene_anosim/bray_anosim.txt	table_3_13	Method name,R statistic,P-value,Permutation number
+table	06.gene_profile/group/#@group/02.anosim/bray_anosim.txt	3.3.6.gene_anosim/bray_anosim.txt	table_3_14	Method name,R statistic,P-value,Permutation number
 fig	06.gene_profile/group/#@group/02.anosim/	3.3.6.gene_anosim/bray_anosim.png	fig_3_21
 
 # 3.3.7 基因多样性分析
 3.3.7.gene_alpha_diversity.html
-table_sample	06.gene_profile/01.alpha_diversity/gene.alpha.div.tsv	3.3.7.gene_alpha_diversity/gene.alpha.div.tsv	table_3_14	Number of genes(#),Shannon-wiener index,Simpson index
+table_sample	06.gene_profile/01.alpha_diversity/gene.alpha.div.tsv	3.3.7.gene_alpha_diversity/gene.alpha.div.tsv	table_3_15	Number of genes(#),Shannon-wiener index,Simpson index
 
 # 3.3.8 基因秩和检验差异分析(组内样品数≥5)
 3.3.8.gene_wilcox.html
-table	06.gene_profile/group/#@group/03.diff_gene/diff.marker.filter.tsv	3.3.8.gene_wilcox/diff.marker.filter.tsv	table_3_15	taxonname,pvalue,fdr,enrichment
+table	06.gene_profile/group/#@group/03.diff_gene/diff.marker.filter.tsv	3.3.8.gene_wilcox/diff.marker.filter.tsv	table_3_16	taxonname,pvalue,fdr,enrichment
 fig	06.gene_profile/group/#@group/03.diff_gene/	3.3.8.gene_wilcox/qvalue.png	fig_3_22
 
 # 3.3.9 差异基因聚类分析(MGS)(组内样品数≥5，总样品数≥20)
 3.3.9.mgs.html
-table	10.MGS/#@group/taxonomy/group.tax.tsv	3.3.9.mgs/group.tax.tsv	table_3_16	MGS ID,Number of genes(#),Taxonomy,Level,Number of genes on Database(#),P-value,Q-value
+table	10.MGS/#@group/taxonomy/group.tax.tsv	3.3.9.mgs/group.tax.tsv	table_3_17	MGS ID,Number of genes(#),Taxonomy,Level,Number of genes on Database(#),P-value,Q-value
 fig	10.MGS/#@group/pathway/mgs.png	3.3.9.mgs/mgs.png	fig_3_23
-fig	10.MGS/#@group/heatmap/heatmap.png	3.3.9.mgs/heatmap.png	fig_3_24
+# fig	10.MGS/#@group/heatmap/heatmap.png	3.3.9.mgs/heatmap.png	fig_3_24
+fig	10.MGS/#@group/fig/corr.png	3.3.9.mgs/corr.png	fig_3_24
 
 # 3.4.1 基于KEGG数据库功能注释统计
 3.4.1.kegg.html
-table	07.kegg/gene_catalog.kegg.tsv	3.4.1.kegg/kegg.anno.tsv	table_3_17	Gene ID,Entry,Gene name,Ko definition,Ko
+table	07.kegg/gene_catalog.kegg.tsv	3.4.1.kegg/kegg.anno.tsv	table_3_18	Gene ID,Entry,Gene name,Ko definition,Ko
 fig	07.kegg/	3.4.1.kegg/701_KEGG_class.png	fig_3_25
 
 # 3.4.2 KO丰度统计
 3.4.2.ko_profile.html
-otu	07.kegg/ko.profile	3.4.2.ko_profile/ko.profile	table_3_18
+otu	07.kegg/ko.profile	3.4.2.ko_profile/ko.profile	table_3_19
 
 # 3.4.3 优势KO热图分析(总样品数≥5)
 3.4.3.ko_heatmap.html
@@ -166,20 +168,20 @@ fig	07.kegg/group/#@group/03.ko_pca/	3.4.4.ko_pca/pca.png	fig_3_27
 
 # 3.4.5 KO的Anosim分析(组内样品数≥5)
 3.4.5.ko_anosim.html
-fig	07.kegg/group/#@group/06.ko_anosim/	3.4.5.ko_anosim/anosim.png	fig_3_28
+fig	07.kegg/group/#@group/06.ko_anosim/	3.4.5.ko_anosim/bray_anosim.png	fig_3_28
 
 # 3.4.6 KO的秩和检验(组内样品数≥5)
 3.4.6.ko_wilcox.html
-table	07.kegg/group/#@group/09.ko_wilcox/diff.marker.filter.tsv	3.4.6.ko_wilcox/diff.marker.filter.tsv	table_3_19	taxonname,pvalue,fdr,enrichment,Descripition
-fig	07.kegg/group/#@group/09.ko_wilcox/	3.4.6.ko_wilcox/diff.png	fig_3_29
-fig	07.kegg/group/#@group/09.ko_wilcox/	3.4.6.ko_wilcox/heatmap.png	fig_3_30
-fig	07.kegg/group/#@group/09.ko_wilcox/	3.4.6.ko_wilcox/pathway.png	fig_3_31
+table	07.kegg/group/#@group/10.ko_wilcox/diff.marker.filter.tsv	3.4.6.ko_wilcox/diff.marker.filter.definition.tsv	table_3_20	KO ID,P-value,Q-value,Group,Description
+fig	07.kegg/group/#@group/10.ko_wilcox/	3.4.6.ko_wilcox/diff_boxplot.png	fig_3_29
+fig	07.kegg/group/#@group/10.ko_wilcox/	3.4.6.ko_wilcox/heatmap.png	fig_3_30
+fig	07.kegg/group/#@group/10.ko_wilcox/	3.4.6.ko_wilcox/pathway.png	fig_3_31
 
 # 3.4.7 KO的LEfSe差异分析(组内样品数≥5)
 3.4.7.ko_lefse.html
-fig	07.kegg/group/#@group/10.ko_lefse/	3.4.7.ko_lefse/lefse.png	fig_3_32
-fig	07.kegg/group/#@group/10.ko_lefse/	3.4.7.ko_lefse/heatmap.png	fig_3_33
-fig	07.kegg/group/#@group/10.ko_lefse/	3.4.7.ko_lefse/pathway.png	fig_3_34
+fig	07.kegg/group/#@group/11.ko_lefse/	3.4.7.ko_lefse/LDA.png	fig_3_32
+fig	07.kegg/group/#@group/11.ko_lefse/	3.4.7.ko_lefse/heatmap.png	fig_3_33
+fig	07.kegg/group/#@group/11.ko_lefse/	3.4.7.ko_lefse/pathway.png	fig_3_34
 
 # # 3.4.8 差异KO的ROC曲线
 # 3.4.8.ko_roc.html
@@ -187,7 +189,7 @@ fig	07.kegg/group/#@group/10.ko_lefse/	3.4.7.ko_lefse/pathway.png	fig_3_34
 
 # 3.4.9 KEGG功能丰度统计
 3.4.8.ko_functional.html
-otu	07.kegg/12.functional_barplot/kegg_level1_profile.txt	3.4.9.ko_functional/kegg_level1_profile.txt	table_3_20
+otu	07.kegg/12.functional_barplot/kegg_level1_profile.txt	3.4.9.ko_functional/kegg_level1_profile.txt	table_3_21
 fig	07.kegg/group/#@group/12.functional/	3.4.9.ko_functional/level1_barplot.png	fig_3_36
 fig	07.kegg/group/#@group/12.functional/	3.4.9.ko_functional/level2_barplot.png	fig_3_37
 fig	07.kegg/group/#@group/12.functional/	3.4.9.ko_functional/level1_barplot_withgroup.png	fig_3_38
@@ -199,12 +201,12 @@ fig	07.kegg/group/#@group/13.functional_clust/	3.4.10.ko_functional_clust/sample
 
 # 3.4.11 基于eggNOG数据库功能注释分析
 3.4.10.eggNOG.html
-table	08.eggnog/eggnog.anno.tsv	3.4.11.eggNOG/eggnog.anno.tsv	table_3_21	Gene ID,Protein name,Nog name,Description,Category
+table	08.eggnog/eggnog.anno.tsv	3.4.11.eggNOG/eggnog.anno.tsv	table_3_22	Gene ID,Protein name,Nog name,Description,Category
 fig	08.eggnog/	3.4.11.eggNOG/NOG.png	fig_3_41
 
 # # 3.4.12 基于CAZy碳水化合物活性酶数据库功能注释分析(高级分析)
 # 3.4.12.CAZy.html
-# table	12.cazy/cazy.anno.tsv	3.4.12.CAZy/cazy.anno.tsv	table_3_22	#Gene id,Cazy type,Description
+# table	12.cazy/cazy.anno.tsv	3.4.12.CAZy/cazy.anno.tsv	table_3_23	#Gene id,Cazy type,Description
 # fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/type_barplot.png	fig_3_42
 # fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/class_barplot.png	fig_3_43
 # fig	12.cazy/12.functional_barplot/	3.4.12.CAZy/enzyme_barplot.png	fig_3_44

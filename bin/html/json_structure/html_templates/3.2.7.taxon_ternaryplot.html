@@ -1,11 +1,18 @@
 <h3 id="三角Ternary图">3.2.7 三角Ternary图</h3>
 <p><B>分析方法：</B></p>
 <p class="paragraph">Ternary Plot是用一个等边三角形描述三个变量的不同属性的比率关系，可以分析样品中的前两个主要物种与其余物种的分布情况与比例关系。Ternary Plot由R的vcd包绘制。</p>
-<p><B><a href="{{ path_real }}">结果目录：{{ path }}</a></B></p>
-<p><B>分析结果：</B></p>
-<p class="paragraph">三角Ternary图如下所示：</p>
-<p class="center"><img class="size2" src="{{ fig_3_7_1 }}"/></p>
-<p class="center"><img class="size2" src="{{ fig_3_7_2 }}"/></p>
-<p class="name_fig">图 3-7 核心物种ternary图</p>
-<p class="premark">样品点越靠近某一个物种对应的角，说明样品中该物种的丰度越高，反之，则说明该物种的丰度越低。</p>
+
+{% if sample_not_enough == True %}
+    <p><B>结果目录：</B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">分组数不为3，无法完成此项分析！</p>
+{% else %}
+    <p><B><a href="{{ path_real }}">结果目录：{{ path }}</a></B></p>
+    <p><B>分析结果：</B></p>
+    <p class="paragraph">三角Ternary图如下所示：</p>
+    <p class="center"><img class="size2" src="{{ fig_3_7_1 }}"/></p>
+    <p class="center"><img class="size2" src="{{ fig_3_7_2 }}"/></p>
+    <p class="name_fig">图 3-7 核心物种ternary图</p>
+    <p class="premark">样品点越靠近某一个物种对应的角，说明样品中该物种的丰度越高，反之，则说明该物种的丰度越低。</p>
+{% endif %}
 

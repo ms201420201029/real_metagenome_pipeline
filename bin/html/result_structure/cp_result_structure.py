@@ -38,9 +38,9 @@ def mkdir(*path):
 
 def list_files(find_dir, suffixes):
     files = []
-    all_files = os.listdir(find_dir)
+    all_files = glob.glob(find_dir+'/*')
     for file in all_files:
-        file = find_dir + '/' + file
+        file = file
         if os.path.isfile(file) and any([file.endswith(suf) for suf in suffixes]):
             files.append(file)
     return files
@@ -189,6 +189,58 @@ if __name__ == '__main__':
                     3、结果文件存在且大小一致（pass）
                     4、结果文件存在且大小不一致（给出warning）
                 '''
+                if '*' in tabs[1] and '*' in tabs[2]:
+                    '''
+                    表明保持原有的目录结构，*这层目录文件夹名不确定，所以用*代替
+                    '''
+                    cp_dirs = [dir for dir in os.listdir(tabs[1].split('*')[0]) if os.path.isdir(tabs[1].split('*')[0]+dir)]
+                    for dir in cp_dirs:
+                        cp_dir     = tabs[1].split('*')[0] + dir
+                        result_dir = standard_outdir + tabs[2].split('*')[0] + dir
+
+                        if not os.path.isdir(result_dir):
+                            mkdir(result_dir)
+
+                        files = list_files(cp_dir, result_info['save_suffixes'])
+                        if files:
+                            if glob.glob(result_dir+'/*'):
+                                # 结果文件中已经有结果了
+                                dirs, similar_dirs = check_same_dir([cp_dir, result_dir+'/'], result_info['save_suffixes'])
+                                if len(dirs) > 1:
+                                    # 说明结果不一致
+                                    print('warning : %s 文件非空，且与 %s 文件夹内容或大小不一致，未完成对 %s 的复制！' % (result_dir, cp_dir, cp_dir))
+                            else:
+                                # 结果文件无结果
+                                for file in files:
+                                    os.system('cp %s %s' % (file, result_dir+'/'))
+                        else:
+                            # 目标文件无结果
+                            sys.stderr.write('error : %s 文件夹不存在结果文件，可能会导致 %s 结果为空，请检查配置文件！\n' % (cp_dir, result_dir))
+
+                else:
+                    if not os.path.isdir(standard_outdir+'/'+tabs[2]):
+                        mkdir(standard_outdir+'/'+tabs[2])
+
+                    files = list_files(tabs[1], result_info['save_suffixes'])
+                    if files:
+                        if glob.glob(standard_outdir+'/'+tabs[2]+'/*'):
+                            # 结果文件中已经有结果了
+                            dirs, similar_dirs = check_same_dir([tabs[1], standard_outdir+'/'+tabs[2]+'/'], result_info['save_suffixes'])
+                            if len(dirs) > 1:
+                                # 说明结果不一致
+                                print('warning : %s 文件非空，且与 %s 文件夹内容或大小不一致，未完成对 %s 的复制！' % (standard_outdir+'/'+tabs[2], tabs[1], tabs[1]))
+                        else:
+                            # 结果文件无结果
+                            for file in files:
+                                os.system('cp %s %s' % (file, standard_outdir+'/'+tabs[2]+'/'))
+                    else:
+                        # 目标文件无结果
+                        sys.stderr.write('error : %s 文件夹不存在结果文件，可能会导致 %s 结果为空，请检查配置文件！\n' % (tabs[1], standard_outdir+'/'+tabs[2]))
+
+            elif len(tabs) == 3 and tabs[0] == 'gnum':
+                '''
+                目前跟dir一样
+                '''
                 if not os.path.isdir(standard_outdir+'/'+tabs[2]):
                     mkdir(standard_outdir+'/'+tabs[2])
 
@@ -223,6 +275,15 @@ if __name__ == '__main__':
                     mkdir(standard_outdir+'/'+tabs[2])
 
                 os.system('touch %s/sample_not_enough.log' % (standard_outdir+'/'+tabs[2]))
+
+            elif len(tabs) == 3 and tabs[0] == 'group_not_enough':
+                '''
+                在文件夹下创建一个group_not_enough.log文件
+                '''
+                if not os.path.isdir(standard_outdir+'/'+tabs[2]):
+                    mkdir(standard_outdir+'/'+tabs[2])
+
+                os.system('touch %s/group_not_enough.log' % (standard_outdir+'/'+tabs[2]))
 
             elif len(tabs) == 3 and tabs[0] == 'data':
                 '''

@@ -107,6 +107,17 @@ def check_if_sample_enough(dirs):
     return True
 
 
+def check_if_group_enough(dirs):
+    '''
+    通过这层或者上一层是否存在分组不足的日志文件来判断此分析是否是分组不足
+    足返回True，不足返回False
+    '''
+    for dir in dirs:
+        if glob.glob(dir+'/group_num.log') or glob.glob('/'+'/'.join([d for d in dir.split('/') if d][:-1])+'/group_num.log') or glob.glob('/'+'/'.join([d for d in dir.split('/') if d][:-2])+'/group_num.log'):
+            return False
+    return True
+
+
 def is_file_exists(dirs, file):
     '''
     判断多个文件中是否含有该文件（文件为含通配符的名称或者固定文件名）
@@ -371,7 +382,6 @@ if __name__ == '__main__':
                                 # 有唯一一个路径
                                 new_conf.write('%s\t%s\t%s\n' % (tabs[0], dirs[0], re.sub('#@group', group, tabs[2])))
                             else:
-                                print('1', dirs)
                                 # 有多个不同结果的路径
                                 new_conf.write('\n#################################################################################################################################################\n')
                                 new_conf.write('# warning : 在多个文件夹%s中找到多个%s分组的内容，并结果不一致！请检查后修改下面的配置！\n' % (', '.join(work_dirs), group))
@@ -398,7 +408,57 @@ if __name__ == '__main__':
                             # 有唯一一个路径
                             new_conf.write('%s\t%s\t%s\n' % (tabs[0], dirs[0], tabs[2]))
                         else:
-                            print('2', dirs)
+                            # 有多个不同结果的路径
+                            new_conf.write('\n#################################################################################################################################################\n')
+                            new_conf.write('# warning : 在多个文件夹%s中找到多个%s文件夹的内容，并结果不一致！请检查后修改下面的配置！\n' % (', '.join(work_dirs), tabs[1]))
+                            for dir in dirs:
+                                new_conf.write('%s\t%s\t%s\n' % (tabs[0], dir, tabs[2]))
+                            new_conf.write('#################################################################################################################################################\n\n')
+            elif len(tabs) == 3 and tabs[0] == 'gnum':
+                if re.search('#@group', tabs[1]):
+                    for group in groups:
+                        if_enough = check_if_group_enough([dir+'/'+re.sub('#@group', group, tabs[1]) for dir in work_dirs])
+                        if not if_enough:
+                            # 分组数量不足则将第一列改为group_not_enough
+                            new_conf.write('group_not_enough\tgroup_not_enpugh.log\t%s\n' % (re.sub('#@group', group, tabs[2])))
+                        else:
+                            dirs, similar_dirs = check_same_dir([dir+'/'+re.sub('#@group', group, tabs[1]) for dir in work_dirs], save_suffix)
+                            if not dirs:
+                                # 没有对应路径
+                                new_conf.write('\n#################################################################################################################################################\n')
+                                new_conf.write('# warning : %s中没找到%s这个分组的内容！请完成分析后修改下面的配置！\n' % (', '.join(work_dirs), group))
+                                for dir in similar_dirs:
+                                    new_conf.write('%s\t%s\t%s\n' % (tabs[0], dir, re.sub('#@group', group, tabs[2])))
+                                    new_conf.write('#################################################################################################################################################\n\n')
+                            elif len(dirs) == 1:
+                                # 有唯一一个路径
+                                new_conf.write('%s\t%s\t%s\n' % (tabs[0], dirs[0], re.sub('#@group', group, tabs[2])))
+                            else:
+                                # 有多个不同结果的路径
+                                new_conf.write('\n#################################################################################################################################################\n')
+                                new_conf.write('# warning : 在多个文件夹%s中找到多个%s分组的内容，并结果不一致！请检查后修改下面的配置！\n' % (', '.join(work_dirs), group))
+                                for dir in dirs:
+                                    new_conf.write('%s\t%s\t%s\n' % (tabs[0], dir, re.sub('#@group', group, tabs[2])))
+                                new_conf.write('#################################################################################################################################################\n\n')
+                else:
+                    if_enough = check_if_group_enough([dir+'/'+tabs[1] for dir in work_dirs])
+                    if not if_enough:
+                        # 分组不足则将第一列改为group_not_enough
+                        new_conf.write('group_not_enough\tgroup_not_enpugh.log\t%s\n' % (re.sub('#@group', group, tabs[2])))
+                    else:
+                        dirs, similar_dirs = check_same_dir([dir+'/'+tabs[1] for dir in work_dirs], save_suffix)
+
+                        if not dirs:
+                            # 没有这文件夹或文件夹为空
+                            new_conf.write('\n#################################################################################################################################################\n')
+                            new_conf.write('# warning : %s中没找到%s文件夹或者该文件夹为空！请完成分析后修改下面的配置！\n' % (', '.join(work_dirs), tabs[1]))
+                            for f in similar_dirs:
+                                new_conf.write('%s\t%s\t%s\n' % (tabs[0], f, tabs[2]))
+                            new_conf.write('#################################################################################################################################################\n\n')
+                        elif len(dirs) == 1:
+                            # 有唯一一个路径
+                            new_conf.write('%s\t%s\t%s\n' % (tabs[0], dirs[0], tabs[2]))
+                        else:
                             # 有多个不同结果的路径
                             new_conf.write('\n#################################################################################################################################################\n')
                             new_conf.write('# warning : 在多个文件夹%s中找到多个%s文件夹的内容，并结果不一致！请检查后修改下面的配置！\n' % (', '.join(work_dirs), tabs[1]))

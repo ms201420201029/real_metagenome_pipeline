@@ -9,7 +9,7 @@
 
 
 # 3.1.1 原始数据统计
-3.1.1.rawreads_statistic	00.raw_reads/raw_reads_#@batch.stat.tsv	3.1.1.rawreads_statistic/raw_reads.stat.tsv
+3.1.1.rawreads_statistic	00.raw_reads/rawdata.stat.tsv	3.1.1.rawreads_statistic/raw_reads.stat.tsv
 3.1.1.rawreads_statistic	00.raw_reads/01.fastqc/#@batch/#@sample.1_fastqc/Images/per_base_sequence_content.png	3.1.1.rawreads_statistic/per_base_sequence_content.png
 3.1.1.rawreads_statistic	00.raw_reads/01.fastqc/#@batch/#@sample.1_fastqc/Images/per_base_quality.png	3.1.1.rawreads_statistic/per_base_quality.png
 
@@ -31,7 +31,8 @@
 3.2.3.taxon_barplot	02.taxon/group_analysis/#@group/01.barplot/species/barplot.png	3.2.3.taxon_barplot/species_barplot.png
 
 # 3.2.4 核心物种统计分析
-3.2.4.taxon_venn_flower	02.taxon/group_analysis/#@group/02.venn_flower/species/flower.png	3.2.4.taxon_venn_flower/flower.png
+3.2.4.taxon_venn_flower	02.taxon/group_analysis/#@group/02.venn_flower/species/venn.png	3.2.4.taxon_venn_flower/venn.png
+3.2.4.taxon_venn_flower	02.taxon/samples_nalysis/02.venn_flower/species/flower.png	3.2.4.taxon_venn_flower/flower.png
 
 # 3.2.5 物种累积曲线(总样品数≥6)
 3.2.5.taxon_accum_share	02.taxon/samples_nalysis/03.accum_share/genus.profile.accum_share.png	3.2.5.taxon_accum_share/genus.profile.accum_share.png
@@ -41,11 +42,11 @@
 3.2.6.taxon_top_boxplot	02.taxon/group_analysis/#@group/03.top_boxplot/top*.png	3.2.6.taxon_top_boxplot/top*.png
 
 # 3.2.7 三角Ternary图
-3.2.7.taxon_ternaryplot	02.taxon/group_analysis/#@group/04.ternaryplot/genus/genus.ternary.png	3.2.7.taxon_ternaryplot/genus.ternary.png
-3.2.7.taxon_ternaryplot	02.taxon/group_analysis/#@group/04.ternaryplot/species/species.ternary.png	3.2.7.taxon_ternaryplot/species.ternary.png
+3.2.7.taxon_ternaryplot	02.taxon/group_analysis/#@group/04.ternaryplot/genus/ternary.png	3.2.7.taxon_ternaryplot/genus.ternary.png
+3.2.7.taxon_ternaryplot	02.taxon/group_analysis/#@group/04.ternaryplot/species/ternary.png	3.2.7.taxon_ternaryplot/species.ternary.png
 
 # 3.2.8 单样品优势物种分类树 ######################################################
-# 3.2.8.taxon_treeplot	02.taxon/group_analysis/#@group/treeplot	3.2.8.taxon_treeplot/treeplot
+3.2.8.taxon_treeplot	02.taxon/samples_nalysis/05.treeplot/*/tree.pdf	3.2.8.taxon_treeplot/tree.pdf
 
 # 3.2.9 优势物种聚类分析(总样品数≥3)
 3.2.9.taxon_top_barplot	02.taxon/group_analysis/#@group/05.top_barplot/genus/sample_cluster.png	3.2.9.taxon_top_barplot/genus_sample_cluster.png
@@ -68,6 +69,7 @@
 3.2.13.taxon_anosim	02.taxon/group_analysis/#@group/09.anosim/species/bray_anosim.png	3.2.13.taxon_anosim/bray_anosim.png
 
 # 3.2.14 物种Adonis分析(组内样品数≥5)
+3.2.14.taxon_adonis	02.taxon/group_analysis/#@group/10.adonis/species/bray_adonis.txt	3.2.14.taxon_adonis/bray_adonis.txt
 3.2.14.taxon_adonis	02.taxon/group_analysis/#@group/10.adonis/genus/bray_adonis_pca.png	3.2.14.taxon_adonis/genus_bray_adonis.png
 3.2.14.taxon_adonis	02.taxon/group_analysis/#@group/10.adonis/species/bray_adonis_pca.png	3.2.14.taxon_adonis/species_bray_adonis.png
 
@@ -117,8 +119,8 @@
 
 # 3.3.9 差异基因聚类分析(MGS)(组内样品数≥5，总样品数≥20)(高级分析)
 3.3.9.mgs	10.MGS/#@group/fig/mgs.png	3.3.9.mgs/mgs.png
-3.3.9.mgs	10.MGS/#@group/pathway/group.tax.tsv	3.3.9.mgs/group.tax.tsv
-# 3.3.9.mgs	关系热图
+3.3.9.mgs	10.MGS/#@group/taxonomy/final.stat.sort.tsv	3.3.9.mgs/group.tax.tsv
+3.3.9.mgs	10.MGS/#@group/fig/corr.png	3.3.9.mgs/corr.png
 
 ##################################################################################################################
 # 3.4.1 基于KEGG数据库功能注释统计
@@ -138,15 +140,15 @@
 3.4.5.ko_anosim	07.kegg/group/#@group/06.anosim/bray_anosim.png	3.4.5.ko_anosim/bray_anosim.png
 
 # 3.4.6 KO的秩和检验(组内样品数≥5)
-3.4.6.ko_wilcox	07.kegg/group/#@group/09.ko_wilcoxon/diff.marker.filter.definition.tsv	3.4.6.ko_wilcox/diff.marker.filter.definition.tsv
-3.4.6.ko_wilcox	07.kegg/group/#@group/09.ko_wilcoxon/diff_boxplot/diff_boxplot.png	3.4.6.ko_wilcox/diff_boxplot.png
-3.4.6.ko_wilcox	07.kegg/group/#@group/09.ko_wilcoxon/heatmap/heatmap.png	3.4.6.ko_wilcox/heatmap.png
-3.4.6.ko_wilcox	07.kegg/group/#@group/09.ko_wilcoxon/detail_pathway/#@group_group_map/*.png	3.4.6.ko_wilcox/pathway.png
+3.4.6.ko_wilcox	07.kegg/group/#@group/10.ko_wilcoxon/diff.marker.filter.definition.tsv	3.4.6.ko_wilcox/diff.marker.filter.definition.tsv
+3.4.6.ko_wilcox	07.kegg/group/#@group/10.ko_wilcoxon/diff_boxplot/diff_boxplot.png	3.4.6.ko_wilcox/diff_boxplot.png
+3.4.6.ko_wilcox	07.kegg/group/#@group/10.ko_wilcoxon/heatmap/heatmap.png	3.4.6.ko_wilcox/heatmap.png
+3.4.6.ko_wilcox	07.kegg/group/#@group/10.ko_wilcoxon/detail_pathway/#@group_group_map/*.png	3.4.6.ko_wilcox/pathway.png
 
 # 3.4.7 KO的LEfSe差异分析(组内样品数≥5)
-3.4.7.ko_lefse	07.kegg/group/#@group/10.ko_lefse/LDA.png	3.4.7.ko_lefse/LDA.png
-3.4.7.ko_lefse	07.kegg/group/#@group/10.ko_lefse/heatmap/heatmap.png	3.4.7.ko_lefse/heatmap.png
-3.4.7.ko_lefse	07.kegg/group/#@group/10.ko_lefse/detail_pathway/#@group_group_map/*.png	3.4.7.ko_lefse/pathway.png
+3.4.7.ko_lefse	07.kegg/group/#@group/11.ko_lefse/LDA.png	3.4.7.ko_lefse/LDA.png
+3.4.7.ko_lefse	07.kegg/group/#@group/11.ko_lefse/heatmap/heatmap.png	3.4.7.ko_lefse/heatmap.png
+3.4.7.ko_lefse	07.kegg/group/#@group/11.ko_lefse/detail_pathway/#@group_group_map/*.png	3.4.7.ko_lefse/pathway.png
 
 # 3.4.8 ROC曲线要求样本量>50,且每组样本>20个
 3.4.8.ROC	07.kegg/group/#@group/14.ROC/roc.png	3.4.8.ROC/roc.png

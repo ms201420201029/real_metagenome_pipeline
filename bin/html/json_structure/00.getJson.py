@@ -63,6 +63,16 @@ def check_if_sample_enough(dirs):
     return True
 
 
+def check_if_group_enough(dirs):
+    '''
+    通过这层或者下一层是否存在分组的日志文件来判断此分析是否是分组不为3
+    足返回True，不足返回False
+    '''
+    for dir in dirs:
+        if glob.glob(dir+'/group_not_enough.log') or glob.glob(dir+'/*/group_not_enough.log'):
+            return False
+    return True
+
 def change_type(l):
     '''
     因为int64和float64格式的无法用json转化
@@ -154,6 +164,9 @@ if __name__ == '__main__':
                 elif not check_if_sample_enough(['result/html/html_material/images/'+group+'/'+os.path.dirname(tabs[2])]):
                     print(tabs[2], 'sample_not_enough')
                     html_dict[group][key]['sample_not_enough'] = True
+
+                elif not check_if_group_enough(['result/html/html_material/images/'+group+'/'+os.path.dirname(tabs[2])]):
+                    html_dict[group][key]['group_not_enough'] = True
 
                 elif tabs[0] == 'fig':
                     if '#@group' in tabs[1]:
